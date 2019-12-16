@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">TypeTalk</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="chat_input_hint_message">Message</string>
+
+    <!-- Main screen -->
+    <string name="main_chat_teacher_title">Your teacher</string>
+    <string name="main_chat_teacher_content">Here you can ask questions to find out all the information you need</string>
+    <string name="main_chat_class_title">Your class chat</string>
+    <string name="main_chat_class_content">Here you can discuss the task, but only in English</string>
+    <string name="main_chat_bot_title">Your friendly interlocutor</string>
+    <string name="main_chat_bot_content">It will help you to develop your communicative skills before the real talk</string>
+
+    <string name="main_chat_item_lesson_number">Lesson %1$d</string>
+
+</resources>

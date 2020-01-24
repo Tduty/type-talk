@@ -23,10 +23,10 @@ interface LessonDao {
     fun delete(lessons: LessonEntity?)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(dialog: LessonEntity?): Long
+    fun insert(lesson: LessonEntity?): Long
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(tag: TaskEntity?): Long
+    fun insert(task: TaskEntity?): Long
 
     @Transaction
     fun insert(lessonsWithTask: LessonWithTask) {

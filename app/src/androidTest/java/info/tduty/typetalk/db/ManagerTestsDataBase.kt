@@ -4,7 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
-@RunWith(AndroidJUnit4::class)
+@RunWith(Suite::class)
 @Suite.SuiteClasses(
     AccountDataTests::class
 )

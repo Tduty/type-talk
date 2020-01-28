@@ -5,7 +5,7 @@ import androidx.room.TypeConverter
 class RoleConverter {
 
     @TypeConverter
-    fun toRole(role: Int): Role {
+    fun fromRole(role: Int): Role {
         return when (role) {
             Role.ADMIN.code -> Role.ADMIN
             Role.TEACHER.code -> Role.TEACHER

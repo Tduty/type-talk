@@ -16,7 +16,7 @@ interface DictionaryDao {
     fun getDictionary(id: Int): DictionaryEntity?
 
     @Update
-    fun update(dictionary: String?)
+    fun update(dictionary: DictionaryEntity?)
 
     @Delete
     fun delete(dictionary: DictionaryEntity?)

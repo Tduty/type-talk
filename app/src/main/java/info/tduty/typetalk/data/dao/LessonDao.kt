@@ -17,7 +17,7 @@ interface LessonDao {
     fun getLesson(id: Int): LessonEntity?
 
     @Update
-    fun update(lessons: String?)
+    fun update(lessons: LessonEntity?)
 
     @Delete
     fun delete(lessons: LessonEntity?)

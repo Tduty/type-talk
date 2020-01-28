@@ -13,8 +13,8 @@ import androidx.room.*
 )
 data class AccountEntity(
     @PrimaryKey(autoGenerate = true) var id: Long,
-    @ColumnInfo(name = "login") var login: String,
-    @ColumnInfo(name = "password") var password: String,
+    @ColumnInfo(name = "login") var login: String?,
+    @ColumnInfo(name = "password") var password: String?,
     @ColumnInfo(name = "user_id") var userId: Long?,
-    @TypeConverters(RoleConverter::class) var role: Role
+    @TypeConverters(RoleConverter::class) var role: Role?
 )

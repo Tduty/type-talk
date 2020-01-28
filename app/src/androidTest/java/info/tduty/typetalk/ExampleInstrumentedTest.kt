@@ -31,29 +31,6 @@ class ExampleInstrumentedTest {
         assertEquals("info.tduty.typetalk", appContext.packageName)
     }
 
-    var appDataBase: AppDatabase? = null
-
-    @Before
-    fun init() {
-        appDataBase = Room.inMemoryDatabaseBuilder(
-            InstrumentationRegistry.getInstrumentation().targetContext,
-            AppDatabase::class.java
-        ).build()
-    }
-
-    @Test
-    fun test_insertNewAccount_resultSaveNewAccountInDB() {
-        var accountEntity = AccountEntity(0, "loginMock", "password", null, Role.ADMIN)
-        var id = appDataBase?.getAccountDao()?.insert(accountEntity)
-        Assert.assertEquals(appDataBase?.getAccountDao()?.getAccount(id!!), accountEntity)
-    }
-
-    @After
-    @Throws(Exception::class)
-    fun closeDb() {
-        appDataBase?.close()
-    }
-
     @Test
     fun testMock2() {
         assert(true)

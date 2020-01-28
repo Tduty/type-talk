@@ -14,11 +14,11 @@ import androidx.room.PrimaryKey
         onDelete = ForeignKey.CASCADE
     )]
 )
-class MessageEntity(
+data class MessageEntity(
     @PrimaryKey(autoGenerate = true) var id: Long,
     var title: String,
     var content: String,
     @ColumnInfo(name = "avatar_url") var avatarURL: String,
     @ColumnInfo(name = "is_my") var isMy: Boolean,
-    @ColumnInfo(name = "chat_id") var chatId: Long
+    @ColumnInfo(name = "chat_id") var chatId: Long?
 )

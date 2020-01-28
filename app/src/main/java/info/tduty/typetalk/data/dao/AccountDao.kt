@@ -12,11 +12,11 @@ interface AccountDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(lessonEntity: LessonEntity): Long
 
-    @Query("SELECT * FROM chat ORDER BY id DESC")
+    @Query("SELECT * FROM account ORDER BY id DESC")
     fun getAllAccounts(): List<AccountEntity?>?
 
-    @Query("SELECT * FROM chat WHERE id =:id")
-    fun getAccount(id: Long): AccountEntity?
+    @Query("SELECT * FROM account WHERE id =:id")
+    fun getAccount(id: Long?): LiveData<AccountEntity?>?
 
     @Update
     fun update(accountEntity: AccountEntity)
@@ -25,8 +25,8 @@ interface AccountDao {
     fun delete(accountEntity: AccountEntity?)
 
     @Transaction
-    @Query("SELECT * FROM chat WHERE id = :accountId")
-    fun loadAccountBy(accountId: String?): LiveData<AccountLessons?>?
+    @Query("SELECT * FROM account WHERE id = :accountId")
+    fun loadAccountBy(accountId: Long?): LiveData<AccountLessons?>?
 
     @Transaction
     fun insert(accountLessons: AccountLessons) {

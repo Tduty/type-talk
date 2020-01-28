@@ -17,7 +17,8 @@ import info.tduty.typetalk.data.entity.*
         LessonEntity::class,
         MessageEntity::class,
         DictionaryEntity::class,
-        GradeEntity::class
+        GradeEntity::class,
+        TaskEntity::class
     ],
     version = 1
 )

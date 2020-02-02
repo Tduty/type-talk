@@ -2,19 +2,11 @@ package info.tduty.typetalk
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import info.tduty.typetalk.data.db.AppDatabase
-import info.tduty.typetalk.data.db.DataBaseBuilderRoom
-import info.tduty.typetalk.data.entity.AccountEntity
-import info.tduty.typetalk.data.entity.Role
-import junit.framework.Assert
 
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
-import org.junit.Before
-import org.junit.After
-import androidx.room.Room
 
 
 /**

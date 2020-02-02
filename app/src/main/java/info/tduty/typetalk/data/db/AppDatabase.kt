@@ -11,22 +11,18 @@ import info.tduty.typetalk.data.entity.*
 
 @Database(
     entities = [
-        AccountEntity::class,
-        UserEntity::class,
         ChatEntity::class,
         LessonEntity::class,
         MessageEntity::class,
         DictionaryEntity::class,
-        GradeEntity::class,
         TaskEntity::class
     ],
     version = 1
 )
 
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun getAccountDao(): AccountDao
+    abstract fun getTaskDao(): TaskDao
     abstract fun getChatDao(): ChatDao
-    abstract fun getUserDao(): UserDao
     abstract fun getLessonsDao(): LessonDao
     abstract fun getMessageDao(): MessageDao
     abstract fun getDictionaryDao(): DictionaryDao

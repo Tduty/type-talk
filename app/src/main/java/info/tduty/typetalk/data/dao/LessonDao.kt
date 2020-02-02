@@ -3,7 +3,6 @@ package info.tduty.typetalk.data.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import info.tduty.typetalk.data.entity.LessonEntity
-import info.tduty.typetalk.data.entity.LessonWithTask
 import info.tduty.typetalk.data.entity.TaskEntity
 
 

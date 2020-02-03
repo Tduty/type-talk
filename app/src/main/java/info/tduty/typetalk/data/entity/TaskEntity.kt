@@ -15,9 +15,10 @@ import androidx.room.PrimaryKey
     )]
 )
 data class TaskEntity(
+    @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true) var id: Long?,
-    var title: String?,
-    var description: String?,
+    @ColumnInfo(name = "title") var title: String?,
+    @ColumnInfo(name = "description") var description: String?,
     @ColumnInfo(name = "icon_url") var iconUrl: String?,
     @ColumnInfo(name = "is_preformed") var isPerformed: Boolean?,
     @ColumnInfo(name = "lessons_id") var lessonsId: Long?

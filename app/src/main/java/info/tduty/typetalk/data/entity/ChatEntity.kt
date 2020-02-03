@@ -6,8 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "chat")
 class ChatEntity(
+    @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true) var id: Long,
-    var title: String,
+    @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "image_url") var imageURL: String?,
-    var description: String
+    @ColumnInfo(name = "description") var description: String
 )

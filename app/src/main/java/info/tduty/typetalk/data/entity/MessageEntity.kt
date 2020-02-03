@@ -15,9 +15,10 @@ import androidx.room.PrimaryKey
     )]
 )
 data class MessageEntity(
+    @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true) var id: Long,
-    var title: String,
-    var content: String,
+    @ColumnInfo(name = "title") var title: String,
+    @ColumnInfo(name = "content") var content: String,
     @ColumnInfo(name = "avatar_url") var avatarURL: String,
     @ColumnInfo(name = "is_my") var isMy: Boolean,
     @ColumnInfo(name = "chat_id") var chatId: Long?

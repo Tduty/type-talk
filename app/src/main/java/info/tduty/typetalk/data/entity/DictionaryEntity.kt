@@ -15,9 +15,10 @@ import androidx.room.PrimaryKey
     )]
 )
 class DictionaryEntity(
+    @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true) var id: Long?,
-    var word: String,
-    var translation: String,
-    var transcription: String?,
+    @ColumnInfo(name = "word") var word: String,
+    @ColumnInfo(name = "translation") var translation: String,
+    @ColumnInfo(name = "transcription") var transcription: String?,
     @ColumnInfo(name = "lesson_id") val lessonsId: Long?
 )

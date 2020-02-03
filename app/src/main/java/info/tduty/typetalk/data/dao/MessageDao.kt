@@ -13,7 +13,7 @@ interface MessageDao {
     fun getAllMessages(): List<MessageEntity?>?
 
     @Query("SELECT * FROM message WHERE id =:id")
-    fun getMessage(id: Int): MessageEntity?
+    fun getMessage(id: Long?): MessageEntity?
 
     @Update
     fun update(message: MessageEntity?)

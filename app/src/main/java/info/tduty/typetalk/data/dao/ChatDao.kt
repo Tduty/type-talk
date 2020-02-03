@@ -14,7 +14,7 @@ interface ChatDao {
     fun getAllChats(): List<ChatEntity?>?
 
     @Query("SELECT * FROM chat WHERE id =:id")
-    fun getChat(id: Int): ChatEntity?
+    fun getChat(id: Long?): ChatEntity?
 
     @Update
     fun update(chat: ChatEntity?)

@@ -6,6 +6,10 @@ import org.junit.runners.Suite
 
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
-    AccountDataTests::class
+    ChatDataTests::class,
+    MessageDataTests::class,
+    LessonsDataTests::class,
+    TaskDataTests::class,
+    DictionaryDataTests::class
 )
 class ManagerTestsDataBase

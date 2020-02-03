@@ -20,5 +20,5 @@ data class TaskEntity(
     var description: String?,
     @ColumnInfo(name = "icon_url") var iconUrl: String?,
     @ColumnInfo(name = "is_preformed") var isPerformed: Boolean?,
-    @ColumnInfo(name = "lessons_id") var lessonsId: Long
+    @ColumnInfo(name = "lessons_id") var lessonsId: Long?
 )

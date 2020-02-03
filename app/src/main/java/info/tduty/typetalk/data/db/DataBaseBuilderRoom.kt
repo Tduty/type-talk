@@ -15,9 +15,6 @@ class DataBaseBuilderRoom(private val context: Context) : DataBaseBuilder {
     }
 
     override fun migrate() {
-        appDataBase = Room.databaseBuilder(context, AppDatabase::class.java, NAME_DATABASE)
-            .fallbackToDestructiveMigration()
-            .build()
+        // TODO: migration db with recreation
     }
-
 }

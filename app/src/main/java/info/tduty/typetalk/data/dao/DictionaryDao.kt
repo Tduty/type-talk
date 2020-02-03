@@ -2,7 +2,6 @@ package info.tduty.typetalk.data.dao
 
 import androidx.room.*
 import info.tduty.typetalk.data.entity.DictionaryEntity
-import info.tduty.typetalk.data.entity.LessonEntity
 
 @Dao
 interface DictionaryDao {
@@ -13,7 +12,7 @@ interface DictionaryDao {
     fun getAllDictionary(): List<DictionaryEntity?>?
 
     @Query("SELECT * FROM dictionary WHERE id =:id")
-    fun getDictionary(id: Int): DictionaryEntity?
+    fun getDictionary(id: Long?): DictionaryEntity?
 
     @Update
     fun update(dictionary: DictionaryEntity?)

@@ -9,10 +9,10 @@ interface TaskDao {
     fun insert(message: TaskEntity?):Long?
 
     @Query("SELECT * FROM task ORDER BY id DESC")
-    fun getAllMessages():List<TaskEntity?>?
+    fun getAllTasks():List<TaskEntity?>?
 
     @Query("SELECT * FROM task WHERE id =:id")
-    fun getMessage(id:Int):TaskEntity?
+    fun getTask(id: Long?):TaskEntity?
 
     @Update
     fun update(task:TaskEntity?)

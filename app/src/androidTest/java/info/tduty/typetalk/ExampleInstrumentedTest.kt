@@ -8,6 +8,7 @@ import org.junit.runner.RunWith
 
 import org.junit.Assert.*
 
+
 /**
  * Instrumented test, which will execute on an Android device.
  *
@@ -20,5 +21,10 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("info.tduty.typetalk", appContext.packageName)
+    }
+
+    @Test
+    fun testMock2() {
+        assert(true)
     }
 }

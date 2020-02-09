@@ -1,3 +1,6 @@
 package info.tduty.typetalk.data.model
 
-class DictionaryVO
+class DictionaryVO(
+    val title: String?,
+    var vocabularies: List<VocabularyVO>
+)

@@ -12,12 +12,9 @@ class DictionaryTopicVH (itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     companion object {
         fun newInstance(parent: ViewGroup): DictionaryTopicVH {
-            val view = LayoutInflater
-                .from(parent.context)
-                .inflate(R.layout.item_dictionary_row, parent, false)
-            return DictionaryTopicVH(
-                view
-            )
+            val view = LayoutInflater.from(parent.context)
+                                     .inflate(R.layout.item_dictionary_row, parent, false)
+            return DictionaryTopicVH(view)
         }
     }
 
@@ -32,3 +29,4 @@ class DictionaryTopicVH (itemView: View) : RecyclerView.ViewHolder(itemView) {
         }
     }
 }
+

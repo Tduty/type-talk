@@ -21,9 +21,7 @@ class DictionaryListVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val view = LayoutInflater
                 .from(parent.context)
                 .inflate(R.layout.item_dictionary_section, parent, false)
-            return DictionaryListVH(
-                view
-            )
+            return DictionaryListVH(view)
         }
     }
 
@@ -33,9 +31,10 @@ class DictionaryListVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         } else {
             itemView.titleTopicDictionary.visibility = View.GONE
         }
-        val adapter =
-            DictionaryTopicAdapter()
+
+        val adapter = DictionaryTopicAdapter()
         adapter.setWords(dictionaryVO.vocabularies)
+
         itemView.wordTopicList.layoutManager = LinearLayoutManager(context)
         itemView.wordTopicList.adapter = adapter
     }

@@ -18,7 +18,6 @@
             android:id="@+id/buttonBack"
             android:layout_width="30sp"
             android:layout_height="30sp"
-            android:padding="2sp"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_back_button"/>
         <TextView
@@ -31,13 +30,11 @@
             android:layout_toEndOf="@+id/buttonBack"
             android:layout_alignTop="@+id/buttonBack"
             android:layout_marginStart="10dp"
-            android:text="Dictionary"/>
+            android:text="@string/title_dictionary"/>
         <ImageView
             android:id="@+id/buttonChat"
             android:layout_width="30sp"
             android:layout_height="30sp"
-            android:padding="2sp"
-            android:layout_marginTop="2sp"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_chat_button"
             android:layout_marginEnd="12sp"

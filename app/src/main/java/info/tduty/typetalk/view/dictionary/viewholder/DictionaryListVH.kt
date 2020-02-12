@@ -26,10 +26,10 @@ class DictionaryListVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     fun onBind(dictionaryVO: DictionaryVO) {
-        if (dictionaryVO.title != null) {
+        if (dictionaryVO.title != null && dictionaryVO.title!!.isNotEmpty()) {
             itemView.titleTopic.text = dictionaryVO.title
         } else {
-            itemView.titleTopicDictionary.visibility = View.GONE
+            itemView.titleTopicContainer.visibility = View.GONE
         }
 
         val adapter = DictionaryTopicAdapter()

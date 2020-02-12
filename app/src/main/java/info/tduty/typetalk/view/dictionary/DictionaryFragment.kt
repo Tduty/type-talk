@@ -36,7 +36,7 @@ class DictionaryFragment : Fragment(R.layout.fragment_dictionary), DictionaryVie
     ): View? {
         val view: View = inflater.inflate(
             R.layout.fragment_dictionary,
-            container, true
+            container, false
         )
         setupRV(view)
         return view

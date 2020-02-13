@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- TODO: Translation -->
     <string name="app_name">TypeTalk</string>
     <string name="action_settings">Settings</string>
 
@@ -16,10 +18,11 @@
     <string name="main_chat_bot_content">It will help you to develop your communicative skills before the real talk</string>
 
     <string name="main_chat_item_lesson_number">Lesson %1$d</string>
-    <string name="default_value_dictionary_translation_field">translate</string>
-    <string name="default_value_dictionary_word_field">word</string>
-    <string name="default_value_dictionary_trasncription_field">[transcription]</string>
-    <string name="title_dictionary">Dictionary</string>
-    <string name="title_topic_default_value">Title topic</string>
+
+    <string name="default_value_dictionary_translation_field">перевод</string>
+    <string name="default_value_dictionary_word_field">слово</string>
+    <string name="default_value_dictionary_trasncription_field">[траснкрипция]</string>
+    <string name="title_dictionary">Словарь</string>
+    <string name="title_topic_default_value">Название раздела</string>
 
 </resources>

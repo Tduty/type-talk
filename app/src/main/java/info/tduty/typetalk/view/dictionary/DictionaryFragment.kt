@@ -1,5 +1,6 @@
 package info.tduty.typetalk.view.dictionary
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,18 +11,26 @@ import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.DictionaryVO
 import info.tduty.typetalk.view.dictionary.adapter.DictionaryListAdapter
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
+import javax.inject.Inject
 
 class DictionaryFragment : Fragment(R.layout.fragment_dictionary), DictionaryView {
 
     companion object {
-        private lateinit var presenter: DictionaryPresenter
-        private lateinit var adapter: DictionaryListAdapter
 
         @JvmStatic
         fun newInstance() : DictionaryFragment {
-            presenter = DictionaryPresenter()
             return DictionaryFragment()
         }
+    }
+
+    @Inject
+    lateinit var presenter: DictionaryPresenter
+    lateinit var adapter: DictionaryListAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        presenter.onAttach(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

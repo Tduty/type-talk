@@ -1,11 +1,13 @@
 package info.tduty.typetalk.view.lesson
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.TaskVO
 import kotlinx.android.synthetic.main.fragment_main.*
+import javax.inject.Inject
 
 class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
 
@@ -14,9 +16,15 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
         @JvmStatic
         fun newInstance() = LessonFragment()
     }
-
-    private lateinit var presenter: LessonPresenter
+    @Inject
+    lateinit var presenter: LessonPresenter
     private lateinit var adapter: RvTasksAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        presenter.onAttach(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

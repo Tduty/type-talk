@@ -17,9 +17,9 @@ import info.tduty.typetalk.data.entity.*
         DictionaryEntity::class,
         TaskEntity::class
     ],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
-
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getTaskDao(): TaskDao
     abstract fun getChatDao(): ChatDao

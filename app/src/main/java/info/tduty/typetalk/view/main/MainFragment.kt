@@ -1,5 +1,6 @@
 package info.tduty.typetalk.view.main
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,12 @@ class MainFragment : Fragment(R.layout.fragment_main), MainView {
 
     private lateinit var rvLessonsAdapter: RvLessonsAdapter
     private lateinit var presenter: MainPresenter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        presenter.onAttach(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

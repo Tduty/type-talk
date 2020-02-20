@@ -3,7 +3,13 @@ package info.tduty.typetalk.view.main
 /**
  * Created by Evgeniy Mezentsev on 2019-11-20.
  */
-class MainPresenter(private val mainView: MainView) {
+class MainPresenter() {
+
+    private lateinit var mainView: MainView
+
+    fun onAttach(mainView: MainView) {
+        this.mainView = mainView
+    }
 
     fun onCreate() {
         listenerAddLesson()

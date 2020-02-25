@@ -6,10 +6,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.TaskVO
+import info.tduty.typetalk.di.DaggerAppComponent
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 
 class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
+
+    init {
+        DaggerAppComponent.builder().build().injectPresenterForLessonFragment(this)
+    }
 
     companion object {
 

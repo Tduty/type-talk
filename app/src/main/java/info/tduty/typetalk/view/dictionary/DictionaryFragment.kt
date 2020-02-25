@@ -9,11 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.DictionaryVO
+import info.tduty.typetalk.di.DaggerAppComponent
 import info.tduty.typetalk.view.dictionary.adapter.DictionaryListAdapter
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
 import javax.inject.Inject
 
 class DictionaryFragment : Fragment(R.layout.fragment_dictionary), DictionaryView {
+
+    init {
+        DaggerAppComponent.builder().build().injectPresenterForDictionaryFragment(this)
+    }
 
     companion object {
 

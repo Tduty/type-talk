@@ -10,7 +10,7 @@ import info.tduty.typetalk.view.main.MainPresenter
 import info.tduty.typetalk.view.main.MainView
 
 @Module
-class AppModulePresenter {
+class AppModule {
 
     @Provides
     fun getDictionaryPresenter() : DictionaryPresenter {

@@ -1,15 +1,9 @@
 package info.tduty.typetalk.view.dictionary
 
-class DictionaryPresenter {
-
-    private lateinit var view: DictionaryView
-
-    fun onAttach(view: DictionaryView) {
-        this.view = view
-    }
+class DictionaryPresenter(val view: DictionaryView) {
 
     fun onCreate() {
-
+        var mock = "sa"
     }
 
     fun onDestroy() {

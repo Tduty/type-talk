@@ -1,18 +1,24 @@
 package info.tduty.typetalk.view.main
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.LessonVO
+import info.tduty.typetalk.di.DaggerMainComponent
+import info.tduty.typetalk.di.MainModule
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.item_chats_control_block.*
+import javax.inject.Inject
 
 /**
  * Created by Evgeniy Mezentsev on 2019-11-20.
  */
 class MainFragment : Fragment(R.layout.fragment_main), MainView {
+
+    init {
+        DaggerMainComponent.builder().mainModule(MainModule(this)).build().inject(this)
+    }
 
     companion object {
 
@@ -21,13 +27,8 @@ class MainFragment : Fragment(R.layout.fragment_main), MainView {
     }
 
     private lateinit var rvLessonsAdapter: RvLessonsAdapter
-    private lateinit var presenter: MainPresenter
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        presenter.onAttach(this)
-    }
+    @Inject
+    lateinit var presenter: MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

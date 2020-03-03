@@ -8,21 +8,29 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.DictionaryVO
+import info.tduty.typetalk.di.DaggerDictionaryComponent
+import info.tduty.typetalk.di.DictionaryModule
 import info.tduty.typetalk.view.dictionary.adapter.DictionaryListAdapter
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
+import javax.inject.Inject
 
 class DictionaryFragment : Fragment(R.layout.fragment_dictionary), DictionaryView {
 
+    init {
+        DaggerDictionaryComponent.builder().dictionaryModule(DictionaryModule(this)).build().inject(this)
+    }
+
     companion object {
-        private lateinit var presenter: DictionaryPresenter
-        private lateinit var adapter: DictionaryListAdapter
 
         @JvmStatic
         fun newInstance() : DictionaryFragment {
-            presenter = DictionaryPresenter()
             return DictionaryFragment()
         }
     }
+
+    @Inject
+    lateinit var presenter: DictionaryPresenter
+    lateinit var adapter: DictionaryListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

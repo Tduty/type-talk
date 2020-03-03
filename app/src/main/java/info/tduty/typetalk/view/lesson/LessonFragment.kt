@@ -5,17 +5,24 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.TaskVO
+import info.tduty.typetalk.di.DaggerLessonsComponent
+import info.tduty.typetalk.di.LessonsModule
 import kotlinx.android.synthetic.main.fragment_main.*
+import javax.inject.Inject
 
 class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
+
+    init {
+        DaggerLessonsComponent.builder().lessonsModule(LessonsModule(this)).build().inject(this)
+    }
 
     companion object {
 
         @JvmStatic
         fun newInstance() = LessonFragment()
     }
-
-    private lateinit var presenter: LessonPresenter
+    @Inject
+    lateinit var presenter: LessonPresenter
     private lateinit var adapter: RvTasksAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "chat")
-class ChatEntity(
+data class ChatEntity(
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true) var id: Long,
     @ColumnInfo(name = "title") var title: String,

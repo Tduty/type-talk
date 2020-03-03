@@ -5,7 +5,7 @@ import info.tduty.typetalk.data.model.TaskType
 /**
  * Created by Evgeniy Mezentsev on 2019-11-30.
  */
-class LessonPresenter(private val view: LessonView) {
+class LessonPresenter(val view: LessonView) {
 
     fun onCreate() {
 

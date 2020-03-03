@@ -1,7 +1,6 @@
 package info.tduty.typetalk.data.db
 
 import android.content.Context
-import android.os.Build
 import androidx.room.Room
 import info.tduty.typetalk.BuildConfig
 

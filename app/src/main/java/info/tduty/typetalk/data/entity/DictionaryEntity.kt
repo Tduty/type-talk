@@ -14,11 +14,11 @@ import androidx.room.PrimaryKey
         onDelete = ForeignKey.NO_ACTION
     )]
 )
-class DictionaryEntity(
-    @ColumnInfo(name = "id")
+data class DictionaryEntity(
+    @ColumnInfo(name = "id", index = true)
     @PrimaryKey(autoGenerate = true) var id: Long?,
     @ColumnInfo(name = "word") var word: String,
     @ColumnInfo(name = "translation") var translation: String,
     @ColumnInfo(name = "transcription") var transcription: String?,
-    @ColumnInfo(name = "lesson_id") val lessonsId: Long?
+    @ColumnInfo(name = "lesson_id", index = true) val lessonsId: Long?
 )

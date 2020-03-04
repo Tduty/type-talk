@@ -6,19 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.DictionaryVO
-import info.tduty.typetalk.di.DaggerDictionaryComponent
 import info.tduty.typetalk.di.DictionaryModule
 import info.tduty.typetalk.view.dictionary.adapter.DictionaryListAdapter
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
 import javax.inject.Inject
 
 class DictionaryFragment : Fragment(R.layout.fragment_dictionary), DictionaryView {
-
-    init {
-        DaggerDictionaryComponent.builder().dictionaryModule(DictionaryModule(this)).build().inject(this)
-    }
 
     companion object {
 
@@ -34,6 +30,7 @@ class DictionaryFragment : Fragment(R.layout.fragment_dictionary), DictionaryVie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupFragmentComponent()
         presenter.onCreate()
     }
 
@@ -48,6 +45,13 @@ class DictionaryFragment : Fragment(R.layout.fragment_dictionary), DictionaryVie
         )
         setupRV(view)
         return view
+    }
+
+    private fun setupFragmentComponent() {
+        App.get(this.requireContext())
+            .appComponent
+            .plus(DictionaryModule(this))
+            .inject(this)
     }
 
     private fun setupRV(view: View) {

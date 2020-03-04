@@ -8,12 +8,21 @@ class SharedPreferencesHelper(context: Context, prefsName: String?, mode: Int) :
 
     private var preferences: SharedPreferences = context.getSharedPreferences(prefsName, mode)
 
-     override fun putString(key: String?, value: String?) {
+    companion object {
+        const val USER_PROFILE = "user_profile"
+        const val URL = "url"
+    }
+
+    override fun putString(key: String?, value: String?) {
         preferences.edit().putString(key, value).apply()
     }
 
     override fun getString(key: String?): String? {
         return preferences.getString(key, null)
+    }
+
+    private fun getString(key: String, default: String): String {
+        return preferences.getString(key, default) ?: default
     }
 
     override fun putBoolean(key: String?, value: Boolean) {
@@ -42,5 +51,13 @@ class SharedPreferencesHelper(context: Context, prefsName: String?, mode: Int) :
 
     override fun clear() {
         preferences.edit().clear().apply()
+    }
+
+    override fun getProfile(): String {
+        return getString(USER_PROFILE, "")
+    }
+
+    override fun putProfile(profile: String) {
+        putString(USER_PROFILE, profile)
     }
 }

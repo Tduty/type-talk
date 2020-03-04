@@ -3,9 +3,9 @@ package info.tduty.typetalk.view.main
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.LessonVO
-import info.tduty.typetalk.di.DaggerMainComponent
 import info.tduty.typetalk.di.MainModule
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.item_chats_control_block.*
@@ -15,10 +15,6 @@ import javax.inject.Inject
  * Created by Evgeniy Mezentsev on 2019-11-20.
  */
 class MainFragment : Fragment(R.layout.fragment_main), MainView {
-
-    init {
-        DaggerMainComponent.builder().mainModule(MainModule(this)).build().inject(this)
-    }
 
     companion object {
 
@@ -33,6 +29,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setupFragmentComponent()
         setupListeners()
         setupRv()
 
@@ -42,6 +39,13 @@ class MainFragment : Fragment(R.layout.fragment_main), MainView {
     override fun onDestroy() {
         super.onDestroy()
         presenter.onDestroy()
+    }
+
+    private fun setupFragmentComponent() {
+        App.get(this.requireContext())
+            .appComponent
+            .plus(MainModule(this))
+            .inject(this)
     }
 
     //region main

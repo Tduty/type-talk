@@ -2,8 +2,10 @@ package info.tduty.typetalk.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import info.tduty.typetalk.data.dao.*
-import info.tduty.typetalk.data.entity.*
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
+import info.tduty.typetalk.data.db.dao.*
+import info.tduty.typetalk.data.db.model.*
 
 /**
  * Created by Evgeniy Mezentsev on 2019-11-30.
@@ -20,6 +22,7 @@ import info.tduty.typetalk.data.entity.*
     version = 1,
     exportSchema = false
 )
+@TypeConverters(DbConvector::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getTaskDao(): TaskDao
     abstract fun getChatDao(): ChatDao

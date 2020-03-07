@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import info.tduty.typetalk.data.pref.UrlStorage
 import info.tduty.typetalk.data.pref.UserDataHelper
-import info.tduty.typetalk.domain.AppLifecycleEventManager
+import info.tduty.typetalk.domain.managers.AppLifecycleEventManager
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber

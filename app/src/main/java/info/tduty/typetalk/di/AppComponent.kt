@@ -8,7 +8,15 @@ import javax.inject.Singleton
  * Created by Evgeniy Mezentsev on 07.03.2020.
  */
 @Singleton
-@Component(modules = [AppModule::class])
+@Component(
+    modules = [
+        AppModule::class,
+        ApiModule::class,
+        DatabaseModule::class,
+        WrapperModule::class,
+        InteractorModule::class
+    ]
+)
 interface AppComponent {
 
     fun inject(app: App)

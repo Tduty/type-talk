@@ -1,7 +1,7 @@
-package info.tduty.typetalk.data.dao
+package info.tduty.typetalk.data.db.dao
 
 import androidx.room.*
-import info.tduty.typetalk.data.entity.MessageEntity
+import info.tduty.typetalk.data.db.model.MessageEntity
 
 @Dao
 interface MessageDao {

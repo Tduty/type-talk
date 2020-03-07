@@ -1,4 +1,4 @@
-package info.tduty.typetalk.data.entity
+package info.tduty.typetalk.data.db.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

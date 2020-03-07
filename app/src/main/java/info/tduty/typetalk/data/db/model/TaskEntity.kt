@@ -1,9 +1,10 @@
-package info.tduty.typetalk.data.entity
+package info.tduty.typetalk.data.db.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import info.tduty.typetalk.data.db.model.LessonEntity
 
 @Entity(
     tableName = "task",

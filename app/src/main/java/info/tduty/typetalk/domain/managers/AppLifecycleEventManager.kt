@@ -1,4 +1,4 @@
-package info.tduty.typetalk.domain
+package info.tduty.typetalk.domain.managers
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver

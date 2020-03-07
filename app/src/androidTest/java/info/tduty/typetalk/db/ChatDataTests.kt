@@ -3,8 +3,7 @@ package info.tduty.typetalk.db
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import info.tduty.typetalk.data.db.AppDatabase
-import info.tduty.typetalk.data.db.DataBaseBuilderRoom
-import info.tduty.typetalk.data.entity.ChatEntity
+import info.tduty.typetalk.data.db.model.ChatEntity
 import junit.framework.Assert.assertTrue
 import org.junit.After
 import org.junit.Before
@@ -23,7 +22,12 @@ class ChatDataTests {
 
     @Test
     fun test_addChatData_resultChatEntityInDB() {
-        var chat = ChatEntity(0, "mockChatTitle", "http://mockUrl","mockDescription")
+        var chat = ChatEntity(
+            0,
+            "mockChatTitle",
+            "http://mockUrl",
+            "mockDescription"
+        )
         val idChat = appDataBase?.getChatDao()?.insert(chat)
         chat.id = idChat?.or(chat.id + 1)!!
         appDataBase?.getChatDao()?.getChat(idChat)?.let { isEquals(chat, it) }?.let { assertTrue(it) }

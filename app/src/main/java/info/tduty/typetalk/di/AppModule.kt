@@ -10,7 +10,7 @@ import info.tduty.typetalk.data.event.Event
 import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.data.pref.UserDataSharedPreferencesHelper
 import info.tduty.typetalk.data.serializer.EventDeserializer
-import info.tduty.typetalk.domain.AppLifecycleEventManager
+import info.tduty.typetalk.domain.managers.AppLifecycleEventManager
 import info.tduty.typetalk.socket.SocketController
 import javax.inject.Singleton
 

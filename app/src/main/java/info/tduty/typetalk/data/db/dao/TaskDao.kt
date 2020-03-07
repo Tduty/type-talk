@@ -1,7 +1,7 @@
-package info.tduty.typetalk.data.dao
+package info.tduty.typetalk.data.db.dao
 
 import androidx.room.*
-import info.tduty.typetalk.data.entity.TaskEntity
+import info.tduty.typetalk.data.db.model.TaskEntity
 
 @Dao
 interface TaskDao {
@@ -12,11 +12,11 @@ interface TaskDao {
     fun getAllTasks():List<TaskEntity?>?
 
     @Query("SELECT * FROM task WHERE id =:id")
-    fun getTask(id: Long?):TaskEntity?
+    fun getTask(id: Long?): TaskEntity?
 
     @Update
-    fun update(task:TaskEntity?)
+    fun update(task: TaskEntity?)
 
     @Delete
-    fun delete(task:TaskEntity?)
+    fun delete(task: TaskEntity?)
 }

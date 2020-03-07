@@ -1,4 +1,4 @@
-package info.tduty.typetalk.domain.managers
+package info.tduty.typetalk.domain.provider
 
 import info.tduty.typetalk.api.LessonApi
 import info.tduty.typetalk.data.dto.LessonDTO

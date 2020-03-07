@@ -1,4 +1,4 @@
-package info.tduty.typetalk.di
+package info.tduty.typetalk.view.dictionary.di
 
 import dagger.Subcomponent
 import info.tduty.typetalk.view.dictionary.DictionaryFragment

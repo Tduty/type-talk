@@ -7,8 +7,17 @@ import androidx.annotation.DrawableRes
  */
 data class MessageVO(
     val id: String,
+    val chatId: String,
+    val type: Type,
     val isMy: Boolean,
+    val showSender: Boolean,
     val senderName: String,
     @DrawableRes val avatar: Int,
     val message: String
-)
+) {
+
+    enum class Type {
+        EVENT,
+        MESSAGE
+    }
+}

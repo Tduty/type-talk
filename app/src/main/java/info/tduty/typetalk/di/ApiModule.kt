@@ -4,6 +4,8 @@ import android.content.Context
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
+import info.tduty.typetalk.api.ChatApi
+import info.tduty.typetalk.api.HistoryApi
 import info.tduty.typetalk.api.LessonApi
 import info.tduty.typetalk.data.pref.UrlStorage
 import info.tduty.typetalk.socket.SslOkHttpClientBuilderBase
@@ -46,5 +48,31 @@ class ApiModule {
             .client(okHttpClient)
             .build()
             .create(LessonApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideHistoryApi(
+        retrofitBuilder: Retrofit.Builder,
+        okHttpClient: OkHttpClient
+    ): HistoryApi {
+        return retrofitBuilder
+            .baseUrl(UrlStorage.getUrl())
+            .client(okHttpClient)
+            .build()
+            .create(HistoryApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideChatApi(
+        retrofitBuilder: Retrofit.Builder,
+        okHttpClient: OkHttpClient
+    ): ChatApi {
+        return retrofitBuilder
+            .baseUrl(UrlStorage.getUrl())
+            .client(okHttpClient)
+            .build()
+            .create(ChatApi::class.java)
     }
 }

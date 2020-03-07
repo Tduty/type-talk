@@ -2,10 +2,18 @@ package info.tduty.typetalk.di
 
 import dagger.Module
 import dagger.Provides
-import info.tduty.typetalk.api.LessonApi
+import info.tduty.typetalk.data.db.wrapper.ChatWrapper
 import info.tduty.typetalk.data.db.wrapper.LessonWrapper
+import info.tduty.typetalk.data.db.wrapper.MessageWrapper
+import info.tduty.typetalk.data.pref.UserDataHelper
+import info.tduty.typetalk.domain.interactor.ChatInteractor
+import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.interactor.LessonInteractor
-import info.tduty.typetalk.domain.managers.LessonProvider
+import info.tduty.typetalk.domain.managers.EventManager
+import info.tduty.typetalk.domain.provider.ChatProvider
+import info.tduty.typetalk.domain.provider.HistoryProvider
+import info.tduty.typetalk.domain.provider.LessonProvider
+import info.tduty.typetalk.socket.SocketController
 import javax.inject.Singleton
 
 /**
@@ -16,16 +24,35 @@ class InteractorModule {
 
     @Provides
     @Singleton
-    fun provideLessonProvider(lessonApi: LessonApi): LessonProvider {
-        return LessonProvider(lessonApi)
+    fun provideLessonInteractor(
+        lessonProvider: LessonProvider,
+        lessonWrapper: LessonWrapper,
+        eventManager: EventManager
+    ): LessonInteractor {
+        return LessonInteractor(lessonProvider, lessonWrapper, eventManager)
     }
 
     @Provides
     @Singleton
-    fun provideLessonInteractor(
-        lessonProvider: LessonProvider,
-        lessonWrapper: LessonWrapper
-    ): LessonInteractor {
-        return LessonInteractor(lessonProvider, lessonWrapper)
+    fun provideHistoryInteractior(
+        historyProvider: HistoryProvider,
+        messageWrapper: MessageWrapper,
+        userDataHelper: UserDataHelper,
+        eventManager: EventManager,
+        socketController: SocketController
+    ): HistoryInteractor {
+        return HistoryInteractor(
+            historyProvider, messageWrapper, userDataHelper, eventManager,
+            socketController
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideChatInteractor(
+        chatWrapper: ChatWrapper,
+        chatProvider: ChatProvider
+    ): ChatInteractor {
+        return ChatInteractor(chatWrapper, chatProvider)
     }
 }

@@ -10,8 +10,14 @@ import info.tduty.typetalk.data.event.Event
 import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.data.pref.UserDataSharedPreferencesHelper
 import info.tduty.typetalk.data.serializer.EventDeserializer
+import info.tduty.typetalk.domain.interactor.HistoryInteractor
+import info.tduty.typetalk.domain.interactor.LessonInteractor
 import info.tduty.typetalk.domain.managers.AppLifecycleEventManager
+import info.tduty.typetalk.domain.managers.EventManager
+import info.tduty.typetalk.socket.EventBusRx
+import info.tduty.typetalk.socket.EventHandler
 import info.tduty.typetalk.socket.SocketController
+import info.tduty.typetalk.socket.SocketEventListener
 import javax.inject.Singleton
 
 /**
@@ -42,6 +48,12 @@ class AppModule(private val application: Application) {
 
     @Provides
     @Singleton
+    fun provideEventManager(): EventManager {
+        return EventManager()
+    }
+
+    @Provides
+    @Singleton
     fun provideUserDataHelper(context: Context, gson: Gson): UserDataHelper {
         return UserDataSharedPreferencesHelper(context, gson)
     }
@@ -52,9 +64,26 @@ class AppModule(private val application: Application) {
         context: Context,
         gson: Gson,
         userDataHelper: UserDataHelper,
-        appLifecycleEventManager: AppLifecycleEventManager
+        appLifecycleEventManager: AppLifecycleEventManager,
+        socketEventListener: SocketEventListener
     ): SocketController {
-        return SocketController(context, gson, userDataHelper, appLifecycleEventManager)
+        return SocketController(context, gson, userDataHelper, appLifecycleEventManager,
+            socketEventListener)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSocketEventListener(): SocketEventListener {
+        return SocketEventListener(EventBusRx())
+    }
+
+    @Provides
+    @Singleton
+    fun provideEventHandler(socketEventListener: SocketEventListener,
+                            historyInteractor: HistoryInteractor,
+                            lessonInteractor: LessonInteractor
+    ): EventHandler {
+        return EventHandler(socketEventListener, historyInteractor, lessonInteractor)
     }
 
     @Provides

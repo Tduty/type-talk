@@ -1,16 +1,14 @@
 package info.tduty.typetalk.view.dictionary
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.DictionaryVO
-import info.tduty.typetalk.di.DictionaryModule
 import info.tduty.typetalk.view.dictionary.adapter.DictionaryListAdapter
+import info.tduty.typetalk.view.dictionary.di.DictionaryModule
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
 import javax.inject.Inject
 

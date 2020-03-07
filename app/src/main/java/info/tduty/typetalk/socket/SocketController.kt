@@ -2,6 +2,11 @@ package info.tduty.typetalk.socket
 
 import android.content.Context
 import com.google.gson.Gson
+import info.tduty.typetalk.data.event.Event
+import info.tduty.typetalk.data.event.EventPayload.Type.*
+import info.tduty.typetalk.data.event.payload.LessonPayload
+import info.tduty.typetalk.data.event.payload.MessageNewPayload
+import info.tduty.typetalk.data.event.payload.TypingPayload
 import info.tduty.typetalk.data.pref.UrlStorage
 import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.domain.managers.AppLifecycleEventManager
@@ -16,7 +21,8 @@ class SocketController(
     private val context: Context,
     private val gson: Gson,
     private val userDataHelper: UserDataHelper,
-    appLifecycleEventManager: AppLifecycleEventManager
+    appLifecycleEventManager: AppLifecycleEventManager,
+    private val socketEventListener: SocketEventListener
 ) {
 
     private var client: SocketClient? = null
@@ -49,12 +55,38 @@ class SocketController(
         client?.disconnect()
     }
 
+    fun sendMessageNew(messageNew: MessageNewPayload) {
+        try {
+            client?.pushEvent(Event(MESSAGE_NEW.string, messageNew))
+        } catch (ex: Exception) {
+            Timber.e(ex, "Error sending event $messageNew")
+        }
+    }
+
+    fun sendLesson(lesson: LessonPayload) {
+        try {
+            client?.pushEvent(Event(LESSON.string, lesson))
+        } catch (ex: Exception) {
+            Timber.e(ex, "Error sending event $lesson")
+        }
+    }
+
+    fun sendTyping(typing: TypingPayload) {
+        try {
+            client?.pushEvent(Event(TYPING.string, typing))
+        } catch (ex: Exception) {
+            Timber.e(ex, "Error sending event $typing")
+        }
+    }
+
     private fun createSocketClient(): SocketClient {
-        return SocketClient(
+        val client =  SocketClient(
             url = UrlStorage.getWebsocketUrl(),
             context = context,
             userDataHelper = userDataHelper,
             gson = gson
         )
+        socketEventListener.listenEvents(client)
+        return client
     }
 }

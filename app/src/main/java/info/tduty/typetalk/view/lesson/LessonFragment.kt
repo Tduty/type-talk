@@ -3,18 +3,14 @@ package info.tduty.typetalk.view.lesson
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.TaskVO
-import info.tduty.typetalk.di.DaggerLessonsComponent
 import info.tduty.typetalk.di.LessonsModule
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 
 class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
-
-    init {
-        DaggerLessonsComponent.builder().lessonsModule(LessonsModule(this)).build().inject(this)
-    }
 
     companion object {
 
@@ -28,6 +24,7 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setupFragmentComponent()
         setupRv()
 
         presenter.onCreate()
@@ -36,6 +33,13 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
     override fun onDestroy() {
         super.onDestroy()
         presenter.onDestroy()
+    }
+
+    private fun setupFragmentComponent() {
+        App.get(this.requireContext())
+            .appComponent
+            .plus(LessonsModule(this))
+            .inject(this)
     }
 
     private fun setupRv() {

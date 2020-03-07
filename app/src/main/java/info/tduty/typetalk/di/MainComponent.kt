@@ -1,9 +1,9 @@
 package info.tduty.typetalk.di
 
-import dagger.Component
+import dagger.Subcomponent
 import info.tduty.typetalk.view.main.MainFragment
 
-@Component(modules = [MainModule::class])
+@Subcomponent(modules = [MainModule::class])
 interface MainComponent {
 
     fun inject(main: MainFragment)

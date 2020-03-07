@@ -4,9 +4,12 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import java.lang.IllegalArgumentException
 
-internal class UserDataSharedPreferencesHelper(val context: Context, val gson: Gson) :
-    UserDataHelper {
+class UserDataSharedPreferencesHelper(
+    val context: Context,
+    val gson: Gson
+) : UserDataHelper {
 
     private val APP_PREFERENCES = "typetalk-data"
     private val APP_PREFERENCES_USER = "typetalk-data-user"
@@ -25,16 +28,16 @@ internal class UserDataSharedPreferencesHelper(val context: Context, val gson: G
         preferences.putString(APP_PREFERENCES_USER, userJson)
     }
 
-    override fun getSavedUser(): UserData? {
+    override fun getSavedUser(): UserData {
         val data = preferences.getString(APP_PREFERENCES_USER)
-        return data?.let { getUserForJson(data) }
+        return data?.let { getUserForJson(data) } ?: throw IllegalArgumentException("unknown user")
     }
 
     override fun isSavedUser(): Boolean {
         return getUserForJson(preferences.getString(APP_PREFERENCES_USER)) != null
     }
 
-    private fun getUserForJson(userJson: String?) : UserData? {
+    private fun getUserForJson(userJson: String?): UserData? {
         return try {
             gson.fromJson(userJson, UserData::class.java)
         } catch (ex: JsonSyntaxException) {

@@ -11,4 +11,6 @@ interface PreferencesHelper {
     fun putLong(key: String?, value: Long)
     fun getLong(key: String?, defValue: Long): Long
     fun clear()
+    fun getProfile(): String
+    fun putProfile(profile: String)
 }

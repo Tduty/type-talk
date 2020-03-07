@@ -1,7 +1,7 @@
 package info.tduty.typetalk.data.pref
 
-internal interface UserDataHelper {
+interface UserDataHelper {
     fun setUserData(userData: UserData)
-    fun getSavedUser() : UserData?
+    fun getSavedUser() : UserData
     fun isSavedUser() : Boolean
 }

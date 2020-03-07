@@ -3,8 +3,7 @@ package info.tduty.typetalk.db
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import info.tduty.typetalk.data.db.AppDatabase
-import info.tduty.typetalk.data.db.DataBaseBuilderRoom
-import info.tduty.typetalk.data.entity.MessageEntity
+import info.tduty.typetalk.data.db.model.MessageEntity
 import junit.framework.Assert
 import org.junit.After
 import org.junit.Before
@@ -23,7 +22,14 @@ class MessageDataTests {
     @Test
     fun test_addMessageData_resultMessageEntityInDB() {
         var message =
-            MessageEntity(0, "messageTitleMock", "contentMock", "http://avatarUrlMock", true, null)
+            MessageEntity(
+                0,
+                "messageTitleMock",
+                "contentMock",
+                "http://avatarUrlMock",
+                true,
+                null
+            )
         val idMessage = appDataBase?.getMessageDao()?.insert(message)
         message.id = idMessage?.or(message.id + 1)!!
         appDataBase?.getMessageDao()?.getMessage(idMessage)?.let { isEquals(message, it) }?.let { Assert.assertTrue(it) }

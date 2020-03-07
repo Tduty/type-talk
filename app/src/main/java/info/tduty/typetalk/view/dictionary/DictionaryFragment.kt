@@ -31,20 +31,12 @@ class DictionaryFragment : Fragment(R.layout.fragment_dictionary), DictionaryVie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupFragmentComponent()
-        presenter.onCreate()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view: View = inflater.inflate(
-            R.layout.fragment_dictionary,
-            container, false
-        )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupRV(view)
-        return view
+        presenter.onCreate()
     }
 
     private fun setupFragmentComponent() {

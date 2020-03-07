@@ -3,7 +3,7 @@ package info.tduty.typetalk.db
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import info.tduty.typetalk.data.db.AppDatabase
-import info.tduty.typetalk.data.entity.DictionaryEntity
+import info.tduty.typetalk.data.db.model.DictionaryEntity
 import junit.framework.Assert
 import org.junit.After
 import org.junit.Before
@@ -21,17 +21,19 @@ class DictionaryDataTests {
     @Test
     fun test_addDictionaryData_resultDictionaryEntityInDB() {
         var dictionary =
-            DictionaryEntity(0,
+            DictionaryEntity(
+                0,
                 "wordMock",
                 "translationMock",
                 "transcriptionMock",
-                null)
+                null
+            )
         val idDictionary = appDataBase?.getDictionaryDao()?.insert(dictionary)
         dictionary.id = dictionary.id
         appDataBase?.getDictionaryDao()?.getDictionary(idDictionary)?.let { isEquals(dictionary, it) }?.let { Assert.assertTrue(it) }
     }
 
-    private fun isEquals(dictionaryMock: DictionaryEntity,dictionaryDB: DictionaryEntity): Boolean {
+    private fun isEquals(dictionaryMock: DictionaryEntity, dictionaryDB: DictionaryEntity): Boolean {
         return dictionaryMock.id == dictionaryDB.id &&
                 dictionaryMock.word == dictionaryDB.word &&
                 dictionaryMock.translation == dictionaryDB.translation &&

@@ -6,10 +6,10 @@ package info.tduty.typetalk.data.pref
 object UrlStorage {
 
     fun getUrl(): String {
-        return ""
+        return "http://localhost:8080"
     }
 
     fun getWebsocketUrl(): String {
-        return ""
+        return "wss://localhost:8080/ws"
     }
 }

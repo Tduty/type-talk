@@ -6,7 +6,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import info.tduty.typetalk.di.AppComponent
 import info.tduty.typetalk.di.AppModule
 import info.tduty.typetalk.di.DaggerAppComponent
-import info.tduty.typetalk.domain.AppLifecycleEventManager
+import info.tduty.typetalk.domain.managers.AppLifecycleEventManager
 import info.tduty.typetalk.socket.SocketController
 import javax.inject.Inject
 

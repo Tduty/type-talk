@@ -3,7 +3,7 @@ package info.tduty.typetalk.db
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import info.tduty.typetalk.data.db.AppDatabase
-import info.tduty.typetalk.data.entity.LessonEntity
+import info.tduty.typetalk.data.db.model.LessonEntity
 import junit.framework.Assert
 import org.junit.After
 import org.junit.Before

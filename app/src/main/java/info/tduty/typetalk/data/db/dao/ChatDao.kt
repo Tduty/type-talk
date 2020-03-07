@@ -1,8 +1,8 @@
-package info.tduty.typetalk.data.dao
+package info.tduty.typetalk.data.db.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import info.tduty.typetalk.data.entity.ChatEntity
+import info.tduty.typetalk.data.db.model.ChatEntity
 
 @Dao
 interface ChatDao {

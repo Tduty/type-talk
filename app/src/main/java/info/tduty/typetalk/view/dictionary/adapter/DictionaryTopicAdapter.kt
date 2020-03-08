@@ -3,7 +3,7 @@ package info.tduty.typetalk.view.dictionary.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import info.tduty.typetalk.data.model.VocabularyVO
-import info.tduty.typetalk.view.dictionary.viewholder.DictionaryTopicVH
+import info.tduty.typetalk.view.dictionary.item.DictionaryTopicVH
 
 class DictionaryTopicAdapter : RecyclerView.Adapter<DictionaryTopicVH>(){
 

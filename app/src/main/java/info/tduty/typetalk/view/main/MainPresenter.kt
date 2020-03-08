@@ -26,15 +26,15 @@ class MainPresenter(
     }
 
     fun openTeacherChat() {
-
+        view.openChat("teacher") //TODO
     }
 
     fun openClassChat() {
-
+        view.openChat("class") //TODO
     }
 
     fun openBotChat() {
-
+        view.openChat("lesson") //TODO
     }
 
     fun openLesson(lessonId: String) {

@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.LessonVO
-import info.tduty.typetalk.di.MainModule
+import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.main.di.MainModule
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import kotlinx.android.synthetic.main.item_chats_control_block.*
@@ -87,5 +88,9 @@ class MainFragment : Fragment(R.layout.fragment_main), MainView {
 
     override fun addLesson(lesson: LessonVO) {
         rvLessonsAdapter.addLesson(lesson)
+    }
+
+    override fun openChat(chatId: String) {
+        (activity as? ViewNavigation)?.openChat(chatId)
     }
 }

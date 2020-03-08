@@ -1,4 +1,4 @@
-package info.tduty.typetalk.di
+package info.tduty.typetalk.view.lesson.di
 
 import dagger.Module
 import dagger.Provides

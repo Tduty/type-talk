@@ -1,10 +1,9 @@
-package info.tduty.typetalk.di
+package info.tduty.typetalk.view.dictionary.di
 
 import dagger.Module
 import dagger.Provides
 import info.tduty.typetalk.view.dictionary.DictionaryPresenter
 import info.tduty.typetalk.view.dictionary.DictionaryView
-
 
 @Module
 class DictionaryModule(val view: DictionaryView) {

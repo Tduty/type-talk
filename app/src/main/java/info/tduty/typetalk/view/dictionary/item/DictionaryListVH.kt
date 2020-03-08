@@ -1,4 +1,4 @@
-package info.tduty.typetalk.view.dictionary.viewholder
+package info.tduty.typetalk.view.dictionary.item
 
 import android.content.Context
 import android.view.LayoutInflater

@@ -1,25 +1,29 @@
-package info.tduty.typetalk.data.event.payload
+package info.tduty.typetalk.data.dto
 
 import com.google.gson.annotations.SerializedName
-import info.tduty.typetalk.data.event.EventPayload
-
 
 /**
- * Created by Evgeniy Mezentsev on 04.03.2020.
+ * Created by Evgeniy Mezentsev on 07.03.2020.
  */
-class MessageNewPayload(
+data class MessageDTO(
     @SerializedName("id")
     val id: String,
+
     @SerializedName("chat_id")
     val chatId: String,
+
     @SerializedName("sender_id")
     val senderId: String,
+
     @SerializedName("sender_name")
     val senderName: String,
+
     @SerializedName("body")
     val body: String,
+
     @SerializedName("sending_time")
-    val sendingTime: Long = 0L,
+    val sendingTime: Long, //TODO: перейти к timestamp
+
     @SerializedName("exist_mistake")
-    val existMistake: Boolean = false
-) : EventPayload
+    val existMistake: Boolean
+)

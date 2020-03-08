@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.TaskVO
-import info.tduty.typetalk.di.LessonsModule
+import info.tduty.typetalk.view.lesson.di.LessonsModule
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 

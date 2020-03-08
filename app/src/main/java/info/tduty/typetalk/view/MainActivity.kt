@@ -12,6 +12,7 @@ import info.tduty.typetalk.view.lesson.LessonFragment
 import info.tduty.typetalk.view.main.MainFragment
 import timber.log.Timber
 
+
 class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
     companion object {
@@ -40,12 +41,19 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
         }
     }
 
+    override fun onBackPressed() {
+        when (currentFragment) {
+            is ChatFragment -> showFragment(MAIN, MainFragment.newInstance())
+            else -> super.onBackPressed()
+        }
+    }
+
     override fun openMain() {
         showFragment(MAIN, MainFragment.newInstance())
     }
 
     override fun openChat(chatId: String) {
-        showFragment(CHAT, ChatFragment.newInstance())
+        showFragment(CHAT, ChatFragment.newInstance(chatId))
     }
 
     override fun openLesson(lessonId: String) {
@@ -65,6 +73,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
         if (newFragment == null) {
             newFragment = fragment
             transaction.add(R.id.content_frame, newFragment, tag)
+        } else {
+            newFragment.arguments = fragment.arguments
         }
         currentFragment = newFragment
         transaction.show(newFragment)

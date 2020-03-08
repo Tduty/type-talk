@@ -2,6 +2,14 @@ package info.tduty.typetalk.di
 
 import dagger.Component
 import info.tduty.typetalk.App
+import info.tduty.typetalk.view.chat.di.ChatComponent
+import info.tduty.typetalk.view.chat.di.ChatModule
+import info.tduty.typetalk.view.dictionary.di.DictionaryComponent
+import info.tduty.typetalk.view.dictionary.di.DictionaryModule
+import info.tduty.typetalk.view.lesson.di.LessonsComponent
+import info.tduty.typetalk.view.lesson.di.LessonsModule
+import info.tduty.typetalk.view.main.di.MainComponent
+import info.tduty.typetalk.view.main.di.MainModule
 import javax.inject.Singleton
 
 /**
@@ -14,6 +22,7 @@ import javax.inject.Singleton
         ApiModule::class,
         DatabaseModule::class,
         WrapperModule::class,
+        ProviderModule::class,
         InteractorModule::class
     ]
 )
@@ -26,4 +35,6 @@ interface AppComponent {
     fun plus(module: LessonsModule): LessonsComponent
 
     fun plus(module: MainModule): MainComponent
+
+    fun plus(module: ChatModule): ChatComponent
 }

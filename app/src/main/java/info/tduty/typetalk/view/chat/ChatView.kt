@@ -7,6 +7,10 @@ import info.tduty.typetalk.data.model.MessageVO
  */
 interface ChatView {
 
+    fun setToolbarTitle(title: String)
+
+    fun setToolbarIcon(icon: String)
+
     fun addEvent(messageVO: MessageVO)
 
     fun addEvents(messageVO: List<MessageVO>)

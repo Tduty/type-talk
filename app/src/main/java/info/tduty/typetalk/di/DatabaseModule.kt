@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import info.tduty.typetalk.data.db.AppDatabase
 import info.tduty.typetalk.data.db.DataBaseBuilderRoom
-import info.tduty.typetalk.data.db.dao.LessonDao
+import info.tduty.typetalk.data.db.dao.*
 import javax.inject.Singleton
 
 /**
@@ -24,5 +24,29 @@ class DatabaseModule {
     @Singleton
     fun provideLessonDao(database: AppDatabase): LessonDao {
         return database.getLessonsDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTaskDao(database: AppDatabase): TaskDao {
+        return database.getTaskDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMessageDao(database: AppDatabase): MessageDao {
+        return database.getMessageDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideChatDao(database: AppDatabase): ChatDao {
+        return database.getChatDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDictionaryDao(database: AppDatabase): DictionaryDao {
+        return database.getDictionaryDao()
     }
 }

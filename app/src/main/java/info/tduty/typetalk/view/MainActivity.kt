@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
     }
 
     override fun openLesson(lessonId: String) {
-        showFragment(LESSON, LessonFragment.newInstance())
+        showFragment(LESSON, LessonFragment.newInstance(lessonId))
     }
 
     override fun openDictionary() {

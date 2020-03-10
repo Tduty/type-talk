@@ -2,14 +2,22 @@ package info.tduty.typetalk.data.db.dao
 
 import androidx.room.*
 import info.tduty.typetalk.data.db.model.TaskEntity
+import io.reactivex.Completable
+import io.reactivex.Maybe
 
 @Dao
 interface TaskDao {
-    @Insert
-    fun insert(message: TaskEntity?):Long?
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(message: TaskEntity?): Completable
 
-    @Query("SELECT * FROM task ORDER BY id DESC")
-    fun getAllTasks():List<TaskEntity?>?
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(message: List<TaskEntity>?): Completable
+
+    @Query("SELECT * FROM task")
+    fun getAllTasks(): List<TaskEntity?>?
+
+    @Query("SELECT * FROM task WHERE lessons_id = :lessonsId")
+    fun getAllTasksForLessons(lessonsId: Long?): Maybe<List<TaskEntity>>
 
     @Query("SELECT * FROM task WHERE id =:id")
     fun getTask(id: Long?): TaskEntity?

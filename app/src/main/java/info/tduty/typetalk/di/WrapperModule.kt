@@ -5,9 +5,11 @@ import dagger.Provides
 import info.tduty.typetalk.data.db.dao.ChatDao
 import info.tduty.typetalk.data.db.dao.LessonDao
 import info.tduty.typetalk.data.db.dao.MessageDao
+import info.tduty.typetalk.data.db.dao.TaskDao
 import info.tduty.typetalk.data.db.wrapper.ChatWrapper
 import info.tduty.typetalk.data.db.wrapper.LessonWrapper
 import info.tduty.typetalk.data.db.wrapper.MessageWrapper
+import info.tduty.typetalk.data.db.wrapper.TaskWrapper
 import javax.inject.Singleton
 
 /**
@@ -32,5 +34,11 @@ class WrapperModule {
     @Singleton
     fun provideChatWrapper(chatDao: ChatDao): ChatWrapper {
         return ChatWrapper(chatDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTaskWrapper(taskDao: TaskDao): TaskWrapper {
+        return TaskWrapper(taskDao)
     }
 }

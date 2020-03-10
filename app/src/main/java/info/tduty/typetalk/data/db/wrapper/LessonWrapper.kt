@@ -3,6 +3,7 @@ package info.tduty.typetalk.data.db.wrapper
 import info.tduty.typetalk.data.db.dao.LessonDao
 import info.tduty.typetalk.data.db.model.LessonEntity
 import io.reactivex.Completable
+import io.reactivex.Observable
 
 /**
  * Created by Evgeniy Mezentsev on 07.03.2020.
@@ -15,5 +16,9 @@ class LessonWrapper(private val lessonDao: LessonDao) {
 
     fun insert(lessons: List<LessonEntity>): Completable {
         return lessonDao.insert(lessons)
+    }
+
+    fun getLesson(id: String): Observable<LessonEntity> {
+        return lessonDao.getLesson(id.toLong()).toObservable()
     }
 }

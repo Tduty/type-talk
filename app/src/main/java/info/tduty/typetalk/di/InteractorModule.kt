@@ -5,10 +5,12 @@ import dagger.Provides
 import info.tduty.typetalk.data.db.wrapper.ChatWrapper
 import info.tduty.typetalk.data.db.wrapper.LessonWrapper
 import info.tduty.typetalk.data.db.wrapper.MessageWrapper
+import info.tduty.typetalk.data.db.wrapper.TaskWrapper
 import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.domain.interactor.ChatInteractor
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.interactor.LessonInteractor
+import info.tduty.typetalk.domain.interactor.TaskInteractor
 import info.tduty.typetalk.domain.managers.EventManager
 import info.tduty.typetalk.domain.provider.ChatProvider
 import info.tduty.typetalk.domain.provider.HistoryProvider
@@ -27,9 +29,10 @@ class InteractorModule {
     fun provideLessonInteractor(
         lessonProvider: LessonProvider,
         lessonWrapper: LessonWrapper,
+        taskWrapper: TaskWrapper,
         eventManager: EventManager
     ): LessonInteractor {
-        return LessonInteractor(lessonProvider, lessonWrapper, eventManager)
+        return LessonInteractor(lessonProvider, lessonWrapper, taskWrapper, eventManager)
     }
 
     @Provides
@@ -54,5 +57,13 @@ class InteractorModule {
         chatProvider: ChatProvider
     ): ChatInteractor {
         return ChatInteractor(chatWrapper, chatProvider)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTaskInteractor(
+        taskWrapper: TaskWrapper
+    ): TaskInteractor {
+        return TaskInteractor(taskWrapper)
     }
 }

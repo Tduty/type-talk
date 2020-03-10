@@ -2,7 +2,9 @@ package info.tduty.typetalk.domain.interactor
 
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.db.model.LessonEntity
+import info.tduty.typetalk.data.db.model.TaskEntity
 import info.tduty.typetalk.data.db.wrapper.LessonWrapper
+import info.tduty.typetalk.data.db.wrapper.TaskWrapper
 import info.tduty.typetalk.data.dto.LessonDTO
 import info.tduty.typetalk.data.event.payload.LessonPayload
 import info.tduty.typetalk.data.model.ExpectedVO
@@ -20,6 +22,7 @@ import io.reactivex.Observable
 class LessonInteractor(
     private val lessonProvider: LessonProvider,
     private val lessonWrapper: LessonWrapper,
+    private val taskWrapper: TaskWrapper,
     private val eventManager: EventManager
 ) {
 
@@ -30,15 +33,35 @@ class LessonInteractor(
                 val voList = dbList.mapIndexed { index, lesson ->
                     toVO(index, lesson)
                 }
+                dtoList.map {
+                    val tasks = toTaskDB(it)
+                    taskWrapper.insert(tasks)
+                }
                 lessonWrapper.insert(dbList)
                     .andThen(Observable.just(voList))
             }
+    }
+
+    fun getLesson(id: String): Observable<LessonVO> {
+        return lessonWrapper.getLesson(id).map { toVO(0, it) }  // TODO: добавить номер урока в db
     }
 
     fun addLesson(lesson: LessonPayload): Completable {
         val db = toDB(lesson)
         return lessonWrapper.insert(db)
             .doOnComplete { eventManager.post(toVO(0, db)) } //TODO правильно проставлять номер урока
+    }
+
+    private fun toTaskDB(dto: LessonDTO): List<TaskEntity> {
+        return dto.taskDTOList.map {
+            TaskEntity(
+                id = it.id.toLong(),
+                title = it.title,
+                iconUrl = it.icon,
+                isPerformed = it.status == 1,
+                lessonsId = dto.id.toLong()
+            )
+        }
     }
 
     private fun toDB(dto: LessonDTO): LessonEntity {

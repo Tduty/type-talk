@@ -7,5 +7,7 @@ import info.tduty.typetalk.data.model.TaskVO
  */
 interface LessonView {
 
+    fun setToolbarTitle(title: String)
+
     fun setTasks(tasks: List<TaskVO>)
 }

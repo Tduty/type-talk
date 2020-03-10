@@ -1,6 +1,9 @@
 package info.tduty.typetalk.data.serializer
 
-import com.google.gson.*
+import com.google.gson.Gson
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
 import info.tduty.typetalk.data.event.Event
 import info.tduty.typetalk.data.event.EventPayload
 import info.tduty.typetalk.data.event.EventPayload.Type.*

@@ -3,7 +3,6 @@ package info.tduty.typetalk.data.db
 import android.content.Context
 import androidx.room.Room
 import info.tduty.typetalk.BuildConfig
-import java.lang.IllegalArgumentException
 
 class DataBaseBuilderRoom(private val context: Context) : DataBaseBuilder {
 

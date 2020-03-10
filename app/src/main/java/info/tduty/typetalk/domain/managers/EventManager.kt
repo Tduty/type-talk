@@ -1,7 +1,5 @@
 package info.tduty.typetalk.domain.managers
 
-import info.tduty.typetalk.data.db.model.LessonEntity
-import info.tduty.typetalk.data.db.model.MessageEntity
 import info.tduty.typetalk.data.model.LessonVO
 import info.tduty.typetalk.data.model.MessageVO
 import io.reactivex.BackpressureStrategy

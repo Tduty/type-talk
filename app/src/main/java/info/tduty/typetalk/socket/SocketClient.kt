@@ -4,13 +4,10 @@ import android.content.Context
 import com.google.gson.Gson
 import info.tduty.typetalk.data.event.Event
 import info.tduty.typetalk.data.event.EventPayload
-import info.tduty.typetalk.data.pref.PreferencesHelper
 import info.tduty.typetalk.data.pref.UserDataHelper
-import info.tduty.typetalk.data.pref.UserDataSharedPreferencesHelper
 import io.reactivex.Observable
 import timber.log.Timber
-import java.lang.IllegalArgumentException
-import java.util.HashMap
+import java.util.*
 
 /**
  * Created by Evgeniy Mezentsev on 04.03.2020.

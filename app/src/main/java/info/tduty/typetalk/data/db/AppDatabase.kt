@@ -2,7 +2,6 @@ package info.tduty.typetalk.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import info.tduty.typetalk.data.db.dao.*
 import info.tduty.typetalk.data.db.model.*

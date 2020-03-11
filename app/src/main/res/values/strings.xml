@@ -7,6 +7,13 @@
 
     <string name="chat_input_hint_message">Message</string>
 
+    <!-- Login screen -->
+    <string name="login_screen_surname">Surname</string>
+    <string name="login_screen_password">Password</string>
+    <string name="login_screen_next">Next</string>
+    <string name="login_screen_qr_code">enter with the help of a teacher</string>
+    <!---->
+
     <!-- Main screen -->
     <string name="main_chat_teacher_title">Your teacher</string>
     <string name="main_chat_teacher_content">Here you can ask questions to find out all the information you need</string>

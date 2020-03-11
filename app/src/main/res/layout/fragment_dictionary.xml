@@ -5,42 +5,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/headerColor"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <ImageView
-            android:id="@+id/buttonBack"
-            android:layout_width="30sp"
-            android:layout_height="30sp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="15sp"
-            android:src="@drawable/ic_back_button"/>
-        <TextView
-            android:id="@+id/title"
-            android:layout_height="26sp"
-            android:layout_width="wrap_content"
-            android:textSize="20sp"
-            android:layout_centerVertical="true"
-            android:textColor="#FFFFFF"
-            android:layout_toEndOf="@+id/buttonBack"
-            android:layout_alignTop="@+id/buttonBack"
-            android:layout_marginStart="10dp"
-            android:text="@string/title_dictionary"/>
-        <ImageView
-            android:id="@+id/buttonChat"
-            android:layout_width="30sp"
-            android:layout_height="30sp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_chat_button"
-            android:layout_marginEnd="15sp"
-            android:layout_alignParentEnd="true"/>
-    </RelativeLayout>
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDictionaryList"
@@ -51,5 +19,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

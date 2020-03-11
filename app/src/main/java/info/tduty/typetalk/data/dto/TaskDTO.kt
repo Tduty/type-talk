@@ -16,5 +16,8 @@ data class TaskDTO(
     val title: String,
 
     @SerializedName("status")
-    val status: Int
+    val status: Int,
+
+    @SerializedName("optional")
+    val optional: Boolean
 )

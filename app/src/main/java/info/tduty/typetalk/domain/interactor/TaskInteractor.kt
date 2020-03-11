@@ -1,5 +1,6 @@
 package info.tduty.typetalk.domain.interactor
 
+import info.tduty.typetalk.R
 import info.tduty.typetalk.data.db.model.TaskEntity
 import info.tduty.typetalk.data.db.wrapper.TaskWrapper
 import info.tduty.typetalk.data.model.TaskType
@@ -21,10 +22,10 @@ class TaskInteractor(
     private fun toVO(db: TaskEntity): TaskVO {
         return TaskVO(
             id = db.id.toString(),
-            type = TaskType.DICTIONARY_PICTIONARY, // TODO: realize parsing type task
-            icon = -1, // TODO: setup icon
+            type = TaskType.FLASHCARDS, // TODO: realize parsing type task
+            icon = R.drawable.ic_teacher, // TODO: setup icon
             title = db.title ?: "",
-            optional = false, // TODO: added new parameter for entity
+            optional = db.optional ?: false,
             checked = db.isPerformed ?: false
         )
     }

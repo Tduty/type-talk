@@ -21,5 +21,7 @@ data class TaskEntity(
     @ColumnInfo(name = "title") var title: String?,
     @ColumnInfo(name = "icon_url") var iconUrl: String?,
     @ColumnInfo(name = "is_preformed") var isPerformed: Boolean?,
+    @ColumnInfo(name = "optional") var optional: Boolean?,
+    @ColumnInfo(name = "payload") var payload: String?,
     @ColumnInfo(name = "lessons_id", index = true) var lessonsId: Long?
 )

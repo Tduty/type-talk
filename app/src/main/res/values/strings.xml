@@ -21,5 +21,8 @@
     <string name="default_value_dictionary_trasncription_field">[transcription]</string>
     <string name="title_dictionary">Dictionary</string>
     <string name="title_topic_default_value">Title topic</string>
+    <string name="menu_action_chat">Chat</string>
+    <string name="menu_action_dictionary">Dictionary</string>
+    <string name="title_lesson_screen_default">Lesson</string>
 
 </resources>

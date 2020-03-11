@@ -23,9 +23,8 @@ class LessonPresenter(
     private lateinit var lesson: LessonVO
     private lateinit var tasks: List<TaskVO>
 
-
     fun onCreate(lessonId: String) {
-
+        setupLesson(lessonId)
     }
 
     private fun setupLesson(lessonId: String) {

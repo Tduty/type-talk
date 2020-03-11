@@ -15,7 +15,6 @@ import info.tduty.typetalk.view.lesson.LessonFragment
 import info.tduty.typetalk.view.main.MainFragment
 import timber.log.Timber
 
-
 class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
     companion object {

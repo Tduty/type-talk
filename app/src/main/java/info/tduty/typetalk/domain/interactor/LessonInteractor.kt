@@ -33,11 +33,9 @@ class LessonInteractor(
                 val voList = dbList.mapIndexed { index, lesson ->
                     toVO(index, lesson)
                 }
-                dtoList.map {
-                    val tasks = toTaskDB(it)
-                    taskWrapper.insert(tasks)
-                }
+                val allTasks = dtoList.map { toTaskDB(it) }.flatten()
                 lessonWrapper.insert(dbList)
+                    .andThen(taskWrapper.insert(allTasks))
                     .andThen(Observable.just(voList))
             }
     }

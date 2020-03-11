@@ -1,9 +1,6 @@
 package info.tduty.typetalk.socket
 
 import android.content.Context
-import com.google.gson.Gson
-import info.tduty.typetalk.data.event.Event
-import info.tduty.typetalk.data.event.EventPayload
 import okhttp3.*
 import okio.ByteString
 import java.io.IOException

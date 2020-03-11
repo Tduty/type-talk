@@ -1,7 +1,6 @@
 package info.tduty.typetalk.view.chat
 
 import android.os.Bundle
-import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -14,9 +13,7 @@ import info.tduty.typetalk.data.model.MessageVO
 import info.tduty.typetalk.view.chat.di.ChatModule
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
-import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.toolbar_chat.*
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 

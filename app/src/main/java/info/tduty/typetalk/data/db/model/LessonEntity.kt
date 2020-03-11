@@ -18,6 +18,9 @@ data class LessonEntity(
     @ColumnInfo(name = "title")
     var title: String,
 
+    @ColumnInfo(name = "lesson_number")
+    var lessonNumber: Int,
+
     @ColumnInfo(name = "description")
     var description: String,
 

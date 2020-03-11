@@ -2,7 +2,9 @@ package info.tduty.typetalk.domain.interactor
 
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.db.model.LessonEntity
+import info.tduty.typetalk.data.db.model.TaskEntity
 import info.tduty.typetalk.data.db.wrapper.LessonWrapper
+import info.tduty.typetalk.data.db.wrapper.TaskWrapper
 import info.tduty.typetalk.data.dto.LessonDTO
 import info.tduty.typetalk.data.event.payload.LessonPayload
 import info.tduty.typetalk.data.model.ExpectedVO
@@ -20,41 +22,64 @@ import io.reactivex.Observable
 class LessonInteractor(
     private val lessonProvider: LessonProvider,
     private val lessonWrapper: LessonWrapper,
+    private val taskWrapper: TaskWrapper,
     private val eventManager: EventManager
 ) {
 
     fun getLessons(): Observable<List<LessonVO>> {
         return lessonProvider.getLessons()
             .flatMap { dtoList ->
-                val dbList = dtoList.map { toDB(it) }
+                val dbList = dtoList.map { toDB(0, it) }
                 val voList = dbList.mapIndexed { index, lesson ->
                     toVO(index, lesson)
                 }
+                val allTasks = dtoList.map { toTaskDB(it) }.flatten()
                 lessonWrapper.insert(dbList)
+                    .andThen(taskWrapper.insert(allTasks))
                     .andThen(Observable.just(voList))
             }
     }
 
+    fun getLesson(id: String): Observable<LessonVO> {
+        return lessonWrapper.getLesson(id).map { toVO(0, it) }
+    }
+
     fun addLesson(lesson: LessonPayload): Completable {
-        val db = toDB(lesson)
+        val db = toDB(0, lesson)
         return lessonWrapper.insert(db)
             .doOnComplete { eventManager.post(toVO(0, db)) } //TODO правильно проставлять номер урока
     }
 
-    private fun toDB(dto: LessonDTO): LessonEntity {
+    private fun toTaskDB(dto: LessonDTO): List<TaskEntity> {
+        return dto.taskDTOList.map {
+            TaskEntity(
+                id = it.id.toLong(),
+                title = it.title,
+                iconUrl = it.icon,
+                isPerformed = it.status == 1,
+                optional = it.optional,
+                payload = null,
+                lessonsId = dto.id.toLong()
+            )
+        }
+    }
+
+    private fun toDB(index: Int, dto: LessonDTO): LessonEntity {
         return LessonEntity(
             lessonId = dto.id,
             title = dto.title,
+            lessonNumber = index + 1,
             description = dto.description,
             status = dto.status,
             expectedList = dto.expected.map { it.title }.toStringList()
         )
     }
 
-    private fun toDB(payload: LessonPayload): LessonEntity {
+    private fun toDB(index: Int, payload: LessonPayload): LessonEntity {
         return LessonEntity(
             lessonId = payload.id,
             title = payload.title,
+            lessonNumber = index + 1,
             description = payload.description,
             status = payload.status,
             expectedList = (payload.expectedList?.map { it.title } ?: emptyList()).toStringList()

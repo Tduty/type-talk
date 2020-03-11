@@ -5,7 +5,6 @@ import androidx.room.*
 import info.tduty.typetalk.data.db.model.LessonEntity
 import io.reactivex.Completable
 import io.reactivex.Maybe
-import io.reactivex.Observable
 
 
 @Dao

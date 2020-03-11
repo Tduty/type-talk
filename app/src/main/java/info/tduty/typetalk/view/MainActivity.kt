@@ -1,9 +1,12 @@
 package info.tduty.typetalk.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import info.tduty.typetalk.R
 import info.tduty.typetalk.view.chat.ChatFragment
@@ -11,7 +14,6 @@ import info.tduty.typetalk.view.dictionary.DictionaryFragment
 import info.tduty.typetalk.view.lesson.LessonFragment
 import info.tduty.typetalk.view.main.MainFragment
 import timber.log.Timber
-
 
 class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
@@ -57,11 +59,18 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
     }
 
     override fun openLesson(lessonId: String) {
-        showFragment(LESSON, LessonFragment.newInstance())
+        showFragment(LESSON, LessonFragment.newInstance(lessonId))
     }
 
     override fun openDictionary() {
         showFragment(DICTIONARY, DictionaryFragment.newInstance())
+    }
+
+    fun setupToolbar(toolbar: Toolbar, @StringRes title: Int, withBackButton: Boolean) {
+        toolbar.setTitle(title)
+        this.setSupportActionBar(toolbar)
+        this.supportActionBar?.setHomeButtonEnabled(withBackButton)
+        this.supportActionBar?.setDisplayHomeAsUpEnabled(withBackButton)
     }
 
     private fun showFragment(tag: String, fragment: Fragment) {

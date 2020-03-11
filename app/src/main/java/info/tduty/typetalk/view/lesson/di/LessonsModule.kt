@@ -2,6 +2,8 @@ package info.tduty.typetalk.view.lesson.di
 
 import dagger.Module
 import dagger.Provides
+import info.tduty.typetalk.domain.interactor.LessonInteractor
+import info.tduty.typetalk.domain.interactor.TaskInteractor
 import info.tduty.typetalk.view.lesson.LessonPresenter
 import info.tduty.typetalk.view.lesson.LessonView
 
@@ -13,7 +15,7 @@ class LessonsModule(val view: LessonView) {
         return view
     }
     @Provides
-    fun provideLessonPresenter(view: LessonView) : LessonPresenter {
-        return LessonPresenter(view)
+    fun provideLessonPresenter(view: LessonView, taskInteractor: TaskInteractor, lessonInteractor: LessonInteractor) : LessonPresenter {
+        return LessonPresenter(view, taskInteractor, lessonInteractor)
     }
 }

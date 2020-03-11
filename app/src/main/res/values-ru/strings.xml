@@ -24,5 +24,8 @@
     <string name="default_value_dictionary_trasncription_field">[траснкрипция]</string>
     <string name="title_dictionary">Словарь</string>
     <string name="title_topic_default_value">Название раздела</string>
+    <string name="menu_action_chat">Чат</string>
+    <string name="menu_action_dictionary">Словарь</string>
+    <string name="title_lesson_screen_default">Урок</string>
 
 </resources>

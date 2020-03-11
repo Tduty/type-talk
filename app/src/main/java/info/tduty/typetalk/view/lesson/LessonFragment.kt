@@ -1,21 +1,41 @@
 package info.tduty.typetalk.view.lesson
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.TaskVO
+import info.tduty.typetalk.view.MainActivity
+import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.lesson.di.LessonsModule
-import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_lesson.*
+import kotlinx.android.synthetic.main.fragment_main.toolbar
+import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
+
 
 class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
 
     companion object {
 
+        private const val ARGUMENT_LESSON_ID = "lesson_id"
+
         @JvmStatic
-        fun newInstance() = LessonFragment()
+        fun newInstance(lessonId: String): LessonFragment {
+            val bundle = Bundle()
+            bundle.putString(ARGUMENT_LESSON_ID, lessonId)
+            val fragment = LessonFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
     @Inject
     lateinit var presenter: LessonPresenter
@@ -23,16 +43,51 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setupFragmentComponent()
-        setupRv()
+    }
 
-        presenter.onCreate()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val lessonId = arguments?.getString(ARGUMENT_LESSON_ID)
+            ?: throw IllegalArgumentException("lesson id is null")
+
+        setupRv()
+        (activity as? MainActivity)?.setupToolbar(view.toolbar as Toolbar, R.string.title_lesson_screen_default, true)
+        setHasOptionsMenu(true)
+
+        presenter.onCreate(lessonId)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         presenter.onDestroy()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.menu_lessons, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun setToolbarTitle(title: String) {
+        (activity as? AppCompatActivity)?.supportActionBar?.title = title
+    }
+
+    override fun setTasks(tasks: List<TaskVO>) {
+        adapter.setTasks(tasks)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.action_dictionary -> {
+                // TODO: open dictionary for lesson
+            }
+            R.id.action_chat -> {
+                (activity as? ViewNavigation)?.openChat("chat_teacher")
+            }
+        }
+        return true
     }
 
     private fun setupFragmentComponent() {
@@ -44,11 +99,7 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
 
     private fun setupRv() {
         adapter = RvTasksAdapter { id, type ->  presenter.openTask(id, type) }
-        rv_lessons.layoutManager = LinearLayoutManager(context)
-        rv_lessons.adapter = adapter
-    }
-
-    override fun setTasks(tasks: List<TaskVO>) {
-        adapter.setTasks(tasks)
+        rv_tasks.layoutManager = LinearLayoutManager(context)
+        rv_tasks.adapter = adapter
     }
 }

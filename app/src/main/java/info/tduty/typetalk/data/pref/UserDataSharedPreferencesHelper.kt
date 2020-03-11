@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
-import java.lang.IllegalArgumentException
 
 class UserDataSharedPreferencesHelper(
     val context: Context,

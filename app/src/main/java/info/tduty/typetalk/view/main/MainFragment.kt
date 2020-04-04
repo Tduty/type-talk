@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
+import info.tduty.typetalk.data.model.ExpectedVO
 import info.tduty.typetalk.data.model.LessonVO
+import info.tduty.typetalk.data.model.StatusVO
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.main.di.MainModule
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -43,6 +45,42 @@ class MainFragment : Fragment(R.layout.fragment_main), MainView {
         setupToolbar(view.toolbar as Toolbar, R.string.app_name, false)
         setupListeners()
         setupRv()
+
+        if (rvLessonsAdapter.itemCount != 0) efv_lessons.flipTheView(false)
+
+        rvLessonsAdapter.addLesson(
+            LessonVO(
+                id = "1",
+                number = 1,
+                title = "Weather",
+                content = "TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText",
+                icon = R.drawable.ic_boy_bg_sweet_corn,
+                status = StatusVO(R.drawable.ic_checkbox_complete, "Completed"),
+                expectedList = listOf(
+                    ExpectedVO("test1", R.drawable.ic_phrase_building),
+                    ExpectedVO("test2", R.drawable.ic_pictionary),
+                    ExpectedVO("test3", R.drawable.ic_hurry_up)
+                )
+            )
+        )
+
+        toolbar.setOnClickListener {
+            rvLessonsAdapter.addLesson(
+                LessonVO(
+                    id = "1",
+                    number = 1,
+                    title = "Weather",
+                    content = "TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText",
+                    icon = R.drawable.ic_boy_bg_sweet_corn,
+                    status = StatusVO(R.drawable.ic_checkbox_complete, "Completed"),
+                    expectedList = listOf(
+                        ExpectedVO("test1", R.drawable.ic_phrase_building),
+                        ExpectedVO("test2", R.drawable.ic_pictionary),
+                        ExpectedVO("test3", R.drawable.ic_hurry_up)
+                    )
+                )
+            )
+        }
 
         presenter.onCreate()
     }

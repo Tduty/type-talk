@@ -26,6 +26,8 @@
     <string name="main_chat_bot_content">It will help you to develop your communicative skills before the real talk</string>
 
     <string name="main_chat_item_lesson_number">Lesson %1$d</string>
+    <string name="main_chat_item_no_lessons_title">Lessons not available</string>
+    <string name="main_chat_item_no_lessons_subtitle">Expect teacher</string>
 
     <string name="default_value_dictionary_translation_field">перевод</string>
     <string name="default_value_dictionary_word_field">слово</string>

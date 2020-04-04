@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showFragment(LOGIN_PASSWORD, LoginFragment.newInstance())
-        //showFragment(MAIN, MainFragment.newInstance())
+        //showFragment(LOGIN_PASSWORD, LoginFragment.newInstance())
+        showFragment(MAIN, MainFragment.newInstance())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

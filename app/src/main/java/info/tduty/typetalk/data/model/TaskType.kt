@@ -8,10 +8,10 @@ import info.tduty.typetalk.R
  */
 enum class TaskType(@DrawableRes val imageSrc: Int) {
 
-    FLASHCARDS(R.drawable.ic_task_flashcards),
-    WORDAMESS(R.drawable.ic_task_flashcards),
-    HURRY_UP(R.drawable.ic_task_flashcards),
-    PHRASE_BUILDING(R.drawable.ic_task_flashcards),
-    TRANSLATION(R.drawable.ic_task_flashcards),
-    DICTIONARY_PICTIONARY(R.drawable.ic_task_flashcards),
+    FLASHCARDS(R.drawable.ic_flashcard),
+    WORDAMESS(R.drawable.ic_wordamess),
+    HURRY_UP(R.drawable.ic_hurry_up),
+    PHRASE_BUILDING(R.drawable.ic_phrase_building),
+    TRANSLATION(R.drawable.ic_translation),
+    DICTIONARY_PICTIONARY(R.drawable.ic_pictionary),
 }

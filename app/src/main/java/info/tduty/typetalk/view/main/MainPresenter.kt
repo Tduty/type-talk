@@ -38,7 +38,7 @@ class MainPresenter(
     }
 
     fun openLesson(lessonId: String) {
-
+        view.openLesson(lessonId)
     }
 
     private fun listenerAddLesson() {

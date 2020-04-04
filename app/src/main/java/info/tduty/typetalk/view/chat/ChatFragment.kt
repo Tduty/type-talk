@@ -52,6 +52,16 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
         setupRv()
         setupListeners()
 
+        adapter.setEvents(listOf(
+            MessageVO("1", "1", MessageVO.Type.MESSAGE, true, true, "Test", R.drawable.ic_teacher_bubble, "Testing1 adsasdas da da da d ad adsadsasdsaddadadasd adsadasdasdadadadadsdadsadadasdada"),
+            MessageVO("1", "1", MessageVO.Type.MESSAGE, false, true, "Test2", R.drawable.ic_boy_bubble, "Testing2"),
+            MessageVO("1", "1", MessageVO.Type.EVENT, true, true, "Test", R.drawable.ic_teacher_bubble, "Testing3"),
+            MessageVO("1", "1", MessageVO.Type.MESSAGE, true, true, "Test", R.drawable.ic_teacher_bubble, "Testing4"),
+            MessageVO("1", "1", MessageVO.Type.MESSAGE, false, true, "Test2", R.drawable.ic_boy_bubble, "Testing1 adsasdas da da da d ad adsadsasdsaddadadasd adsadasdasdadadadadsdadsadadasdada"),
+            MessageVO("1", "1", MessageVO.Type.MESSAGE, false, true, "Test2", R.drawable.ic_boy_bubble, "+"),
+            MessageVO("1", "1", MessageVO.Type.MESSAGE, false, true, "Test3", R.drawable.ic_girl_bubble, "12345")
+        ))
+
         presenter.onCreate(chatId)
     }
 

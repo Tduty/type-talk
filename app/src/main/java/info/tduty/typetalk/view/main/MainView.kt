@@ -13,4 +13,5 @@ interface MainView {
 
     fun openChat(chatId: String)
 
+    fun openLesson(lessonId: String)
 }

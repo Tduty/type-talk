@@ -28,10 +28,10 @@ class TaskVH(
     }
 
     fun onBind(task: TaskVO) {
-        itemView.iv_task_ic.setImageResource(task.icon)
+        itemView.iv_task_ic.setImageResource(task.type.imageSrc)
         itemView.tv_task_title.text = task.title
-        if (task.optional) setupChecked(task.checked)
-        else hideChecked()
+        if (task.optional) hideChecked()
+        else setupChecked(task.checked)
         itemView.setOnClickListener { listener.invoke(task.id, task.type) }
     }
 

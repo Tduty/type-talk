@@ -26,16 +26,28 @@
     <string name="main_chat_bot_content">It will help you to develop your communicative skills before the real talk</string>
 
     <string name="main_chat_item_lesson_number">Lesson %1$d</string>
+    <string name="main_chat_item_expected_title">Expected:</string>
     <string name="main_chat_item_no_lessons_title">Lessons not available</string>
     <string name="main_chat_item_no_lessons_subtitle">Expect teacher</string>
+    <!---->
 
+    <!-- Dictionary -->
     <string name="default_value_dictionary_translation_field">перевод</string>
     <string name="default_value_dictionary_word_field">слово</string>
     <string name="default_value_dictionary_trasncription_field">[траснкрипция]</string>
     <string name="title_dictionary">Словарь</string>
     <string name="title_topic_default_value">Название раздела</string>
+    <string name="dictionary_emnty_title">Dictionary unavailable</string>
+    <string name="dictionary_emnty_subtitle">Expect lesson opening</string>
+    <!---->
+
+    <!-- Lesson -->
+    <string name="title_lesson_screen_default">Урок</string>
+    <!---->
+
+    <!-- Menu -->
     <string name="menu_action_chat">Чат</string>
     <string name="menu_action_dictionary">Словарь</string>
-    <string name="title_lesson_screen_default">Урок</string>
+    <!---->
 
 </resources>

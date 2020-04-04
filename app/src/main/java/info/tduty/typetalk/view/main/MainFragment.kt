@@ -1,6 +1,9 @@
 package info.tduty.typetalk.view.main
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +15,7 @@ import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.ExpectedVO
 import info.tduty.typetalk.data.model.LessonVO
 import info.tduty.typetalk.data.model.StatusVO
+import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.main.di.MainModule
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -45,6 +49,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MainView {
         setupToolbar(view.toolbar as Toolbar, R.string.app_name, false)
         setupListeners()
         setupRv()
+        setHasOptionsMenu(true)
 
         if (rvLessonsAdapter.itemCount != 0) efv_lessons.flipTheView(false)
 
@@ -53,13 +58,13 @@ class MainFragment : Fragment(R.layout.fragment_main), MainView {
                 id = "1",
                 number = 1,
                 title = "Weather",
-                content = "TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText",
+                content = "Weather is a typical topic for small talks and conversations with people little-known to you. So study the material and do the tasks to be more confident in this field. Good luck!",
                 icon = R.drawable.ic_boy_bg_sweet_corn,
                 status = StatusVO(R.drawable.ic_checkbox_complete, "Completed"),
                 expectedList = listOf(
-                    ExpectedVO("test1", R.drawable.ic_phrase_building),
-                    ExpectedVO("test2", R.drawable.ic_pictionary),
-                    ExpectedVO("test3", R.drawable.ic_hurry_up)
+                    ExpectedVO("Dialogues", R.drawable.ic_phrase_building),
+                    ExpectedVO("New words", R.drawable.ic_pictionary),
+                    ExpectedVO("Exercises", R.drawable.ic_hurry_up)
                 )
             )
         )
@@ -97,6 +102,20 @@ class MainFragment : Fragment(R.layout.fragment_main), MainView {
             .inject(this)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.menu_main, menu)
+        menu.findItem(R.id.action_chat).isVisible = false
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_dictionary -> (activity as? ViewNavigation)?.openDictionary()
+        }
+        return true
+    }
+
     //region main
 
     private fun setupToolbar(toolbar: Toolbar, @StringRes title: Int, withBackButton: Boolean) {
@@ -130,5 +149,9 @@ class MainFragment : Fragment(R.layout.fragment_main), MainView {
 
     override fun openChat(chatId: String) {
         (activity as? ViewNavigation)?.openChat(chatId)
+    }
+
+    override fun openLesson(lessonId: String) {
+        (activity as? ViewNavigation)?.openLesson(lessonId)
     }
 }

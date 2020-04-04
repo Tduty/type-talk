@@ -135,7 +135,7 @@
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        tools:text="Expected:" />
+                        android:text="@string/main_chat_item_expected_title" />
 
                     <include
                         android:id="@+id/item_lesson_expected_one"

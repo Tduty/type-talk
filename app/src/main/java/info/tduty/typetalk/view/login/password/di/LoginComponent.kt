@@ -1,7 +1,7 @@
-package info.tduty.typetalk.view.login.default.di
+package info.tduty.typetalk.view.login.password.di
 
 import dagger.Subcomponent
-import info.tduty.typetalk.view.login.default.LoginFragment
+import info.tduty.typetalk.view.login.password.LoginFragment
 
 /**
  * Created by Evgeniy Mezentsev on 12.03.2020.

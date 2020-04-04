@@ -12,12 +12,15 @@ import info.tduty.typetalk.R
 import info.tduty.typetalk.view.chat.ChatFragment
 import info.tduty.typetalk.view.dictionary.DictionaryFragment
 import info.tduty.typetalk.view.lesson.LessonFragment
+import info.tduty.typetalk.view.login.password.LoginFragment
 import info.tduty.typetalk.view.main.MainFragment
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
     companion object {
+        private const val LOGIN_PASSWORD = "LOGIN_PASSWORD"
+        private const val LOGIN_QR = "LOGIN_QR"
         private const val MAIN = "MAIN"
         private const val CHAT = "CHAT"
         private const val LESSON = "LESSON"
@@ -28,7 +31,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showFragment(MAIN, MainFragment.newInstance())
+        showFragment(LOGIN_PASSWORD, LoginFragment.newInstance())
+        //showFragment(MAIN, MainFragment.newInstance())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

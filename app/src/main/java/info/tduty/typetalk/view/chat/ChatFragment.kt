@@ -87,7 +87,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
     }
 
     override fun setToolbarTitle(title: String) {
-        tv_toolbar_title.title.text = title
+        tv_toolbar_title.text = title
     }
 
     override fun setToolbarIcon(icon: String) {

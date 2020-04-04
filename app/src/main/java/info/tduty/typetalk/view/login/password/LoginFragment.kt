@@ -1,11 +1,11 @@
-package info.tduty.typetalk.view.login.default
+package info.tduty.typetalk.view.login.password
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
-import info.tduty.typetalk.view.login.default.di.LoginModule
+import info.tduty.typetalk.view.login.password.di.LoginModule
 import javax.inject.Inject
 
 /**
@@ -18,13 +18,17 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginView {
         @JvmStatic
         fun newInstance() = LoginFragment()
     }
+
     @Inject
     lateinit var presenter: LoginPresenter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setupFragmentComponent()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupFragmentComponent()
 
         presenter.onCreate()
     }

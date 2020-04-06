@@ -15,7 +15,6 @@ import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.ExpectedVO
 import info.tduty.typetalk.data.model.LessonVO
 import info.tduty.typetalk.data.model.StatusVO
-import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.main.di.MainModule
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -128,7 +127,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MainView {
     private fun setupListeners() {
         cl_your_teacher_chat.setOnClickListener { presenter.openTeacherChat() }
         cl_your_class_chat.setOnClickListener { presenter.openClassChat() }
-        cl_your_bot_chat.setOnClickListener { presenter.openBotChat() }
+        cl_your_bot_chat.setOnClickListener { presenter.openBots() }
     }
 
     private fun setupRv() {
@@ -149,6 +148,18 @@ class MainFragment : Fragment(R.layout.fragment_main), MainView {
 
     override fun openChat(chatId: String) {
         (activity as? ViewNavigation)?.openChat(chatId)
+    }
+
+    override fun openTeacherChat() {
+        (activity as? ViewNavigation)?.openTeacherChat()
+    }
+
+    override fun openClassChat() {
+        (activity as? ViewNavigation)?.openClassChat()
+    }
+
+    override fun openBots() {
+        (activity as? ViewNavigation)?.openBots()
     }
 
     override fun openLesson(lessonId: String) {

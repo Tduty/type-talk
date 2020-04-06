@@ -14,19 +14,11 @@ data class ChatDTO(
     val title: String,
 
     @SerializedName("icon")
-    val icon: String,
+    val icon: String?,
 
-    @SerializedName("status")
-    val type: Int,
+    @SerializedName("type")
+    val type: String,
 
     @SerializedName("description")
-    val description: String
-) {
-
-    companion object {
-        const val TEACHER_CHAT = 0
-        const val CLASS_CHAT = 1
-        const val CLASSMATE_CHAT = 2
-        const val BOT_CHAT = 3
-    }
-}
+    val description: String?
+)

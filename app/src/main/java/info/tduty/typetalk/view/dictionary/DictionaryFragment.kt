@@ -57,7 +57,7 @@ class DictionaryFragment : Fragment(R.layout.fragment_dictionary), DictionaryVie
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.action_chat -> {
-                (activity as? ViewNavigation)?.openChat("chat_teacher")
+                (activity as? ViewNavigation)?.openTeacherChat()
             }
         }
         return true

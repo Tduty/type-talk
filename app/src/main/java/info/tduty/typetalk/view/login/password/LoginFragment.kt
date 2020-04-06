@@ -2,10 +2,13 @@ package info.tduty.typetalk.view.login.password
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
+import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.login.password.di.LoginModule
+import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
 
 /**
@@ -25,10 +28,13 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupFragmentComponent()
+        setupWindowModeAdJustPan()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupListeners()
 
         presenter.onCreate()
     }
@@ -46,11 +52,30 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginView {
             .inject(this)
     }
 
+    private fun setupWindowModeAdJustPan() {
+        activity?.window?.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
+        )
+    }
+
+    private fun setupWindowModeAdJustResize() {
+        activity?.window?.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+        )
+    }
+
     override fun openMainScreen() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        (activity as? ViewNavigation)?.openMain()
+        setupWindowModeAdJustResize()
     }
 
     override fun showError() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun setupListeners() {
+        btn_next.setOnClickListener {
+            presenter.onNext(et_login.text.toString(), et_password.text.toString())
+        }
     }
 }

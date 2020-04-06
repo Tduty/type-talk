@@ -5,9 +5,14 @@ import com.google.gson.Gson
 import info.tduty.typetalk.data.event.Event
 import info.tduty.typetalk.data.event.EventPayload
 import info.tduty.typetalk.data.pref.UserDataHelper
+import info.tduty.typetalk.domain.managers.SocketManager
+import info.tduty.typetalk.domain.managers.SocketState
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
+import java.net.ConnectException
 import java.util.*
+import javax.net.ssl.SSLHandshakeException
 
 /**
  * Created by Evgeniy Mezentsev on 04.03.2020.
@@ -16,6 +21,7 @@ class SocketClient(
     private val url: String,
     private val context: Context,
     private val userDataHelper: UserDataHelper,
+    private val socketManager: SocketManager,
     private val gson: Gson
 ) {
 
@@ -28,7 +34,7 @@ class SocketClient(
         val newSocket = OkHttpSocketDelegate(context, object : SocketListener {
 
             override fun onOpen(message: String) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                socketManager.post(SocketState.OPEN)
             }
 
             override fun onTextMessage(text: String) {
@@ -38,18 +44,24 @@ class SocketClient(
             }
 
             override fun onClosing(code: Int, reason: String) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onClosed(code: Int, reason: String) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                socketManager.post(SocketState.CLOSE)
             }
 
             override fun onFailure(t: Throwable, code: Int, reason: String?) {
-                connect()
+                when (t) {
+                    is ConnectException,
+                    is SSLHandshakeException -> Timber.e(t, "Code: $code, reason: $reason")
+                    else -> connect()
+                }
             }
         })
-        newSocket.connect(url, userDataHelper.getSavedUser().id)
+        newSocket.connect(
+            url, userDataHelper.getSavedUser().id,
+            userDataHelper.getSavedUser().surname
+        )
         socket = newSocket
     }
 
@@ -61,14 +73,19 @@ class SocketClient(
         listenEvent(callbacks, type, eventBus)
     }
 
-    fun pushEvent(event: Event): Observable<String> {
-        return Observable.create { subscriber ->
+    fun pushEvent(event: Event) {
+        val disposable = Observable.create<String> { subscriber ->
             val json = gson.toJson(event)
             val sent = socket?.send(json) ?: false
+            subscriber.onNext(json)
+            subscriber.onComplete()
             if (!sent) {
                 subscriber.tryOnError(IllegalArgumentException("While push event. Event was not sent: $event"))
             }
         }
+            .observeOn(Schedulers.io())
+            .subscribeOn(Schedulers.io())
+            .subscribe({}, Timber::e)
     }
 
     private fun listenEvent(

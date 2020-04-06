@@ -7,13 +7,18 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import info.tduty.typetalk.data.event.Event
+import info.tduty.typetalk.data.pref.TokenSharedPreferencesHelper
+import info.tduty.typetalk.data.pref.TokenStorage
 import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.data.pref.UserDataSharedPreferencesHelper
 import info.tduty.typetalk.data.serializer.EventDeserializer
+import info.tduty.typetalk.domain.interactor.ChatInteractor
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.interactor.LessonInteractor
 import info.tduty.typetalk.domain.managers.AppLifecycleEventManager
 import info.tduty.typetalk.domain.managers.EventManager
+import info.tduty.typetalk.domain.managers.HistoryManager
+import info.tduty.typetalk.domain.managers.SocketManager
 import info.tduty.typetalk.socket.EventBusRx
 import info.tduty.typetalk.socket.EventHandler
 import info.tduty.typetalk.socket.SocketController
@@ -54,8 +59,29 @@ class AppModule(private val application: Application) {
 
     @Provides
     @Singleton
+    fun provideSocketManager(): SocketManager {
+        return SocketManager()
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideHistoryManager(socketManager: SocketManager,
+                              chatInteractor: ChatInteractor,
+                              historyInteractor: HistoryInteractor): HistoryManager {
+        return HistoryManager(socketManager, chatInteractor, historyInteractor)
+    }
+
+    @Provides
+    @Singleton
     fun provideUserDataHelper(context: Context, gson: Gson): UserDataHelper {
         return UserDataSharedPreferencesHelper(context, gson)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTokenStorage(context: Context): TokenStorage {
+        return TokenSharedPreferencesHelper(context)
     }
 
     @Provides
@@ -65,10 +91,11 @@ class AppModule(private val application: Application) {
         gson: Gson,
         userDataHelper: UserDataHelper,
         appLifecycleEventManager: AppLifecycleEventManager,
+        socketManager: SocketManager,
         socketEventListener: SocketEventListener
     ): SocketController {
         return SocketController(context, gson, userDataHelper, appLifecycleEventManager,
-            socketEventListener)
+            socketManager, socketEventListener)
     }
 
     @Provides

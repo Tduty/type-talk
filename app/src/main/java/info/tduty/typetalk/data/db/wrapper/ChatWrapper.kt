@@ -18,8 +18,23 @@ class ChatWrapper(private val chatDao: ChatDao) {
         return chatDao.insertList(chats)
     }
 
+    fun getAll(): Observable<List<ChatEntity>> {
+        return chatDao.getAllChats()
+            .toObservable()
+    }
+
     fun getByChatId(chatId: String): Observable<ChatEntity> {
         return chatDao.getChatBy(chatId)
+            .toObservable()
+    }
+
+    fun getTeacherChat(): Observable<ChatEntity> {
+        return chatDao.getChatByType(ChatEntity.TEACHER_CHAT)
+            .toObservable()
+    }
+
+    fun getClassChat(): Observable<ChatEntity> {
+        return chatDao.getChatByType(ChatEntity.CLASS_CHAT)
             .toObservable()
     }
 }

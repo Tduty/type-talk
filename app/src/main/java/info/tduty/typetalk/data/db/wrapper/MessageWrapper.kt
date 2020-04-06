@@ -2,7 +2,9 @@ package info.tduty.typetalk.data.db.wrapper
 
 import info.tduty.typetalk.data.db.dao.MessageDao
 import info.tduty.typetalk.data.db.model.MessageEntity
+import info.tduty.typetalk.data.model.MessageVO
 import io.reactivex.Completable
+import io.reactivex.Observable
 
 /**
  * Created by Evgeniy Mezentsev on 07.03.2020.
@@ -15,5 +17,10 @@ class MessageWrapper(private val messageDao: MessageDao) {
 
     fun insert(messages: List<MessageEntity>): Completable {
         return messageDao.insert(messages)
+    }
+
+    fun getByChatId(chatId: String): Observable<List<MessageEntity>> {
+        return messageDao.getByChatId(chatId)
+            .toObservable()
     }
 }

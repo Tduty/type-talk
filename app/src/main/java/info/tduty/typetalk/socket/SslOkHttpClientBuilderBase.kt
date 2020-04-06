@@ -42,6 +42,7 @@ open class SslOkHttpClientBuilderBase {
             return builder
         } else {
             return builder.connectionSpecs(listOf(buildConnectionSpec()))
+                .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT))
         }
     }
 

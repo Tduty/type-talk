@@ -2,6 +2,7 @@ package info.tduty.typetalk.di
 
 import dagger.Component
 import info.tduty.typetalk.App
+import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.chat.di.ChatComponent
 import info.tduty.typetalk.view.chat.di.ChatModule
 import info.tduty.typetalk.view.dictionary.di.DictionaryComponent
@@ -31,6 +32,8 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun inject(app: App)
+
+    fun inject(activity: MainActivity)
 
     fun plus(module: DictionaryModule): DictionaryComponent
 

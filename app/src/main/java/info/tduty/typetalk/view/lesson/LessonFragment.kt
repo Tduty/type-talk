@@ -91,7 +91,7 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.action_dictionary -> (activity as? ViewNavigation)?.openDictionary()
-            R.id.action_chat -> (activity as? ViewNavigation)?.openChat("chat_teacher")
+            R.id.action_chat -> (activity as? ViewNavigation)?.openTeacherChat()
         }
         return true
     }

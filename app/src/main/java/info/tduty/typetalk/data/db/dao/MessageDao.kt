@@ -20,6 +20,9 @@ interface MessageDao {
     @Query("SELECT * FROM message WHERE id =:id")
     fun getMessage(id: Long): Maybe<MessageEntity>
 
+    @Query("SELECT * FROM message WHERE chat_id =:chatId")
+    fun getByChatId(chatId: String): Maybe<List<MessageEntity>>
+
     @Update
     fun update(message: MessageEntity)
 

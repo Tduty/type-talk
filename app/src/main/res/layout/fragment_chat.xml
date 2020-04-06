@@ -22,18 +22,31 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_messages"
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:id="@+id/fl_events_container"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/cl_input"
-        app:layout_constraintTop_toBottomOf="@id/abl_chat" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/abl_chat">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_messages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            app:stackFromEnd="true"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    </FrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_input"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <View
@@ -54,6 +67,11 @@
             android:inputType="text|textImeMultiLine|textMultiLine|textCapSentences|textAutoComplete"
             android:maxLength="4096"
             android:maxLines="4"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/iv_send"
             app:layout_constraintStart_toStartOf="parent"

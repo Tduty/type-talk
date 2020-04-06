@@ -5,8 +5,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="chat_input_hint_message">Message</string>
-
     <!-- Login screen -->
     <string name="login_screen_surname">Surname</string>
     <string name="login_screen_password">Password</string>
@@ -28,6 +26,11 @@
     <string name="main_chat_item_no_lessons_subtitle">Expect teacher</string>
     <!---->
 
+    <!-- Chat -->
+    <string name="chat_input_hint_message">Message</string>
+    <string name="chat_teacher_title">Teacher</string>
+    <!---->
+
     <!-- Lesson -->
     <string name="title_lesson_screen_default">Lesson</string>
     <!---->
@@ -40,6 +43,11 @@
     <string name="title_dictionary">Dictionary</string>
     <string name="dictionary_emnty_title">Dictionary unavailable</string>
     <string name="dictionary_emnty_subtitle">Expect lesson opening</string>
+    <!---->
+
+    <!-- In development -->
+    <string name="in_development_title">In development</string>
+    <string name="in_development_text">Screen in development</string>
     <!---->
 
     <!-- Menu -->

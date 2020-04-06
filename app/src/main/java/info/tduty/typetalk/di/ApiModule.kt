@@ -7,6 +7,7 @@ import dagger.Provides
 import info.tduty.typetalk.api.ChatApi
 import info.tduty.typetalk.api.HistoryApi
 import info.tduty.typetalk.api.LessonApi
+import info.tduty.typetalk.api.LoginApi
 import info.tduty.typetalk.data.pref.UrlStorage
 import info.tduty.typetalk.socket.SslOkHttpClientBuilderBase
 import okhttp3.OkHttpClient
@@ -70,9 +71,22 @@ class ApiModule {
         okHttpClient: OkHttpClient
     ): ChatApi {
         return retrofitBuilder
-            .baseUrl(UrlStorage.getUrl())
+            .baseUrl(UrlStorage.getUrl() + ChatApi.ENDPOINT_PREFIX)
             .client(okHttpClient)
             .build()
             .create(ChatApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoginApi(
+        retrofitBuilder: Retrofit.Builder,
+        okHttpClient: OkHttpClient
+    ): LoginApi {
+        return retrofitBuilder
+            .baseUrl(UrlStorage.getUrl() + LoginApi.ENDPOINT_PREFIX)
+            .client(okHttpClient)
+            .build()
+            .create(LoginApi::class.java)
     }
 }

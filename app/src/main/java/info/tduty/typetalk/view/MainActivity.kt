@@ -6,21 +6,33 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import info.tduty.typetalk.App
 import info.tduty.typetalk.R
+import info.tduty.typetalk.data.db.model.ChatEntity
+import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.view.chat.ChatFragment
+import info.tduty.typetalk.view.debug.InDevelopmentFragment
 import info.tduty.typetalk.view.dictionary.DictionaryFragment
 import info.tduty.typetalk.view.lesson.LessonFragment
+import info.tduty.typetalk.view.login.password.LoginFragment
 import info.tduty.typetalk.view.main.MainFragment
 import timber.log.Timber
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
     private var currentFragment: Fragment? = null
 
+    @Inject
+    lateinit var userDataHelper: UserDataHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //showFragment(LoginFragment.newInstance())
-        showFragment(MainFragment.newInstance())
+
+        setupComponent()
+
+        if (userDataHelper.isSavedUser()) showFragment(MainFragment.newInstance())
+        else showFragment(LoginFragment.newInstance())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -38,6 +50,18 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
         showFragment(ChatFragment.newInstance(chatId))
     }
 
+    override fun openTeacherChat() {
+        showFragment(ChatFragment.newInstance(chatType = ChatEntity.TEACHER_CHAT))
+    }
+
+    override fun openClassChat() {
+        showFragment(ChatFragment.newInstance(chatType = ChatEntity.CLASS_CHAT))
+    }
+
+    override fun openBots() {
+        showFragment(InDevelopmentFragment.newInstance())
+    }
+
     override fun openLesson(lessonId: String) {
         showFragment(LessonFragment.newInstance(lessonId))
     }
@@ -52,6 +76,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
         this.supportActionBar?.setHomeButtonEnabled(withBackButton)
         this.supportActionBar?.setDisplayHomeAsUpEnabled(withBackButton)
+    }
+
+    private fun setupComponent() {
+        App.get(this)
+            .appComponent
+            .inject(this)
     }
 
     private fun showFragment(fragment: Fragment) {

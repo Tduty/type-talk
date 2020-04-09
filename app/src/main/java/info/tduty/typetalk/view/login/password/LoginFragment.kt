@@ -77,5 +77,9 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginView {
         btn_next.setOnClickListener {
             presenter.onNext(et_login.text.toString(), et_password.text.toString())
         }
+
+        iv_qr_code.setOnClickListener {
+            (activity as? ViewNavigation)?.openQRAuth()
+        }
     }
 }

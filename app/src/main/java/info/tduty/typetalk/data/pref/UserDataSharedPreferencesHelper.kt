@@ -10,13 +10,8 @@ class UserDataSharedPreferencesHelper(
     val gson: Gson
 ) : UserDataHelper {
 
-    private val APP_PREFERENCES = "typetalk-data"
     private val APP_PREFERENCES_USER = "typetalk-data-user"
-    private var preferences: SharedPreferencesHelper
-
-    init {
-        preferences = SharedPreferencesHelper(context, APP_PREFERENCES, MODE_PRIVATE)
-    }
+    private var preferences: SharedPreferencesHelper = SharedPreferencesHelper(context, MODE_PRIVATE)
 
     override fun setUserData(userData: UserData) {
         val userJson = gson.toJson(userData)

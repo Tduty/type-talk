@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="6dp"
-    android:layout_marginEnd="100dp"
+    android:layout_marginEnd="60dp"
     android:orientation="horizontal">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_user"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="bottom"
         android:layout_marginEnd="6dp"
         tools:srcCompat="@drawable/ic_teacher" />
@@ -28,16 +28,22 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:textColor="@color/corn"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="4dp"
+            android:textSize="16sp"
             tools:text="Teacher" />
 
         <TextView
             android:id="@+id/tv_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:textColor="@color/tundora"
+            android:paddingBottom="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textSize="16sp"
             tools:text="When you complete your dialogues, please, send a “plus” here." />
 
     </LinearLayout>

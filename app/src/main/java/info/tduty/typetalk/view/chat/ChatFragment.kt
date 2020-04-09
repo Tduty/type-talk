@@ -2,6 +2,9 @@ package info.tduty.typetalk.view.chat
 
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -9,10 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
+import info.tduty.typetalk.data.db.model.ChatEntity
 import info.tduty.typetalk.data.model.MessageVO
+import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.chat.di.ChatModule
 import kotlinx.android.synthetic.main.fragment_chat.*
-import kotlinx.android.synthetic.main.fragment_dictionary.view.*
 import kotlinx.android.synthetic.main.toolbar_chat.*
 import javax.inject.Inject
 
@@ -22,18 +26,22 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
     companion object {
 
         private const val ARGUMENT_CHAT_ID = "chat_id"
+        private const val ARGUMENT_CHAT_TYPE = "chat_type"
 
         @JvmStatic
-        fun newInstance(chatId: String): ChatFragment {
+        fun newInstance(chatId: String? = null, chatType: String? = null): ChatFragment {
             val bundle = Bundle()
             bundle.putString(ARGUMENT_CHAT_ID, chatId)
+            bundle.putString(ARGUMENT_CHAT_TYPE, chatType ?: ChatEntity.CHAT)
             val fragment = ChatFragment()
             fragment.arguments = bundle
             return fragment
         }
     }
 
+    private lateinit var menu: Menu
     private lateinit var adapter: ChatRvAdapter
+    private lateinit var layoutManager: LinearLayoutManager
     @Inject
     lateinit var presenter: ChatPresenter
 
@@ -46,19 +54,37 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
         super.onViewCreated(view, savedInstanceState)
 
         val chatId = arguments?.getString(ARGUMENT_CHAT_ID)
-            ?: throw IllegalArgumentException("chatId is null")
+        val type = arguments?.getString(ARGUMENT_CHAT_TYPE) ?: ChatEntity.CHAT
 
         setupToolbar()
         setupRv()
         setupListeners()
+        setHasOptionsMenu(true)
 
-        presenter.onCreate(chatId)
+        presenter.onCreate(chatId, type)
     }
 
     override fun onDetach() {
         super.onDetach()
         presenter.onDestroy()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        this.menu = menu
+        inflater.inflate(R.menu.menu_main, menu)
+        menu.findItem(R.id.action_chat)?.isVisible = false
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.action_chat -> (activity as? ViewNavigation)?.openTeacherChat()
+            R.id.action_dictionary -> (activity as? ViewNavigation)?.openDictionary()
+        }
+        return true
+    }
+
 
     private fun setupFragmentComponent() {
         App.get(this.requireContext())
@@ -69,8 +95,10 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
 
     private fun setupRv() {
         adapter = ChatRvAdapter()
-        rv_messages.layoutManager = LinearLayoutManager(context)
         rv_messages.adapter = adapter
+        rv_messages.addOnLayoutChangeListener { v, _, _, _, b, _, _, _, oldB ->
+            if (b < oldB) { v.post { scrollToBottom() } }
+        }
     }
 
     private fun setupListeners() {
@@ -87,15 +115,20 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
     }
 
     override fun setToolbarTitle(title: String) {
-        tv_toolbar_title.title.text = title
+        tv_toolbar_title.text = title
     }
 
-    override fun setToolbarIcon(icon: String) {
-        //TODO добавить отображение icon
+    override fun setToolbarIcon(icon: Int) {
+        iv_toolbar_logo.setImageResource(icon)
+    }
+
+    override fun showTeacherMenu() {
+        menu.findItem(R.id.action_chat)?.isVisible = true
     }
 
     override fun addEvent(messageVO: MessageVO) {
         adapter.addEvent(messageVO)
+        scrollToBottom()
     }
 
     override fun addEvents(messageVO: List<MessageVO>) {
@@ -104,5 +137,9 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
 
     override fun setEvents(messageVO: List<MessageVO>) {
         adapter.setEvents(messageVO)
+    }
+
+    private fun scrollToBottom() {
+        rv_messages.layoutManager?.scrollToPosition(adapter.itemCount - 1)
     }
 }

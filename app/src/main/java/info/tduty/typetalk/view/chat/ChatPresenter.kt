@@ -1,5 +1,9 @@
 package info.tduty.typetalk.view.chat
 
+import android.content.Context
+import info.tduty.typetalk.R
+import info.tduty.typetalk.data.db.model.ChatEntity
+import info.tduty.typetalk.data.model.ChatVO
 import info.tduty.typetalk.domain.interactor.ChatInteractor
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.managers.EventManager
@@ -13,21 +17,28 @@ import timber.log.Timber
  */
 class ChatPresenter(
     private val view: ChatView,
+    private val context: Context,
     private val chatInteractor: ChatInteractor,
     private val historyInteractor: HistoryInteractor,
     private val eventManager: EventManager
 ) {
 
-    private lateinit var chatId: String
+    private var chatId: String? = null
     private val disposables = CompositeDisposable()
 
-    fun onCreate(chatId: String) {
+    fun onCreate(chatId: String?, type: String) {
         this.chatId = chatId
 
-        setupChat(chatId)
-        getHistory(chatId)
-        listenMessageNew(chatId)
+        when (type) {
+            ChatEntity.CLASS_CHAT -> loadClassChat()
+            ChatEntity.TEACHER_CHAT -> loadTeacherChat()
+            else -> if (chatId != null) loadChat(chatId)
+        }
 
+        if (chatId != null) {
+            getHistory(chatId, type)
+            listenMessageNew(chatId)
+        }
     }
 
     fun onDestroy() {
@@ -36,24 +47,58 @@ class ChatPresenter(
 
     fun sendMessage(message: String) {
         if (message.isBlank()) return
-        historyInteractor.sendMessage(chatId, message)
+        chatId?.let { historyInteractor.sendMessage(it, message) }
     }
 
-    private fun setupChat(chatId: String) {
+    private fun loadChat(chatId: String) {
         disposables.add(
             chatInteractor.getChat(chatId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ chat ->
-                    view.setToolbarTitle(chat.title)
-                    chat.avatarURL?.let { view.setToolbarIcon(it) }
-                }, Timber::e)
+                .subscribe({ chat -> setupChat(chat) }, Timber::e)
         )
     }
 
-    private fun getHistory(chatId: String) {
+    private fun loadTeacherChat() {
         disposables.add(
-            historyInteractor.getHistory(chatId)
+            chatInteractor.getTeacherChat()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ chat -> setupChat(chat) }, Timber::e)
+        )
+    }
+
+    private fun loadClassChat() {
+        disposables.add(
+            chatInteractor.getClassChat()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ chat -> setupChat(chat) }, Timber::e)
+        )
+    }
+
+    private fun setupChat(chat: ChatVO) {
+        if (chatId == null) {
+            chatId = chat.chatId
+            getHistory(chat.chatId, chat.type)
+            listenMessageNew(chat.chatId)
+        }
+        setupToolbar(chat)
+    }
+
+    private fun setupToolbar(chat: ChatVO) {
+        if (chat.isTeacherChat) {
+            view.setToolbarTitle(context.getString(R.string.main_chat_teacher_title))
+        } else {
+            view.showTeacherMenu()
+            view.setToolbarTitle(chat.title)
+        }
+        if (chat.avatarURL != null) view.setToolbarIcon(chat.avatarURL)
+    }
+
+    private fun getHistory(chatId: String, chatType: String) {
+        disposables.add(
+            historyInteractor.getHistory(chatId, chatType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ view.setEvents(it) }, Timber::e)

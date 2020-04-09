@@ -4,6 +4,7 @@ import info.tduty.typetalk.data.event.EventPayload
 import info.tduty.typetalk.data.event.payload.LessonPayload
 import info.tduty.typetalk.data.event.payload.MessageNewPayload
 import info.tduty.typetalk.data.event.payload.TypingPayload
+import io.reactivex.Flowable
 import io.reactivex.Observable
 
 /**
@@ -17,17 +18,17 @@ class SocketEventListener(private val eventBus: EventBusRx) {
         client.listenEvent(EventPayload.Type.TYPING, eventBus)
     }
 
-    fun messageNewPayloadObservable(): Observable<MessageNewPayload> {
+    fun messageNewPayloadObservable(): Flowable<MessageNewPayload> {
         return eventBus
             .observeEvents(MessageNewPayload::class.java)
     }
 
-    fun typingPayloadObservable(): Observable<TypingPayload> {
+    fun typingPayloadObservable(): Flowable<TypingPayload> {
         return eventBus
             .observeEvents(TypingPayload::class.java)
     }
 
-    fun lessonPayloadObservable(): Observable<LessonPayload> {
+    fun lessonPayloadObservable(): Flowable<LessonPayload> {
         return eventBus
             .observeEvents(LessonPayload::class.java)
     }

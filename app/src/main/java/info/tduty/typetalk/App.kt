@@ -7,6 +7,7 @@ import info.tduty.typetalk.di.AppComponent
 import info.tduty.typetalk.di.AppModule
 import info.tduty.typetalk.di.DaggerAppComponent
 import info.tduty.typetalk.domain.managers.AppLifecycleEventManager
+import info.tduty.typetalk.domain.managers.HistoryManager
 import info.tduty.typetalk.socket.EventHandler
 import info.tduty.typetalk.socket.SocketController
 import javax.inject.Inject
@@ -30,6 +31,8 @@ class App : Application() {
     lateinit var socketController: SocketController
     @Inject
     lateinit var eventHandler: EventHandler
+    @Inject
+    lateinit var historyManager: HistoryManager
 
     lateinit var appComponent: AppComponent
 

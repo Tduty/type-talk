@@ -10,6 +10,7 @@ import info.tduty.typetalk.data.event.payload.TypingPayload
 import info.tduty.typetalk.data.pref.UrlStorage
 import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.domain.managers.AppLifecycleEventManager
+import info.tduty.typetalk.domain.managers.SocketManager
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -22,6 +23,7 @@ class SocketController(
     private val gson: Gson,
     private val userDataHelper: UserDataHelper,
     appLifecycleEventManager: AppLifecycleEventManager,
+    private val socketManager: SocketManager,
     private val socketEventListener: SocketEventListener
 ) {
 
@@ -31,12 +33,12 @@ class SocketController(
 
     init {
         appOnStartDisposable?.dispose()
-        appOnStartDisposable = appLifecycleEventManager.onAppStart()
+        appOnStartDisposable = appLifecycleEventManager.onAppCreate()
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({ connect() }, Timber::e)
         appOnStopDisposable?.dispose()
-        appOnStopDisposable = appLifecycleEventManager.onAppStop()
+        appOnStopDisposable = appLifecycleEventManager.onAppDestroy()
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({ disconnect() }, Timber::e)
@@ -84,6 +86,7 @@ class SocketController(
             url = UrlStorage.getWebsocketUrl(),
             context = context,
             userDataHelper = userDataHelper,
+            socketManager = socketManager,
             gson = gson
         )
         socketEventListener.listenEvents(client)

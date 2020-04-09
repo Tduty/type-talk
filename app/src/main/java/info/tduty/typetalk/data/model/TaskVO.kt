@@ -8,8 +8,8 @@ import androidx.annotation.DrawableRes
 data class TaskVO(
     val id: String,
     val type: TaskType,
-    @DrawableRes val icon: Int,
+    @DrawableRes val icon: Int = 0,
     val title: String,
-    val optional: Boolean,
-    val checked: Boolean
+    val optional: Boolean = false,
+    val checked: Boolean = false
 )

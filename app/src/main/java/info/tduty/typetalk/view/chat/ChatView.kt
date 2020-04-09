@@ -9,7 +9,9 @@ interface ChatView {
 
     fun setToolbarTitle(title: String)
 
-    fun setToolbarIcon(icon: String)
+    fun setToolbarIcon(icon: Int)
+
+    fun showTeacherMenu()
 
     fun addEvent(messageVO: MessageVO)
 

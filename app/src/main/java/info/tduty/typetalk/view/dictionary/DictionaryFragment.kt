@@ -17,7 +17,6 @@ import info.tduty.typetalk.view.dictionary.adapter.DictionaryListAdapter
 import info.tduty.typetalk.view.dictionary.di.DictionaryModule
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
 import kotlinx.android.synthetic.main.fragment_dictionary.view.toolbar
-import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
 
 class DictionaryFragment : Fragment(R.layout.fragment_dictionary), DictionaryView {
@@ -58,7 +57,7 @@ class DictionaryFragment : Fragment(R.layout.fragment_dictionary), DictionaryVie
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.action_chat -> {
-                (activity as? ViewNavigation)?.openChat("chat_teacher")
+                (activity as? ViewNavigation)?.openTeacherChat()
             }
         }
         return true

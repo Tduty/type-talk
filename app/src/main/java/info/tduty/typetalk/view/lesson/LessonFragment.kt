@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
+import info.tduty.typetalk.data.model.TaskType
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.ViewNavigation
@@ -56,6 +57,15 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
         (activity as? MainActivity)?.setupToolbar(view.toolbar as Toolbar, R.string.title_lesson_screen_default, true)
         setHasOptionsMenu(true)
 
+        adapter.setTasks(listOf(
+            TaskVO("1", TaskType.FLASHCARDS, 0, "Test1", true, false),
+            TaskVO("2", TaskType.WORDAMESS, 0, "Test2", true, true),
+            TaskVO("3", TaskType.HURRY_UP, 0, "Test3", false, false),
+            TaskVO("4", TaskType.PHRASE_BUILDING, 0, "Test4", false, false),
+            TaskVO("5", TaskType.TRANSLATION, 0, "Test5", false, true),
+            TaskVO("6", TaskType.DICTIONARY_PICTIONARY, 0, "Test6", false, false)
+        ))
+
         presenter.onCreate(lessonId)
     }
 
@@ -80,12 +90,8 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.action_dictionary -> {
-                // TODO: open dictionary for lesson
-            }
-            R.id.action_chat -> {
-                (activity as? ViewNavigation)?.openChat("chat_teacher")
-            }
+            R.id.action_dictionary -> (activity as? ViewNavigation)?.openDictionary()
+            R.id.action_chat -> (activity as? ViewNavigation)?.openTeacherChat()
         }
         return true
     }

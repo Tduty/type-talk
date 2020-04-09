@@ -34,4 +34,8 @@ interface ChatDao {
     @Transaction
     @Query("SELECT * FROM chat WHERE chat_id = :chatId")
     fun getChatBy(chatId: String): Maybe<ChatEntity>
+
+    @Transaction
+    @Query("SELECT * FROM chat WHERE type = :type")
+    fun getChatByType(type: String): Maybe<ChatEntity>
 }

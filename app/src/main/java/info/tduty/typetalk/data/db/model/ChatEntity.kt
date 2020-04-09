@@ -13,6 +13,9 @@ data class ChatEntity(
     @ColumnInfo(name = "chat_id")
     var chatId: String,
 
+    @ColumnInfo(name = "type")
+    var type: String,
+
     @ColumnInfo(name = "title")
     var title: String,
 
@@ -21,4 +24,11 @@ data class ChatEntity(
 
     @ColumnInfo(name = "description")
     var description: String
-)
+) {
+
+    companion object {
+        const val TEACHER_CHAT = "teacher_chat"
+        const val CLASS_CHAT = "class_chat"
+        const val CHAT = "chat"
+    }
+}

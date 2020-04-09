@@ -5,9 +5,12 @@ import dagger.Provides
 import info.tduty.typetalk.api.ChatApi
 import info.tduty.typetalk.api.HistoryApi
 import info.tduty.typetalk.api.LessonApi
+import info.tduty.typetalk.api.LoginApi
+import info.tduty.typetalk.data.pref.TokenStorage
 import info.tduty.typetalk.domain.provider.ChatProvider
 import info.tduty.typetalk.domain.provider.HistoryProvider
 import info.tduty.typetalk.domain.provider.LessonProvider
+import info.tduty.typetalk.domain.provider.LoginProvider
 import javax.inject.Singleton
 
 /**
@@ -24,13 +27,22 @@ class ProviderModule {
 
     @Provides
     @Singleton
-    fun provideHistoryProvider(historyApi: HistoryApi): HistoryProvider {
-        return HistoryProvider(historyApi)
+    fun provideHistoryProvider(
+        historyApi: HistoryApi,
+        tokenStorage: TokenStorage
+    ): HistoryProvider {
+        return HistoryProvider(historyApi, tokenStorage)
     }
 
     @Provides
     @Singleton
-    fun provideChatProvider(chatApi: ChatApi): ChatProvider {
-        return ChatProvider(chatApi)
+    fun provideChatProvider(chatApi: ChatApi, tokenStorage: TokenStorage): ChatProvider {
+        return ChatProvider(chatApi, tokenStorage)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoginProvider(loginApi: LoginApi): LoginProvider {
+        return LoginProvider(loginApi)
     }
 }

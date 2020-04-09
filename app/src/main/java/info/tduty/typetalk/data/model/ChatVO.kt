@@ -6,6 +6,8 @@ package info.tduty.typetalk.data.model
 data class ChatVO(
     val chatId: String,
     val title: String,
-    val avatarURL: String?,
-    val description: String
+    val type: String,
+    val avatarURL: Int?,
+    val description: String,
+    val isTeacherChat: Boolean
 )

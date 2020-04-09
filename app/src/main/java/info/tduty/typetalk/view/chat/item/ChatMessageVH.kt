@@ -26,9 +26,10 @@ class ChatMessageVH(itemView: View) : ChatItemVH(itemView) {
     }
 
     override fun onBind(messageVO: MessageVO) {
-        if (messageVO.showSender) showSender(messageVO.senderName, messageVO.avatar)
-        else hideSender()
-        itemView.tv_content.text = messageVO.message
+        if (messageVO.showSender && !messageVO.isMy) {
+            showSender(messageVO.senderName, messageVO.avatar)
+        } else if (!messageVO.isMy) hideSender()
+        itemView.tv_message.text = messageVO.message
     }
 
     private fun showSender(name: String, iconRes: Int) {

@@ -22,13 +22,13 @@ class EventDeserializer(val gson: Gson) : JsonDeserializer<Event> {
         type: Type?,
         jsonDeserializationContext: JsonDeserializationContext?
     ): Event {
-        val event = gson.fromJson<Event>(json, Event::class.java)
-        val jsonElement = json.asJsonObject["payload"]
-        event.eventPayload = when (EventPayload.Type.to(event.type)) {
+        val typePayload = json.asJsonObject["type"].asString
+        val jsonElement = json.asJsonObject["eventPayload"]
+        val eventPayload = when (EventPayload.Type.to(typePayload)) {
             MESSAGE_NEW -> gson.fromJson(jsonElement, MessageNewPayload::class.java)
             LESSON -> gson.fromJson(jsonElement, LessonPayload::class.java)
             TYPING -> gson.fromJson(jsonElement, TypingPayload::class.java)
         }
-        return event
+        return Event(typePayload, eventPayload)
     }
 }

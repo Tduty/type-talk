@@ -2,18 +2,9 @@ package info.tduty.typetalk.data.db.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(
-    tableName = "message",
-    foreignKeys = [ForeignKey(
-        entity = ChatEntity::class,
-        parentColumns = ["id"],
-        childColumns = ["chat_id"],
-        onDelete = ForeignKey.CASCADE
-    )]
-)
+@Entity(tableName = "message")
 data class MessageEntity(
     @ColumnInfo(name = "id", index = true)
     @PrimaryKey(autoGenerate = true)
@@ -31,9 +22,22 @@ data class MessageEntity(
     @ColumnInfo(name = "avatar_url")
     var avatarURL: String,
 
+    @ColumnInfo(name = "sender_type")
+    var senderType: String,
+
     @ColumnInfo(name = "is_my")
     var isMy: Boolean,
 
     @ColumnInfo(name = "chat_id", index = true)
-    var chatId: String?
-)
+    var chatId: String?,
+
+    @ColumnInfo(name = "time")
+    var sendingTime: Long
+) {
+
+    companion object {
+        const val SENDER_TYPE_TEACHER = "teacher"
+        const val SENDER_TYPE_MALE = "male"
+        const val SENDER_TYPE_FEMALE = "female"
+    }
+}

@@ -6,15 +6,14 @@ import info.tduty.typetalk.data.db.wrapper.ChatWrapper
 import info.tduty.typetalk.data.db.wrapper.LessonWrapper
 import info.tduty.typetalk.data.db.wrapper.MessageWrapper
 import info.tduty.typetalk.data.db.wrapper.TaskWrapper
+import info.tduty.typetalk.data.pref.TokenStorage
 import info.tduty.typetalk.data.pref.UserDataHelper
-import info.tduty.typetalk.domain.interactor.ChatInteractor
-import info.tduty.typetalk.domain.interactor.HistoryInteractor
-import info.tduty.typetalk.domain.interactor.LessonInteractor
-import info.tduty.typetalk.domain.interactor.TaskInteractor
+import info.tduty.typetalk.domain.interactor.*
 import info.tduty.typetalk.domain.managers.EventManager
 import info.tduty.typetalk.domain.provider.ChatProvider
 import info.tduty.typetalk.domain.provider.HistoryProvider
 import info.tduty.typetalk.domain.provider.LessonProvider
+import info.tduty.typetalk.domain.provider.LoginProvider
 import info.tduty.typetalk.socket.SocketController
 import javax.inject.Singleton
 
@@ -40,12 +39,13 @@ class InteractorModule {
     fun provideHistoryInteractior(
         historyProvider: HistoryProvider,
         messageWrapper: MessageWrapper,
+        chatWrapper: ChatWrapper,
         userDataHelper: UserDataHelper,
         eventManager: EventManager,
         socketController: SocketController
     ): HistoryInteractor {
         return HistoryInteractor(
-            historyProvider, messageWrapper, userDataHelper, eventManager,
+            historyProvider, messageWrapper, chatWrapper, userDataHelper, eventManager,
             socketController
         )
     }
@@ -65,5 +65,15 @@ class InteractorModule {
         taskWrapper: TaskWrapper
     ): TaskInteractor {
         return TaskInteractor(taskWrapper)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoginInteractor(
+        userDataHelper: UserDataHelper,
+        tokenStorage: TokenStorage,
+        loginProvider: LoginProvider
+    ): LoginInteractor {
+        return LoginInteractor(userDataHelper, tokenStorage, loginProvider)
     }
 }

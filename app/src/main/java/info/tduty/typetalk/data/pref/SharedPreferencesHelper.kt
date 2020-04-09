@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.SharedPreferences
 
 
-class SharedPreferencesHelper(context: Context, prefsName: String?, mode: Int) : PreferencesHelper {
+class SharedPreferencesHelper(context: Context, mode: Int) : PreferencesHelper {
 
-    private var preferences: SharedPreferences = context.getSharedPreferences(prefsName, mode)
+    private val APP_PREFERENCES = "typetalk-data"
+
+    private var preferences: SharedPreferences = context.getSharedPreferences(APP_PREFERENCES, mode)
 
     companion object {
         const val USER_PROFILE = "user_profile"

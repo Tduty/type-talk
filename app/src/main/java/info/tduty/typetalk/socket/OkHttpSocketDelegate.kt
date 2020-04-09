@@ -24,8 +24,8 @@ class OkHttpSocketDelegate(
     private var okHttpClient: OkHttpClient? = null
     private var runningSocket: WebSocket? = null
 
-    fun connect(endpoint: String, uuid: String) {
-        connectOkHttpWebSocket(endpoint, uuid)
+    fun connect(endpoint: String, uuid: String, name: String) {
+        connectOkHttpWebSocket(endpoint, uuid, name)
     }
 
     fun disconnect(code: Int = 0): Boolean {
@@ -75,7 +75,7 @@ class OkHttpSocketDelegate(
         listener.onFailure(t, code, failureResponsebody)
     }
 
-    private fun connectOkHttpWebSocket(endpoint: String, uuid: String) {
+    private fun connectOkHttpWebSocket(endpoint: String, uuid: String, name: String) {
         okHttpClient = SslOkHttpClientBuilderBase()
             .setup(context)
             .connectTimeout(CONNECT_TIMEOUT_MS, TimeUnit.MILLISECONDS)
@@ -85,7 +85,9 @@ class OkHttpSocketDelegate(
             .build()
         okHttpClient?.newWebSocket(
             Request.Builder()
-                .addHeader("uuid", uuid)
+                .addHeader("id", uuid)
+                .addHeader("name", name)
+                .header("Authorization","Basic dXNlcjpwYXNz")
                 .url(endpoint)
                 .build(),
             this

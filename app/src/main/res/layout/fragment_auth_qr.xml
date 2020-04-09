@@ -33,7 +33,6 @@
         android:src="@drawable/qr_default_image"
         android:scaleType="center"
         />
-
     <SurfaceView
         android:id="@+id/surfaceView"
         android:layout_width="0dp"

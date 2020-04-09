@@ -56,7 +56,7 @@
     <!-- Menu -->
     <string name="menu_action_chat">Чат</string>
     <string name="menu_action_dictionary">Словарь</string>
+    <string name="title_lesson_screen_default">Урок</string>
     <string name="message_description_auth_screen_qr">Используйте камеру для сканирования QR-кода учителя и получите доступ</string>
-
 
 </resources>

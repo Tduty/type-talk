@@ -91,6 +91,7 @@ class HistoryInteractor(
             content = dto.body,
             chatId = dto.chatId,
             avatarURL = "cl_your_teacher_chat", //TODO придумать норм способ добавлять аватарку
+            senderType = dto.senderType,
             isMy = dto.senderId == userDataHelper.getSavedUser().id,
             sendingTime = dto.sendingTime
         )
@@ -103,6 +104,7 @@ class HistoryInteractor(
             content = payload.body,
             chatId = payload.chatId,
             avatarURL = "cl_your_teacher_chat", //TODO придумать норм способ добавлять аватарку
+            senderType = payload.senderType ?: MessageEntity.SENDER_TYPE_MALE,
             isMy = payload.senderId == userDataHelper.getSavedUser().id,
             sendingTime = payload.sendingTime
         )
@@ -117,7 +119,11 @@ class HistoryInteractor(
             showSender = chatType == ChatEntity.CLASS_CHAT || chatType == null,
             senderName = db.title,
             message = db.content,
-            avatar = R.drawable.ic_teacher
+            avatar = when (db.senderType) {
+                MessageEntity.SENDER_TYPE_TEACHER -> R.drawable.ic_teacher_bubble
+                MessageEntity.SENDER_TYPE_FEMALE -> R.drawable.ic_girl_bubble
+                else -> R.drawable.ic_boy_bubble
+            }
         )
     }
 

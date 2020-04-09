@@ -22,6 +22,9 @@ data class MessageEntity(
     @ColumnInfo(name = "avatar_url")
     var avatarURL: String,
 
+    @ColumnInfo(name = "sender_type")
+    var senderType: String,
+
     @ColumnInfo(name = "is_my")
     var isMy: Boolean,
 
@@ -30,4 +33,11 @@ data class MessageEntity(
 
     @ColumnInfo(name = "time")
     var sendingTime: Long
-)
+) {
+
+    companion object {
+        const val SENDER_TYPE_TEACHER = "teacher"
+        const val SENDER_TYPE_MALE = "male"
+        const val SENDER_TYPE_FEMALE = "female"
+    }
+}

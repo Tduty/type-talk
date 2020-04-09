@@ -16,6 +16,8 @@ class MessageNewPayload(
     val senderId: String,
     @SerializedName("sender_name")
     val senderName: String,
+    @SerializedName("sender_type")
+    val senderType: String? = null,
     @SerializedName("body")
     val body: String,
     @SerializedName("sending_time")

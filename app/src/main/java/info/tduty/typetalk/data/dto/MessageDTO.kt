@@ -18,6 +18,9 @@ data class MessageDTO(
     @SerializedName("sender_name")
     val senderName: String,
 
+    @SerializedName("sender_type")
+    val senderType: String,
+
     @SerializedName("body")
     val body: String,
 

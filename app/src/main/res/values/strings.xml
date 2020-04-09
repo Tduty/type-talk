@@ -24,5 +24,6 @@
     <string name="menu_action_chat">Chat</string>
     <string name="menu_action_dictionary">Dictionary</string>
     <string name="title_lesson_screen_default">Lesson</string>
+    <string name="message_description_auth_screen_qr">Use you camera to scan the teacher’s QR code tp get access</string>
 
 </resources>

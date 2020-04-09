@@ -55,5 +55,8 @@
     <string name="menu_action_dictionary">Dictionary</string>
     <!---->
 
+    <!-- Login QR -->
+    <string name="message_description_auth_screen_qr">Use you camera to scan the teacher’s QR code tp get access</string>
+    <!---->
 
 </resources>

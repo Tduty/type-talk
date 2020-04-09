@@ -58,4 +58,8 @@
     <string name="menu_action_dictionary">Словарь</string>
     <!---->
 
+    <!-- Login QR -->
+    <string name="message_description_auth_screen_qr">Используйте камеру для сканирования QR-кода учителя и получите доступ</string>
+    <!---->
+
 </resources>

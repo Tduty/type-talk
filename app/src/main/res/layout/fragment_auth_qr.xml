@@ -33,7 +33,7 @@
         android:src="@drawable/qr_default_image"
         android:scaleType="center"
         />
-
+  
     <TextView
         android:id="@+id/tv_message_loading"
         android:layout_width="0dp"

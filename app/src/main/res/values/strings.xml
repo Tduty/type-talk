@@ -10,6 +10,9 @@
     <string name="login_screen_password">Password</string>
     <string name="login_screen_next">Next</string>
     <string name="login_screen_qr_code">enter with the help of a teacher</string>
+
+    <string name="qr_login_screen_message_description">Use you camera to scan the teacher’s QR code tp get access</string>
+    <string name="qr_login_screen_message_loading">QR code is scanning …</string>
     <!---->
 
     <!-- Main screen -->
@@ -53,10 +56,6 @@
     <!-- Menu -->
     <string name="menu_action_chat">Chat</string>
     <string name="menu_action_dictionary">Dictionary</string>
-    <!---->
-
-    <!-- Login QR -->
-    <string name="message_description_auth_screen_qr">Use you camera to scan the teacher’s QR code tp get access</string>
     <!---->
 
 </resources>

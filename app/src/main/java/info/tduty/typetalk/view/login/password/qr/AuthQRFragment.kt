@@ -2,6 +2,7 @@ package info.tduty.typetalk.view.login.password.qr
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -73,22 +74,7 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
             .build()
         sv_camera_area!!.holder.addCallback(object : SurfaceHolder.Callback {
             override fun surfaceCreated(holder: SurfaceHolder) {
-                try {
-                    if (ActivityCompat.checkSelfPermission(
-                            activity!!.applicationContext,
-                            Manifest.permission.CAMERA
-                        ) == PackageManager.PERMISSION_GRANTED
-                    ) {
-                        cameraSource?.start(sv_camera_area!!.holder)
-                    } else {
-                        requestPermissions(
-                            arrayOf(Manifest.permission.CAMERA),
-                            REQUEST_CAMERA_PERMISSION
-                        )
-                    }
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
+                cameraSource?.start(sv_camera_area!!.holder)
             }
 
             override fun surfaceChanged(
@@ -130,7 +116,7 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
                         val handler = Handler(Looper.getMainLooper())
                         handler.post {
                             if (sv_camera_area != null) {
-                                cameraSource?.start(sv_camera_area!!.holder)
+                                showScanCamera()
                             }
                         }
                     } else {
@@ -160,8 +146,23 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
     }
 
     override fun showScanCamera() {
-        sv_camera_area?.visibility = View.VISIBLE
-        initialiseDetectorsAndSources()
+        try {
+            if (ActivityCompat.checkSelfPermission(
+                    requireActivity().applicationContext,
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                sv_camera_area?.visibility = View.VISIBLE
+                initialiseDetectorsAndSources()
+            } else {
+                requestPermissions(
+                    arrayOf(Manifest.permission.CAMERA),
+                    REQUEST_CAMERA_PERMISSION
+                )
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
     }
 
     override fun showLoading() {
@@ -169,7 +170,6 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
         val handler = Handler(Looper.getMainLooper())
         handler.post {
             cameraSource!!.stop()
-            sv_camera_area?.visibility = View.GONE
         }
     }
 

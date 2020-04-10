@@ -14,7 +14,6 @@
     <string name="login_screen_qr_code">enter with the help of a teacher</string>
 
     <string name="qr_login_screen_message_description">Используйте камеру для сканирования QR-кода учителя и получите доступ</string>
-    <string name="qr_login_screen_message_loading">QR код обрабатывается …</string>
     <!---->
 
     <!-- Main screen -->

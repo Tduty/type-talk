@@ -12,7 +12,6 @@
     <string name="login_screen_qr_code">enter with the help of a teacher</string>
 
     <string name="qr_login_screen_message_description">Use you camera to scan the teacher’s QR code tp get access</string>
-    <string name="qr_login_screen_message_loading">QR code is scanning …</string>
     <!---->
 
     <!-- Main screen -->

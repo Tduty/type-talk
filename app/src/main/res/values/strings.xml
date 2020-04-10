@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TypeTalk</string>
     <string name="action_settings">Settings</string>
+    <string name="empty_string" />
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -9,7 +10,7 @@
     <string name="login_screen_surname">Surname</string>
     <string name="login_screen_password">Password</string>
     <string name="login_screen_next">Next</string>
-    <string name="login_screen_qr_code">enter with the help of a teacher</string>
+    <string name="login_screen_qr_code">enter with the help\n of a teacher</string>
 
     <string name="qr_login_screen_message_description">Use you camera to scan the teacher’s QR code tp get access</string>
 

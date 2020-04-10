@@ -108,18 +108,19 @@ class MainFragment : Fragment(R.layout.fragment_main), MainView {
 
     override fun setLessons(lessons: List<LessonVO>) {
         if (lessons.isEmpty()) efv_lessons.flipTheView(false)
+        else if (isBackSide()) efv_lessons.flipTheView(false)
         efv_lessons.visibility = View.VISIBLE
         rv_lessons.visibility = View.VISIBLE
         rvLessonsAdapter.setLessons(lessons)
     }
 
     override fun addLesson(lesson: LessonVO) {
-        if (isFrondSide()) efv_lessons.flipTheView(true)
+        if (isBackSide()) efv_lessons.flipTheView(true)
         rvLessonsAdapter.addLesson(lesson)
     }
 
-    private fun isFrondSide(): Boolean {
-        return efv_lessons.currentFlipState == EasyFlipView.FlipState.FRONT_SIDE
+    private fun isBackSide(): Boolean {
+        return efv_lessons.currentFlipState == EasyFlipView.FlipState.BACK_SIDE
     }
 
     override fun openChat(chatId: String) {

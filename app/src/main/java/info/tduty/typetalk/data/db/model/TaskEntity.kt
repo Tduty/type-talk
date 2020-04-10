@@ -22,6 +22,9 @@ data class TaskEntity(
     @ColumnInfo(name = "type")
     var type: String,
 
+    @ColumnInfo(name = "position")
+    var position: Int,
+
     @ColumnInfo(name = "icon_url")
     var iconUrl: String?,
 
@@ -36,4 +39,14 @@ data class TaskEntity(
 
     @ColumnInfo(name = "lessons_id")
     var lessonsId: String
-)
+) {
+
+    companion object {
+        const val FLASHCARDS_TYPE = "flashcards"
+        const val WORDAMESS_TYPE = "wordamess"
+        const val HURRY_UP_TYPE = "hurry_up"
+        const val PHRASE_BUILDING__TYPE = "phrase_building"
+        const val TRANSLATION_TYPE = "translation"
+        const val DICTIONARY_PICTIONARY_TYPE = "dictionary_pictionary"
+    }
+}

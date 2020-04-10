@@ -27,17 +27,13 @@ class LessonInteractor(
     private val eventManager: EventManager
 ) {
 
-    fun loadLessons(): Observable<List<LessonVO>> {
+    fun loadLessons(): Completable {
         return lessonProvider.getLessons()
-            .flatMap { dtoList ->
+            .flatMapCompletable { dtoList ->
                 val dbList = dtoList.map { toDB(0, it) }
-                val voList = dbList.mapIndexed { index, lesson ->
-                    toVO(index, lesson)
-                }
                 val allTasks = dtoList.map { toTaskDB(it) }.flatten()
                 lessonWrapper.insert(dbList)
                     .andThen(taskWrapper.insert(allTasks))
-                    .andThen(Observable.just(voList))
             }
     }
 
@@ -74,7 +70,8 @@ class LessonInteractor(
             TaskEntity(
                 taskId = it.id,
                 title = it.title,
-                type = "test", //TODO
+                type = it.type,
+                position = it.position,
                 iconUrl = it.icon,
                 isPerformed = it.status == 1,
                 optional = it.optional,

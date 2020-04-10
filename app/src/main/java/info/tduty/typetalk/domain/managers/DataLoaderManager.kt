@@ -4,6 +4,7 @@ import info.tduty.typetalk.domain.interactor.ChatInteractor
 import info.tduty.typetalk.domain.interactor.DictionaryInteractor
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.interactor.LessonInteractor
+import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -20,9 +21,7 @@ class DataLoaderManager(
     private val dictionaryInteractor: DictionaryInteractor
 ) {
 
-    private var historyDisposable: Disposable? = null
-    private var lessonDisposable: Disposable? = null
-    private var dictionaryDisposable: Disposable? = null
+    private var disposable: Disposable? = null
     private var socketOnOpenDisposable: Disposable? = null
 
     init {
@@ -33,37 +32,36 @@ class DataLoaderManager(
             .subscribe({ loadData() }, Timber::e)
     }
 
-    private fun loadData() {
-        getHistory()
-        getLessons()
-        getDictionary()
+    fun loadData(): Completable {
+        return Completable.concatArray(
+            getHistory(),
+            getLessons(),
+            getDictionary()
+        ).onErrorComplete()
     }
 
-    private fun getHistory() {
-        historyDisposable?.dispose()
-        historyDisposable = chatInteractor.loadAllChats()
-            .doOnError { Timber.e(it) }
-            .flatMapCompletable { historyInteractor.loadHistory() }
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
-            .subscribe({ }, Timber::e)
-    }
-
-    private fun getLessons() {
-        lessonDisposable?.dispose()
-        lessonDisposable = lessonInteractor.loadLessons()
-            .doOnError { Timber.e(it) }
+    private fun loadDataInBackground() {
+        disposable?.dispose()
+        disposable = loadData()
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({ databaseManager.postLessonUpdated() }, Timber::e)
     }
 
-    private fun getDictionary() {
-        dictionaryDisposable?.dispose()
-        dictionaryDisposable = dictionaryInteractor.loadDictionary()
+    private fun getHistory(): Completable {
+        return chatInteractor.loadAllChats()
             .doOnError { Timber.e(it) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
-            .subscribe({  }, Timber::e)
+            .flatMapCompletable { historyInteractor.loadHistory() }
+    }
+
+    private fun getLessons(): Completable {
+        return lessonInteractor.loadLessons()
+            .doOnError { Timber.e(it) }
+            .doOnComplete { databaseManager.postLessonUpdated() }
+    }
+
+    private fun getDictionary(): Completable {
+        return dictionaryInteractor.loadDictionary()
+            .doOnError { Timber.e(it) }
     }
 }

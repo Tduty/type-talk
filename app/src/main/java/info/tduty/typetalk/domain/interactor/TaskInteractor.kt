@@ -13,13 +13,16 @@ class TaskInteractor(
 
     fun getTasks(lessonsId: String): Observable<List<TaskVO>> {
         return taskWrapper.getTasksByLessonId(lessonsId)
-            .map { tasks -> tasks.map { toVO(it) } }
+            .map { tasks ->
+                tasks.sortedBy { it.position }
+                .map { toVO(it) }
+            }
     }
 
     private fun toVO(db: TaskEntity): TaskVO {
         return TaskVO(
             id = db.taskId,
-            type = TaskType.FLASHCARDS, // TODO: realize parsing type task
+            type = TaskType.fromDbType(db.type),
             icon = R.drawable.ic_teacher, // TODO: setup icon
             title = db.title,
             optional = db.optional,

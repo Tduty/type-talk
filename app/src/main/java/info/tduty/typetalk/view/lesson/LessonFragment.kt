@@ -54,17 +54,8 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
             ?: throw IllegalArgumentException("lesson id is null")
 
         setupRv()
-        (activity as? MainActivity)?.setupToolbar(view.toolbar as Toolbar, R.string.title_lesson_screen_default, true)
+        (activity as? MainActivity)?.setupToolbar(view.toolbar as Toolbar, R.string.empty_string, true)
         setHasOptionsMenu(true)
-
-        adapter.setTasks(listOf(
-            TaskVO("1", TaskType.FLASHCARDS, 0, "Test1", true, false),
-            TaskVO("2", TaskType.WORDAMESS, 0, "Test2", true, true),
-            TaskVO("3", TaskType.HURRY_UP, 0, "Test3", false, false),
-            TaskVO("4", TaskType.PHRASE_BUILDING, 0, "Test4", false, false),
-            TaskVO("5", TaskType.TRANSLATION, 0, "Test5", false, true),
-            TaskVO("6", TaskType.DICTIONARY_PICTIONARY, 0, "Test6", false, false)
-        ))
 
         presenter.onCreate(lessonId)
     }

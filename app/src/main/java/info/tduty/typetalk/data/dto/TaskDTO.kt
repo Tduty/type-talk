@@ -15,6 +15,12 @@ data class TaskDTO(
     @SerializedName("title")
     val title: String,
 
+    @SerializedName("type")
+    val type: String,
+
+    @SerializedName("position")
+    val position: Int,
+
     @SerializedName("status")
     val status: Int,
 

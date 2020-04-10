@@ -20,4 +20,6 @@ interface ViewNavigation {
     fun openDictionary()
 
     fun openQRAuth()
+
+    fun openLoginAuth()
 }

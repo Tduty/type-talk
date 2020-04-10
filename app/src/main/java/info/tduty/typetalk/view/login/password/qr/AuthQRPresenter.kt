@@ -36,6 +36,6 @@ class AuthQRPresenter(private val view: AuthQRView,
     }
 
     fun onResume() {
-
+        if (!view.isLoading()) view.showScanCamera()
     }
 }

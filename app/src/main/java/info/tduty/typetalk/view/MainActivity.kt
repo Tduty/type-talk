@@ -75,6 +75,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
         showFragment(AuthQRFragment.newInstance())
     }
 
+    override fun openLoginAuth() {
+        showFragment(LoginFragment.newInstance())
+    }
+
     fun setupToolbar(toolbar: Toolbar, @StringRes title: Int, withBackButton: Boolean) {
         toolbar.setTitle(title)
         this.setSupportActionBar(toolbar)

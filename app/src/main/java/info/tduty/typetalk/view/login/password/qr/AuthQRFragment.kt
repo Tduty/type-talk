@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.SurfaceHolder
 import android.view.View
+import androidx.annotation.NonNull
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.vision.CameraSource
@@ -20,6 +21,7 @@ import info.tduty.typetalk.view.login.password.qr.di.AuthQRModule
 import kotlinx.android.synthetic.main.fragment_auth_qr.*
 import java.io.IOException
 import javax.inject.Inject
+
 
 class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
     AuthQRView {
@@ -38,6 +40,8 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
 
     private var barcodeDetector: BarcodeDetector? = null
     private var cameraSource: CameraSource? = null
+
+    private var isLoading: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,8 +81,7 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
                     ) {
                         cameraSource?.start(sv_camera_area!!.holder)
                     } else {
-                        ActivityCompat.requestPermissions(
-                            activity!!,
+                        requestPermissions(
                             arrayOf(Manifest.permission.CAMERA),
                             REQUEST_CAMERA_PERMISSION
                         )
@@ -94,10 +97,14 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
                 width: Int,
                 height: Int
             ) {
+
             }
 
             override fun surfaceDestroyed(holder: SurfaceHolder) {
-                cameraSource?.stop()
+                val handler = Handler(Looper.getMainLooper())
+                handler.post {
+                    cameraSource?.stop()
+                }
             }
         })
         barcodeDetector?.setProcessor(object : Detector.Processor<Barcode> {
@@ -109,6 +116,30 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
                 }
             }
         })
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            REQUEST_CAMERA_PERMISSION -> {
+                if (grantResults.isNotEmpty()) {
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        val handler = Handler(Looper.getMainLooper())
+                        handler.post {
+                            if (sv_camera_area != null) {
+                                cameraSource?.start(sv_camera_area!!.holder)
+                            }
+                        }
+                    } else {
+                        (activity as? ViewNavigation)?.openLoginAuth()
+                    }
+                }
+                return
+            }
+        }
     }
 
     override fun onPause() {
@@ -124,12 +155,17 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
         presenter.onResume()
     }
 
+    override fun isLoading(): Boolean {
+        return isLoading
+    }
+
     override fun showScanCamera() {
         sv_camera_area?.visibility = View.VISIBLE
         initialiseDetectorsAndSources()
     }
 
     override fun showLoading() {
+        isLoading = true
         val handler = Handler(Looper.getMainLooper())
         handler.post {
             cameraSource!!.stop()

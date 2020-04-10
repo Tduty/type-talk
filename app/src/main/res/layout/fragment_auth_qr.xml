@@ -10,20 +10,20 @@
         android:id="@+id/tv_description_auth_qr"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/message_description_auth_screen_qr"
+        android:text="@string/qr_login_screen_message_description"
         android:gravity="center_horizontal"
-        android:layout_marginTop="35dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
         android:textSize="22sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/image_qr"
+        app:layout_constraintBottom_toTopOf="@id/iv_qr_logo"
         />
 
     <ImageView
-        android:id="@+id/image_qr"
+        android:id="@+id/iv_qr_logo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -34,8 +34,25 @@
         android:scaleType="center"
         />
 
+    <TextView
+        android:id="@+id/tv_message_loading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/qr_login_screen_message_loading"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="22sp"
+        app:layout_constraintTop_toBottomOf="@+id/iv_qr_logo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
     <SurfaceView
-        android:id="@+id/surfaceView"
+        android:id="@+id/sv_camera_area"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:backgroundTint="@color/colorPrimary"
@@ -43,17 +60,4 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <TextView
-        android:id="@+id/txtBarcodeValue"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="15dp"
-        android:text="No Barcode Detected"
-        android:textColor="@android:color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:textSize="20sp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,15 +16,16 @@ class AuthQRPresenter(private val view: AuthQRView,
     private val disposables = CompositeDisposable()
 
     fun onCreate() {
-
+        view.showScanCamera()
     }
 
     fun onDestroy() {
         disposables.dispose()
     }
 
-    fun onNext(login: String, password: String) {
-        val disposable = loginInteractor.auth(login, password)
+    fun onNext(data: String) {
+        view.showLoading()
+        val disposable = loginInteractor.auth(data)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

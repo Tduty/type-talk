@@ -2,12 +2,11 @@ package info.tduty.typetalk.view.login.password.qr
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.Point
 import android.os.Bundle
-import android.view.Display
+import android.os.Handler
+import android.os.Looper
 import android.view.SurfaceHolder
 import android.view.View
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.vision.CameraSource
@@ -21,7 +20,6 @@ import info.tduty.typetalk.view.login.password.qr.di.AuthQRModule
 import kotlinx.android.synthetic.main.fragment_auth_qr.*
 import java.io.IOException
 import javax.inject.Inject
-
 
 class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
     AuthQRView {
@@ -40,7 +38,6 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
 
     private var barcodeDetector: BarcodeDetector? = null
     private var cameraSource: CameraSource? = null
-    var intentData = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,25 +54,20 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.onCreate()
-        initialiseDetectorsAndSources()
     }
 
     private fun initialiseDetectorsAndSources() {
-        Toast.makeText(activity?.applicationContext, "Barcode scanner started", Toast.LENGTH_SHORT)
-            .show()
         barcodeDetector = BarcodeDetector.Builder(context)
             .setBarcodeFormats(Barcode.ALL_FORMATS)
             .build()
-        val display: Display? = activity?.windowManager?.defaultDisplay
-        val size = Point()
-        display!!.getSize(size)
-        val width: Int = size.x
-        val height: Int = size.y
+        // TODO dynamic value
+        val width = 1920
+        val height = 1080
         cameraSource = CameraSource.Builder( activity?.applicationContext, barcodeDetector)
             .setRequestedPreviewSize(width, height)
-            .setAutoFocusEnabled(true) //you should add this feature
+            .setAutoFocusEnabled(true)
             .build()
-        surfaceView!!.holder.addCallback(object : SurfaceHolder.Callback {
+        sv_camera_area!!.holder.addCallback(object : SurfaceHolder.Callback {
             override fun surfaceCreated(holder: SurfaceHolder) {
                 try {
                     if (ActivityCompat.checkSelfPermission(
@@ -83,7 +75,7 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
                             Manifest.permission.CAMERA
                         ) == PackageManager.PERMISSION_GRANTED
                     ) {
-                        cameraSource?.start(surfaceView!!.holder)
+                        cameraSource?.start(sv_camera_area!!.holder)
                     } else {
                         ActivityCompat.requestPermissions(
                             activity!!,
@@ -109,27 +101,11 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
             }
         })
         barcodeDetector?.setProcessor(object : Detector.Processor<Barcode> {
-            override fun release() {
-                Toast.makeText(
-                    context,
-                    "To prevent memory leaks barcode scanner has been stopped",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            override fun release() {}
 
             override fun receiveDetections(detections: Detector.Detections<Barcode>) {
-                val barcodes = detections.detectedItems
-                if (barcodes.size() != 0) {
-                    txtBarcodeValue!!.post {
-                        if (barcodes.valueAt(0).email != null) {
-                            txtBarcodeValue!!.removeCallbacks(null)
-                            intentData = barcodes.valueAt(0).email.address
-                            txtBarcodeValue!!.text = intentData
-                        } else {
-                            intentData = barcodes.valueAt(0).displayValue
-                            txtBarcodeValue!!.text = intentData
-                        }
-                    }
+                if (detections.detectedItems.size() != 0) {
+                    presenter.onNext(detections.detectedItems.valueAt(0).displayValue)
                 }
             }
         })
@@ -137,7 +113,10 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
 
     override fun onPause() {
         super.onPause()
-        cameraSource?.release()
+        val handler = Handler(Looper.getMainLooper())
+        handler.post {
+            cameraSource?.release()
+        }
     }
 
     override fun onResume() {
@@ -146,12 +125,16 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
     }
 
     override fun showScanCamera() {
+        sv_camera_area?.visibility = View.VISIBLE
         initialiseDetectorsAndSources()
     }
 
     override fun showLoading() {
-        surfaceView?.visibility = View.GONE
-        txtBarcodeValue?.visibility = View.GONE
+        val handler = Handler(Looper.getMainLooper())
+        handler.post {
+            cameraSource!!.stop()
+            sv_camera_area?.visibility = View.GONE
+        }
     }
 
     override fun openMainScreen() {

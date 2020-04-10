@@ -4,10 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
-import info.tduty.typetalk.api.ChatApi
-import info.tduty.typetalk.api.HistoryApi
-import info.tduty.typetalk.api.LessonApi
-import info.tduty.typetalk.api.LoginApi
+import info.tduty.typetalk.api.*
 import info.tduty.typetalk.data.pref.UrlStorage
 import info.tduty.typetalk.socket.SslOkHttpClientBuilderBase
 import okhttp3.OkHttpClient
@@ -88,5 +85,18 @@ class ApiModule {
             .client(okHttpClient)
             .build()
             .create(LoginApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDictionaryApi(
+        retrofitBuilder: Retrofit.Builder,
+        okHttpClient: OkHttpClient
+    ): DictionaryApi {
+        return retrofitBuilder
+            .baseUrl(UrlStorage.getUrl())
+            .client(okHttpClient)
+            .build()
+            .create(DictionaryApi::class.java)
     }
 }

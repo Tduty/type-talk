@@ -2,14 +2,8 @@ package info.tduty.typetalk.di
 
 import dagger.Module
 import dagger.Provides
-import info.tduty.typetalk.data.db.dao.ChatDao
-import info.tduty.typetalk.data.db.dao.LessonDao
-import info.tduty.typetalk.data.db.dao.MessageDao
-import info.tduty.typetalk.data.db.dao.TaskDao
-import info.tduty.typetalk.data.db.wrapper.ChatWrapper
-import info.tduty.typetalk.data.db.wrapper.LessonWrapper
-import info.tduty.typetalk.data.db.wrapper.MessageWrapper
-import info.tduty.typetalk.data.db.wrapper.TaskWrapper
+import info.tduty.typetalk.data.db.dao.*
+import info.tduty.typetalk.data.db.wrapper.*
 import javax.inject.Singleton
 
 /**
@@ -40,5 +34,11 @@ class WrapperModule {
     @Singleton
     fun provideTaskWrapper(taskDao: TaskDao): TaskWrapper {
         return TaskWrapper(taskDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDictionaryWrapper(dictionaryDao: DictionaryDao): DictionaryWrapper {
+        return DictionaryWrapper(dictionaryDao)
     }
 }

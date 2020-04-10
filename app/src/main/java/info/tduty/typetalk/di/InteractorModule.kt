@@ -2,18 +2,12 @@ package info.tduty.typetalk.di
 
 import dagger.Module
 import dagger.Provides
-import info.tduty.typetalk.data.db.wrapper.ChatWrapper
-import info.tduty.typetalk.data.db.wrapper.LessonWrapper
-import info.tduty.typetalk.data.db.wrapper.MessageWrapper
-import info.tduty.typetalk.data.db.wrapper.TaskWrapper
+import info.tduty.typetalk.data.db.wrapper.*
 import info.tduty.typetalk.data.pref.TokenStorage
 import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.domain.interactor.*
 import info.tduty.typetalk.domain.managers.EventManager
-import info.tduty.typetalk.domain.provider.ChatProvider
-import info.tduty.typetalk.domain.provider.HistoryProvider
-import info.tduty.typetalk.domain.provider.LessonProvider
-import info.tduty.typetalk.domain.provider.LoginProvider
+import info.tduty.typetalk.domain.provider.*
 import info.tduty.typetalk.socket.SocketController
 import javax.inject.Singleton
 
@@ -75,5 +69,15 @@ class InteractorModule {
         loginProvider: LoginProvider
     ): LoginInteractor {
         return LoginInteractor(userDataHelper, tokenStorage, loginProvider)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDictionaryInteractor(
+        dictionaryWrapper: DictionaryWrapper,
+        lessonWrapper: LessonWrapper,
+        dictionaryProvider: DictionaryProvider
+    ): DictionaryInteractor {
+        return DictionaryInteractor(dictionaryWrapper, lessonWrapper, dictionaryProvider)
     }
 }

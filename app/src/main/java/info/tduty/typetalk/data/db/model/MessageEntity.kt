@@ -2,9 +2,12 @@ package info.tduty.typetalk.data.db.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "message")
+@Entity(tableName = "message", indices = [
+    Index(value = ["sync_id"], unique = true)
+])
 data class MessageEntity(
     @ColumnInfo(name = "id", index = true)
     @PrimaryKey(autoGenerate = true)

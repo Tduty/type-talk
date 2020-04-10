@@ -11,22 +11,19 @@ class TaskInteractor(
     private val taskWrapper: TaskWrapper
 ) {
 
-    fun getTasksForLesson(lessonsId: Long): Observable<List<TaskVO>> {
-        return taskWrapper.getTasksForLesson(lessonsId)
-            .flatMap { taskList ->
-                val voList = taskList.map { toVO(it) }
-                Observable.just(voList)
-            }
+    fun getTasks(lessonsId: String): Observable<List<TaskVO>> {
+        return taskWrapper.getTasksByLessonId(lessonsId)
+            .map { tasks -> tasks.map { toVO(it) } }
     }
 
     private fun toVO(db: TaskEntity): TaskVO {
         return TaskVO(
-            id = db.id.toString(),
+            id = db.taskId,
             type = TaskType.FLASHCARDS, // TODO: realize parsing type task
             icon = R.drawable.ic_teacher, // TODO: setup icon
-            title = db.title ?: "",
-            optional = db.optional ?: false,
-            checked = db.isPerformed ?: false
+            title = db.title,
+            optional = db.optional,
+            checked = db.isPerformed
         )
     }
 }

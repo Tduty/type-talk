@@ -2,15 +2,9 @@ package info.tduty.typetalk.di
 
 import dagger.Module
 import dagger.Provides
-import info.tduty.typetalk.api.ChatApi
-import info.tduty.typetalk.api.HistoryApi
-import info.tduty.typetalk.api.LessonApi
-import info.tduty.typetalk.api.LoginApi
+import info.tduty.typetalk.api.*
 import info.tduty.typetalk.data.pref.TokenStorage
-import info.tduty.typetalk.domain.provider.ChatProvider
-import info.tduty.typetalk.domain.provider.HistoryProvider
-import info.tduty.typetalk.domain.provider.LessonProvider
-import info.tduty.typetalk.domain.provider.LoginProvider
+import info.tduty.typetalk.domain.provider.*
 import javax.inject.Singleton
 
 /**
@@ -21,8 +15,14 @@ class ProviderModule {
 
     @Provides
     @Singleton
-    fun provideLessonProvider(lessonApi: LessonApi): LessonProvider {
-        return LessonProvider(lessonApi)
+    fun provideLoginProvider(loginApi: LoginApi): LoginProvider {
+        return LoginProvider(loginApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLessonProvider(lessonApi: LessonApi, tokenStorage: TokenStorage): LessonProvider {
+        return LessonProvider(lessonApi, tokenStorage)
     }
 
     @Provides
@@ -42,7 +42,10 @@ class ProviderModule {
 
     @Provides
     @Singleton
-    fun provideLoginProvider(loginApi: LoginApi): LoginProvider {
-        return LoginProvider(loginApi)
+    fun provideDictionaryProvider(
+        dictionaryApi: DictionaryApi,
+        tokenStorage: TokenStorage
+    ): DictionaryProvider {
+        return DictionaryProvider(dictionaryApi, tokenStorage)
     }
 }

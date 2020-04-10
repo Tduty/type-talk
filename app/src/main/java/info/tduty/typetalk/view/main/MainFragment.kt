@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.wajahatkarim3.easyflipview.EasyFlipView
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.ExpectedVO
@@ -20,6 +21,7 @@ import info.tduty.typetalk.view.main.di.MainModule
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import kotlinx.android.synthetic.main.item_chats_control_block.*
+import kotlinx.android.synthetic.main.item_no_lessons.*
 import javax.inject.Inject
 
 /**
@@ -51,40 +53,6 @@ class MainFragment : Fragment(R.layout.fragment_main), MainView {
         setHasOptionsMenu(true)
 
         if (rvLessonsAdapter.itemCount != 0) efv_lessons.flipTheView(false)
-
-        rvLessonsAdapter.addLesson(
-            LessonVO(
-                id = "1",
-                number = 1,
-                title = "Weather",
-                content = "Weather is a typical topic for small talks and conversations with people little-known to you. So study the material and do the tasks to be more confident in this field. Good luck!",
-                icon = R.drawable.ic_boy_bg_sweet_corn,
-                status = StatusVO(R.drawable.ic_checkbox_complete, "Completed"),
-                expectedList = listOf(
-                    ExpectedVO("Dialogues", R.drawable.ic_phrase_building),
-                    ExpectedVO("New words", R.drawable.ic_pictionary),
-                    ExpectedVO("Exercises", R.drawable.ic_hurry_up)
-                )
-            )
-        )
-
-        toolbar.setOnClickListener {
-            rvLessonsAdapter.addLesson(
-                LessonVO(
-                    id = "1",
-                    number = 1,
-                    title = "Weather",
-                    content = "TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText",
-                    icon = R.drawable.ic_boy_bg_sweet_corn,
-                    status = StatusVO(R.drawable.ic_checkbox_complete, "Completed"),
-                    expectedList = listOf(
-                        ExpectedVO("test1", R.drawable.ic_phrase_building),
-                        ExpectedVO("test2", R.drawable.ic_pictionary),
-                        ExpectedVO("test3", R.drawable.ic_hurry_up)
-                    )
-                )
-            )
-        }
 
         presenter.onCreate()
     }
@@ -139,11 +107,19 @@ class MainFragment : Fragment(R.layout.fragment_main), MainView {
     //endregion
 
     override fun setLessons(lessons: List<LessonVO>) {
+        if (lessons.isEmpty()) efv_lessons.flipTheView(false)
+        efv_lessons.visibility = View.VISIBLE
+        rv_lessons.visibility = View.VISIBLE
         rvLessonsAdapter.setLessons(lessons)
     }
 
     override fun addLesson(lesson: LessonVO) {
+        if (isFrondSide()) efv_lessons.flipTheView(true)
         rvLessonsAdapter.addLesson(lesson)
+    }
+
+    private fun isFrondSide(): Boolean {
+        return efv_lessons.currentFlipState == EasyFlipView.FlipState.FRONT_SIDE
     }
 
     override fun openChat(chatId: String) {

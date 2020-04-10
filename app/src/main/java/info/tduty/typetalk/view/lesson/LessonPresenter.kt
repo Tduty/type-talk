@@ -41,7 +41,7 @@ class LessonPresenter(
 
     private fun setupTasks(lesson: LessonVO) {
         disposables.add(
-            taskInteractor.getTasksForLesson(lesson.id.toLong())
+            taskInteractor.getTasks(lesson.id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ tasks ->

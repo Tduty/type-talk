@@ -2,10 +2,13 @@ package info.tduty.typetalk.data.db.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import info.tduty.typetalk.utils.StringList
 
-@Entity(tableName = "lessons")
+@Entity(tableName = "lessons", indices = [
+    Index(value = ["lesson_id"], unique = true)
+])
 data class LessonEntity(
 
     @ColumnInfo(name = "id")

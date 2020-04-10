@@ -15,6 +15,7 @@ import info.tduty.typetalk.domain.provider.LessonProvider
 import info.tduty.typetalk.utils.toStringList
 import io.reactivex.Completable
 import io.reactivex.Observable
+import timber.log.Timber
 
 /**
  * Created by Evgeniy Mezentsev on 07.03.2020.
@@ -26,7 +27,7 @@ class LessonInteractor(
     private val eventManager: EventManager
 ) {
 
-    fun getLessons(): Observable<List<LessonVO>> {
+    fun loadLessons(): Observable<List<LessonVO>> {
         return lessonProvider.getLessons()
             .flatMap { dtoList ->
                 val dbList = dtoList.map { toDB(0, it) }
@@ -40,8 +41,26 @@ class LessonInteractor(
             }
     }
 
+    fun getLessons(): Observable<List<LessonVO>> {
+        return lessonWrapper.getLessons()
+            .map { dbList ->
+                dbList.mapIndexed { index, lesson -> toVO(index, lesson) }
+            }
+    }
+
     fun getLesson(id: String): Observable<LessonVO> {
-        return lessonWrapper.getLesson(id).map { toVO(0, it) }
+        return lessonWrapper.getLesson(id)
+            .map { toVO(0, it) }
+            .switchIfEmpty(
+                lessonProvider.getLesson(id)
+                    .doOnError { Timber.e(it) }
+                    .flatMap { dto ->
+                        val db = toDB(0, dto)
+                        lessonWrapper.insert(toDB(0, dto))
+                            .andThen(Observable.just(db))
+                            .map { toVO(0, it) }
+                    }
+            )
     }
 
     fun addLesson(lesson: LessonPayload): Completable {
@@ -53,13 +72,14 @@ class LessonInteractor(
     private fun toTaskDB(dto: LessonDTO): List<TaskEntity> {
         return dto.taskDTOList.map {
             TaskEntity(
-                id = it.id.toLong(),
+                taskId = it.id,
                 title = it.title,
+                type = "test", //TODO
                 iconUrl = it.icon,
                 isPerformed = it.status == 1,
                 optional = it.optional,
-                payload = null,
-                lessonsId = dto.id.toLong()
+                payload = it.payload,
+                lessonsId = dto.id
             )
         }
     }

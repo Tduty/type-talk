@@ -15,6 +15,7 @@ import info.tduty.typetalk.view.debug.InDevelopmentFragment
 import info.tduty.typetalk.view.dictionary.DictionaryFragment
 import info.tduty.typetalk.view.lesson.LessonFragment
 import info.tduty.typetalk.view.login.password.LoginFragment
+import info.tduty.typetalk.view.login.password.qr.AuthQRFragment
 import info.tduty.typetalk.view.main.MainFragment
 import timber.log.Timber
 import javax.inject.Inject
@@ -68,6 +69,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
     override fun openDictionary() {
         showFragment(DictionaryFragment.newInstance())
+    }
+
+    override fun openQRAuth() {
+        showFragment(AuthQRFragment.newInstance())
+    }
+
+    override fun openLoginAuth() {
+        showFragment(LoginFragment.newInstance())
     }
 
     fun setupToolbar(toolbar: Toolbar, @StringRes title: Int, withBackButton: Boolean) {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.view.ViewNavigation
@@ -70,12 +71,16 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginView {
     }
 
     override fun showError() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        view.let { Snackbar.make(view!!, getString(R.string.auth_screen_error_authorization), Snackbar.LENGTH_LONG).show() }
     }
 
     private fun setupListeners() {
         btn_next.setOnClickListener {
             presenter.onNext(et_login.text.toString(), et_password.text.toString())
+        }
+
+        iv_qr_code.setOnClickListener {
+            (activity as? ViewNavigation)?.openQRAuth()
         }
     }
 }

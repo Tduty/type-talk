@@ -18,4 +18,8 @@ interface ViewNavigation {
     fun openLesson(lessonId: String)
 
     fun openDictionary()
+
+    fun openQRAuth()
+
+    fun openLoginAuth()
 }

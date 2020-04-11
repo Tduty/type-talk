@@ -10,6 +10,12 @@
     <string name="login_screen_password">Password</string>
     <string name="login_screen_next">Next</string>
     <string name="login_screen_qr_code">enter with the help of a teacher</string>
+
+    <string name="qr_login_screen_message_description">Use you camera to scan the teacher’s QR code tp get access</string>
+
+        <!-- Error -->
+        <string name="auth_screen_error_authorization">An authorization error has occurred, contact your teacher.</string>
+        <!---->
     <!---->
 
     <!-- Main screen -->
@@ -54,6 +60,5 @@
     <string name="menu_action_chat">Chat</string>
     <string name="menu_action_dictionary">Dictionary</string>
     <!---->
-
 
 </resources>

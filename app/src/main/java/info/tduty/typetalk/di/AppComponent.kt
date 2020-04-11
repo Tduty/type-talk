@@ -11,6 +11,8 @@ import info.tduty.typetalk.view.lesson.di.LessonsComponent
 import info.tduty.typetalk.view.lesson.di.LessonsModule
 import info.tduty.typetalk.view.login.password.di.LoginComponent
 import info.tduty.typetalk.view.login.password.di.LoginModule
+import info.tduty.typetalk.view.login.password.qr.di.AuthQRComponent
+import info.tduty.typetalk.view.login.password.qr.di.AuthQRModule
 import info.tduty.typetalk.view.main.di.MainComponent
 import info.tduty.typetalk.view.main.di.MainModule
 import javax.inject.Singleton
@@ -44,4 +46,6 @@ interface AppComponent {
     fun plus(module: ChatModule): ChatComponent
 
     fun plus(module: LoginModule): LoginComponent
+
+    fun plus(module: AuthQRModule): AuthQRComponent
 }

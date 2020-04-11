@@ -15,8 +15,10 @@ import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import com.google.android.material.snackbar.Snackbar
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
+import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.login.password.qr.di.AuthQRModule
 import kotlinx.android.synthetic.main.fragment_auth_qr.*
@@ -72,9 +74,9 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
             .setRequestedPreviewSize(width, height)
             .setAutoFocusEnabled(true)
             .build()
-        sv_camera_area!!.holder.addCallback(object : SurfaceHolder.Callback {
+        sv_camera_area?.holder?.addCallback(object : SurfaceHolder.Callback {
             override fun surfaceCreated(holder: SurfaceHolder) {
-                cameraSource?.start(sv_camera_area!!.holder)
+                sv_camera_area.let { cameraSource?.start(sv_camera_area.holder) }
             }
 
             override fun surfaceChanged(
@@ -169,7 +171,7 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
         isLoading = true
         val handler = Handler(Looper.getMainLooper())
         handler.post {
-            cameraSource!!.stop()
+            cameraSource?.stop()
         }
     }
 
@@ -178,6 +180,6 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
     }
 
     override fun showError() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        view.let { Snackbar.make(view!!, getString(R.string.auth_screen_error_authorization), Snackbar.LENGTH_LONG).show() }
     }
 }

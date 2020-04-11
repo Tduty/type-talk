@@ -14,6 +14,10 @@
     <string name="login_screen_qr_code">enter with the help of a teacher</string>
 
     <string name="qr_login_screen_message_description">Используйте камеру для сканирования QR-кода учителя и получите доступ</string>
+
+        <!-- Error -->
+        <string name="auth_screen_error_authorization">Ошибка авторазиации, обратитесь к вашему учителю.</string>
+        <!---->
     <!---->
 
     <!-- Main screen -->

@@ -1,4 +1,8 @@
 package info.tduty.typetalk.data.model
 
-class FlashcardVO {
-}
+class FlashcardVO(
+    val type: String,
+    val frontWord: String,
+    val backWord: String,
+    taskType: TaskType?
+) : TaskPayloadVO(taskType)

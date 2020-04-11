@@ -4,5 +4,7 @@ import info.tduty.typetalk.data.model.FlashcardVO
 
 interface FlashcardView {
 
-    fun nextFlashcard(flashcard: FlashcardVO)
+    fun setupFlashcards(flashcardVO: List<FlashcardVO>)
+
+    fun showWord(position: Int, isAnimated: Boolean)
 }

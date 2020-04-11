@@ -17,6 +17,7 @@ import info.tduty.typetalk.view.lesson.LessonFragment
 import info.tduty.typetalk.view.login.password.LoginFragment
 import info.tduty.typetalk.view.login.password.qr.AuthQRFragment
 import info.tduty.typetalk.view.main.MainFragment
+import info.tduty.typetalk.view.task.flashcard.FlashcardFragment
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
         setupComponent()
 
         if (userDataHelper.isSavedUser()) showFragment(MainFragment.newInstance())
-        else showFragment(LoginFragment.newInstance())
+        else showFragment(FlashcardFragment.newInstance("1"))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

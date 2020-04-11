@@ -10,6 +10,7 @@ data class TaskVO(
     val type: TaskType,
     @DrawableRes val icon: Int = 0,
     val title: String,
+    val payload: String,
     val optional: Boolean = false,
     val checked: Boolean = false
 )

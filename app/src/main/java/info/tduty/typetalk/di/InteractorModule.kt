@@ -8,6 +8,7 @@ import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.domain.interactor.*
 import info.tduty.typetalk.domain.managers.EventManager
 import info.tduty.typetalk.domain.provider.*
+import info.tduty.typetalk.mapper.TaskPayloadMapperStrategy
 import info.tduty.typetalk.socket.SocketController
 import javax.inject.Singleton
 
@@ -56,9 +57,10 @@ class InteractorModule {
     @Provides
     @Singleton
     fun provideTaskInteractor(
-        taskWrapper: TaskWrapper
+        taskWrapper: TaskWrapper,
+        taskPayloadMapperStrategy: TaskPayloadMapperStrategy
     ): TaskInteractor {
-        return TaskInteractor(taskWrapper)
+        return TaskInteractor(taskPayloadMapperStrategy, taskWrapper)
     }
 
     @Provides

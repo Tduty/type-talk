@@ -15,6 +15,8 @@ import info.tduty.typetalk.view.login.password.qr.di.AuthQRComponent
 import info.tduty.typetalk.view.login.password.qr.di.AuthQRModule
 import info.tduty.typetalk.view.main.di.MainComponent
 import info.tduty.typetalk.view.main.di.MainModule
+import info.tduty.typetalk.view.task.flashcard.di.FlashcardComponent
+import info.tduty.typetalk.view.task.flashcard.di.FlashcardModule
 import javax.inject.Singleton
 
 /**
@@ -28,7 +30,8 @@ import javax.inject.Singleton
         DatabaseModule::class,
         WrapperModule::class,
         ProviderModule::class,
-        InteractorModule::class
+        InteractorModule::class,
+        MapperModule::class
     ]
 )
 interface AppComponent {
@@ -48,4 +51,7 @@ interface AppComponent {
     fun plus(module: LoginModule): LoginComponent
 
     fun plus(module: AuthQRModule): AuthQRComponent
+
+    fun plus(module: FlashcardModule): FlashcardComponent
+
 }

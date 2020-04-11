@@ -64,4 +64,8 @@
     <string name="menu_action_dictionary">Словарь</string>
     <!---->
 
+    <!-- Task -->
+    <string name="task_screen_flashcard_description">Чтобы увидеть перевод слова, нажмите на карточку</string>
+    <!---->
+
 </resources>

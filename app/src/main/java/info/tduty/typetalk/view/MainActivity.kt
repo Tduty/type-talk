@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.db.model.ChatEntity
+import info.tduty.typetalk.data.model.TaskType
+import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.view.chat.ChatFragment
 import info.tduty.typetalk.view.debug.InDevelopmentFragment
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
         setupComponent()
 
         if (userDataHelper.isSavedUser()) showFragment(MainFragment.newInstance())
-        else showFragment(FlashcardFragment.newInstance("1"))
+        else showFragment(LoginFragment.newInstance())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -78,6 +80,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
     override fun openLoginAuth() {
         showFragment(LoginFragment.newInstance())
+    }
+
+    override fun openFlashcardTask(taskVO: TaskVO) {
+        showFragment(FlashcardFragment.newInstance(taskVO))
     }
 
     fun setupToolbar(toolbar: Toolbar, @StringRes title: Int, withBackButton: Boolean) {

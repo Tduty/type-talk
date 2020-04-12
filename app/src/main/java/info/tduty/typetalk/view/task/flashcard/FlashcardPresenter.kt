@@ -1,7 +1,9 @@
 package info.tduty.typetalk.view.task.flashcard
 
 import info.tduty.typetalk.data.model.FlashcardVO
+import info.tduty.typetalk.data.model.TaskPayloadVO
 import info.tduty.typetalk.data.model.TaskType
+import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.domain.interactor.TaskInteractor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -19,16 +21,26 @@ class FlashcardPresenter(
     private val disposables = CompositeDisposable()
     private lateinit var flashcards: List<FlashcardVO>
 
-    fun onCreate(lessonId: String) {
+    fun onCreate(taskVO: TaskVO) {
         disposables.add(
-            taskInteractor.getTaskForLesson(lessonId.toLong(), TASK_TYPE)
+            taskInteractor.getPayload(taskVO)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ taskVO ->
-                    this.flashcards = taskVO as? List<FlashcardVO> ?: Collections.emptyList()
+                .subscribe({ task ->
+                    this.flashcards = getFlashcards(task)
+
+                    if (this.flashcards.isEmpty()) {
+                        view.showError()
+                    }
+
                     view.setupFlashcards(flashcards)
                 }, Timber::e)
         )
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun getFlashcards(listTaskPayload: List<TaskPayloadVO>): List<FlashcardVO> {
+        return listTaskPayload as? List<FlashcardVO> ?: Collections.emptyList()
     }
 
     fun onClickNext(currentPosition: Int) {

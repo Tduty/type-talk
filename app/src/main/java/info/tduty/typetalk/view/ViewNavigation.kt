@@ -1,5 +1,7 @@
 package info.tduty.typetalk.view
 
+import info.tduty.typetalk.data.model.TaskVO
+
 /**
  * Created by Evgeniy Mezentsev on 07.03.2020.
  */
@@ -22,4 +24,6 @@ interface ViewNavigation {
     fun openQRAuth()
 
     fun openLoginAuth()
+
+    fun openFlashcardTask(taskVO: TaskVO)
 }

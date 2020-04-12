@@ -10,4 +10,6 @@ interface LessonView {
     fun setToolbarTitle(title: String)
 
     fun setTasks(tasks: List<TaskVO>)
+
+    fun openTask(taskVO: TaskVO)
 }

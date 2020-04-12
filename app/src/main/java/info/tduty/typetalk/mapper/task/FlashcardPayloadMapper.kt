@@ -12,16 +12,22 @@ import kotlin.collections.ArrayList
 class FlashcardPayloadMapper : TaskPayloadMapper {
 
     override fun map(payload: String): List<TaskPayloadVO> {
-        val parser = JsonParser()
-        val tradeElement: JsonElement = parser.parse(payload)
-        val payloadJson = tradeElement.asJsonArray
-
         val flashcardVOList = ArrayList<FlashcardVO>()
-        for (payloadElement in payloadJson) {
-            val flashcardVO = getFlashcardVO(payloadElement)
-            flashcardVO.let {
-                flashcardVOList.add(flashcardVO!!)
+        try {
+            val parser = JsonParser()
+            val tradeElement: JsonElement = parser.parse(payload)
+            val payloadJson = tradeElement.asJsonArray
+
+            for (payloadElement in payloadJson) {
+                val flashcardVO = getFlashcardVO(payloadElement)
+                flashcardVO.let {
+                    flashcardVOList.add(flashcardVO!!)
+                }
             }
+        } catch (ex: IllegalStateException) {
+            ex.printStackTrace()
+        } catch (ex: JsonSyntaxException) {
+            ex.printStackTrace()
         }
         return flashcardVOList
     }

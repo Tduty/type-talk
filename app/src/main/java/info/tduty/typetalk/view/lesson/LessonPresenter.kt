@@ -57,6 +57,7 @@ class LessonPresenter(
     }
 
     fun openTask(id: String, task: TaskType) {
-        // TODO open fragment for task
+        view.openTask(tasks.first { it.id == id && it.type == task })
     }
+
 }

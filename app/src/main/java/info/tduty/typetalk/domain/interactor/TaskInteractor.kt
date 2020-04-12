@@ -24,57 +24,9 @@ class TaskInteractor(
             }
     }
 
-    fun getTaskForLesson(lessonsId: Long, type: TaskType): Observable<List<TaskPayloadVO>> {
-        val lessonsId = lessonsId
-        val type = type
-        val taskVO = TaskVO(
-            id = "1",
-            type = TaskType.FLASHCARDS, // TODO: realize parsing type task
-            icon = R.drawable.ic_teacher, // TODO: setup icon
-            title = "",
-            payload =  """
-                    [
-                       {
-                            "type": "eng-rus",
-                            "front": "test1",
-                            "back": "тест1"
-                        },
-                        {
-                            "type": "rus-eng",
-                            "front": "тест2",
-                            "back": "test2"
-                        },
-                        {
-                            "type": "rus-eng",
-                            "front": "тест3",
-                            "back": "test3"
-                        },
-                        {
-                            "type": "rus-eng",
-                            "front": "тест4",
-                            "back": "test4"
-                        }
-                	]
-            """.trimIndent(),
-            optional = false,
-            checked = false
-        )
+    fun getPayload(taskVO: TaskVO): Observable<List<TaskPayloadVO>> {
         val taskPayloadVO = toTaskPayloadVO(taskVO)
         return Observable.just(taskPayloadVO)
-        /*
-        return taskWrapper.getTasksForLesson(lessonsId)
-            .flatMap { taskList ->
-                val voList = taskList.map { toVO(it) }
-                val taskPayloadVO = toTaskPayloadVO(voList.first { taskVO -> taskVO.type == type })
-
-                if (taskPayloadVO.isEmpty()) {
-                    throw Exception()
-                }
-
-                Observable.just(taskPayloadVO)
-            }
-            /
-         */
     }
 
     private fun toTaskPayloadVO(first: TaskVO): List<TaskPayloadVO> {

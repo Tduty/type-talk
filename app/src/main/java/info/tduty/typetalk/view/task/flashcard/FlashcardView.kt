@@ -7,4 +7,6 @@ interface FlashcardView {
     fun setupFlashcards(flashcardVO: List<FlashcardVO>)
 
     fun showWord(position: Int, isAnimated: Boolean)
+
+    fun showError()
 }

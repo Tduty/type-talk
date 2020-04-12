@@ -1,3 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="flow_vertical_spacing">8dp</dimen>
+    <dimen name="flow_min_horizontal_spacing">8dp</dimen>
 </resources>

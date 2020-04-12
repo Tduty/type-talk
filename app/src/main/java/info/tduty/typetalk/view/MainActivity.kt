@@ -20,6 +20,8 @@ import info.tduty.typetalk.view.login.password.LoginFragment
 import info.tduty.typetalk.view.login.password.qr.AuthQRFragment
 import info.tduty.typetalk.view.main.MainFragment
 import info.tduty.typetalk.view.task.flashcard.FlashcardFragment
+import info.tduty.typetalk.view.task.phrasebuilding.PhraseBuildingFragment
+import info.tduty.typetalk.view.task.wordamess.WordamessFragment
 import timber.log.Timber
 import javax.inject.Inject
 

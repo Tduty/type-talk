@@ -25,8 +25,11 @@ class TaskInteractor(
     }
 
     fun getPayload(taskVO: TaskVO): Observable<List<TaskPayloadVO>> {
-        val taskPayloadVO = toTaskPayloadVO(taskVO)
-        return Observable.just(taskPayloadVO)
+        return Observable.just(toTaskPayloadVO(taskVO))
+    }
+
+    fun getPayload2(taskVO: TaskVO): List<TaskPayloadVO> {
+        return toTaskPayloadVO(taskVO)
     }
 
     private fun toTaskPayloadVO(first: TaskVO): List<TaskPayloadVO> {
@@ -41,6 +44,7 @@ class TaskInteractor(
             icon = R.drawable.ic_teacher, // TODO: setup icon
             title = db.title,
             payload = db.payload ?: "",
+            lessonId = db.lessonsId,
             optional = db.optional,
             checked = db.isPerformed
         )

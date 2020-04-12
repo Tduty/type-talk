@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.db.model.ChatEntity
+import info.tduty.typetalk.data.model.TaskType
+import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.view.chat.ChatFragment
 import info.tduty.typetalk.view.debug.InDevelopmentFragment
@@ -17,6 +19,7 @@ import info.tduty.typetalk.view.lesson.LessonFragment
 import info.tduty.typetalk.view.login.password.LoginFragment
 import info.tduty.typetalk.view.login.password.qr.AuthQRFragment
 import info.tduty.typetalk.view.main.MainFragment
+import info.tduty.typetalk.view.task.flashcard.FlashcardFragment
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -77,6 +80,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
     override fun openLoginAuth() {
         showFragment(LoginFragment.newInstance())
+    }
+
+    override fun openFlashcardTask(taskVO: TaskVO) {
+        showFragment(FlashcardFragment.newInstance(taskVO))
     }
 
     fun setupToolbar(toolbar: Toolbar, @StringRes title: Int, withBackButton: Boolean) {

@@ -15,7 +15,7 @@ class TaskWrapper(private val taskDao: TaskDao) {
         return taskDao.insert(tasks)
     }
 
-    fun getTasksForLesson(lessonsId: Long): Observable<List<TaskEntity>> {
-        return taskDao.getAllTasksForLessons(lessonsId).toObservable()
+    fun getTasksByLessonId(lessonsId: String): Observable<List<TaskEntity>> {
+        return taskDao.getAllTasksByLessonId(lessonsId).toObservable()
     }
 }

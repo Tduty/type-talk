@@ -27,15 +27,15 @@
                 app:flipDuration="600"
                 app:flipEnabled="true"
                 app:flipFrom="right"
-                app:flipOnTouch="true"
+                app:flipOnTouch="false"
                 app:flipType="horizontal">
+
+                <include layout="@layout/item_no_lessons" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_lessons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
-
-                <include layout="@layout/item_no_lessons" />
 
             </com.wajahatkarim3.easyflipview.EasyFlipView>
 

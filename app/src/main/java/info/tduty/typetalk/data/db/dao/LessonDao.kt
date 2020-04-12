@@ -13,11 +13,14 @@ interface LessonDao {
     @Query("SELECT * FROM lessons")
     fun getAllLessons(): Maybe<List<LessonEntity>>
 
-    @Query("SELECT * FROM lessons WHERE id =:id")
-    fun getLesson(id: Long?): Maybe<LessonEntity>
+    @Query("SELECT * FROM lessons WHERE lesson_id IN (:lessonsIds)")
+    fun getLessons(lessonsIds: List<String>): Maybe<List<LessonEntity>>
+
+    @Query("SELECT * FROM lessons WHERE lesson_id =:id")
+    fun getLesson(id: String): Maybe<LessonEntity>
 
     @Update
-    fun update(lessons: LessonEntity?): Completable
+    fun update(lessons: LessonEntity): Completable
 
     @Delete
     fun delete(lessons: LessonEntity?): Completable

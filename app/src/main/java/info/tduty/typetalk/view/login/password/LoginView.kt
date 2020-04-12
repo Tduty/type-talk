@@ -5,6 +5,12 @@ package info.tduty.typetalk.view.login.password
  */
 interface LoginView {
 
+    fun showProgress()
+
+    fun hideProgress()
+
+    fun setClickableBtn(isClickable: Boolean)
+
     fun openMainScreen()
 
     fun showError()

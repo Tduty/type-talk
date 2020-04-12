@@ -17,7 +17,7 @@ interface TaskDao {
     fun getAllTasks(): List<TaskEntity?>?
 
     @Query("SELECT * FROM task WHERE lessons_id = :lessonsId")
-    fun getAllTasksForLessons(lessonsId: Long?): Maybe<List<TaskEntity>>
+    fun getAllTasksByLessonId(lessonsId: String): Maybe<List<TaskEntity>>
 
     @Query("SELECT * FROM task WHERE id =:id")
     fun getTask(id: Long?): TaskEntity?

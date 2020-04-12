@@ -15,6 +15,7 @@ import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.dictionary.adapter.DictionaryListAdapter
 import info.tduty.typetalk.view.dictionary.di.DictionaryModule
+import kotlinx.android.synthetic.main.fragment_dictionary.*
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
 import kotlinx.android.synthetic.main.fragment_dictionary.view.toolbar
 import javax.inject.Inject
@@ -72,6 +73,14 @@ class DictionaryFragment : Fragment(R.layout.fragment_dictionary), DictionaryVie
     override fun onDestroy() {
         super.onDestroy()
         presenter.onDestroy()
+    }
+
+    override fun showEmptyPlaceholder() {
+        ll_dictionary_empty.visibility = View.VISIBLE
+    }
+
+    override fun hideEmptyPlaceholder() {
+        ll_dictionary_empty.visibility = View.GONE
     }
 
     override fun setDictionary(dictionaryList: List<DictionaryVO>) {

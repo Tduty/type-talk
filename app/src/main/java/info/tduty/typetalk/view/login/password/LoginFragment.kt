@@ -65,22 +65,34 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginView {
         )
     }
 
+    override fun showProgress() {
+        pb_progress.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        pb_progress.visibility = View.GONE
+    }
+
+    override fun setClickableBtn(isClickable: Boolean) {
+        btn_next.isClickable = true
+    }
+
     override fun openMainScreen() {
         (activity as? ViewNavigation)?.openMain()
         setupWindowModeAdJustResize()
     }
 
     override fun showError() {
-        view.let { Snackbar.make(view!!, getString(R.string.auth_screen_error_authorization), Snackbar.LENGTH_LONG).show() }
+        view?.let {
+            Snackbar.make(it, getString(R.string.auth_screen_error_authorization), Snackbar.LENGTH_LONG).show()
+        }
     }
 
     private fun setupListeners() {
+        iv_qr_code.setOnClickListener { (activity as? ViewNavigation)?.openQRAuth() }
         btn_next.setOnClickListener {
+            btn_next.isClickable = false
             presenter.onNext(et_login.text.toString(), et_password.text.toString())
-        }
-
-        iv_qr_code.setOnClickListener {
-            (activity as? ViewNavigation)?.openQRAuth()
         }
     }
 }

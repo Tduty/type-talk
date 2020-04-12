@@ -23,7 +23,12 @@ class ChatInteractor(
             .map { toVO(it) }
             .switchIfEmpty(
                 chatProvider.getChat(chatId)
-                    .map { toVO(it) }
+                    .doOnError { Timber.e(it) }
+                    .flatMap { dto ->
+                        chatWrapper.insert(toDB(dto))
+                            .andThen(Observable.just(dto))
+                            .map { toVO(it) }
+                    }
             )
     }
 

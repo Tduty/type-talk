@@ -19,6 +19,16 @@ class LessonWrapper(private val lessonDao: LessonDao) {
     }
 
     fun getLesson(id: String): Observable<LessonEntity> {
-        return lessonDao.getLesson(id.toLong()).toObservable()
+        return lessonDao.getLesson(id).toObservable()
+    }
+
+    fun getLessons(): Observable<List<LessonEntity>> {
+        return lessonDao.getAllLessons()
+            .toObservable()
+    }
+
+    fun getLessons(lessonIds: List<String>): Observable<List<LessonEntity>> {
+        return lessonDao.getLessons(lessonIds)
+            .toObservable()
     }
 }

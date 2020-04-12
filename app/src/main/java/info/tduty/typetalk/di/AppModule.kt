@@ -13,12 +13,10 @@ import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.data.pref.UserDataSharedPreferencesHelper
 import info.tduty.typetalk.data.serializer.EventDeserializer
 import info.tduty.typetalk.domain.interactor.ChatInteractor
+import info.tduty.typetalk.domain.interactor.DictionaryInteractor
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.interactor.LessonInteractor
-import info.tduty.typetalk.domain.managers.AppLifecycleEventManager
-import info.tduty.typetalk.domain.managers.EventManager
-import info.tduty.typetalk.domain.managers.HistoryManager
-import info.tduty.typetalk.domain.managers.SocketManager
+import info.tduty.typetalk.domain.managers.*
 import info.tduty.typetalk.socket.EventBusRx
 import info.tduty.typetalk.socket.EventHandler
 import info.tduty.typetalk.socket.SocketController
@@ -59,6 +57,12 @@ class AppModule(private val application: Application) {
 
     @Provides
     @Singleton
+    fun provideDatabaseManager(): DatabaseManager {
+        return DatabaseManager()
+    }
+
+    @Provides
+    @Singleton
     fun provideSocketManager(): SocketManager {
         return SocketManager()
     }
@@ -67,9 +71,13 @@ class AppModule(private val application: Application) {
     @Provides
     @Singleton
     fun provideHistoryManager(socketManager: SocketManager,
+                              databaseManager: DatabaseManager,
                               chatInteractor: ChatInteractor,
-                              historyInteractor: HistoryInteractor): HistoryManager {
-        return HistoryManager(socketManager, chatInteractor, historyInteractor)
+                              historyInteractor: HistoryInteractor,
+                              lessonInteractor: LessonInteractor,
+                              dictionaryInteractor: DictionaryInteractor): DataLoaderManager {
+        return DataLoaderManager(socketManager, databaseManager, chatInteractor, historyInteractor,
+            lessonInteractor, dictionaryInteractor)
     }
 
     @Provides

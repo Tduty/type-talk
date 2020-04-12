@@ -1,6 +1,8 @@
 package info.tduty.typetalk.view.main
 
 import info.tduty.typetalk.domain.interactor.LessonInteractor
+import info.tduty.typetalk.domain.managers.DatabaseManager
+import info.tduty.typetalk.domain.managers.EventManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -11,12 +13,15 @@ import timber.log.Timber
  */
 class MainPresenter(
     private val view: MainView,
-    private val lessonInteractor: LessonInteractor
+    private val lessonInteractor: LessonInteractor,
+    private val eventManager: EventManager,
+    private val databaseManager: DatabaseManager
 ) {
 
     private val disposables = CompositeDisposable()
 
     fun onCreate() {
+        listenerUpdatedLesson()
         listenerAddLesson()
         getLessons()
     }
@@ -41,8 +46,27 @@ class MainPresenter(
         view.openLesson(lessonId)
     }
 
-    private fun listenerAddLesson() {
+    private fun listenerUpdatedLesson() {
+        disposables.add(
+            databaseManager.lessonUpdated()
+                .toObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ getLessons() }, Timber::e)
+        )
+    }
 
+    private fun listenerAddLesson() {
+        disposables.add(
+            eventManager.lessonNew()
+                .toObservable()
+                .flatMap { lessonInteractor.getLesson(it.id) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    view.addLesson(it)
+                }, Timber::e)
+        )
     }
 
     private fun getLessons() {
@@ -50,7 +74,7 @@ class MainPresenter(
             lessonInteractor.getLessons()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ view.setLessons(it) }, Timber::e)
+                .subscribe({ lessons -> view.setLessons(lessons) }, Timber::e)
         )
     }
 }

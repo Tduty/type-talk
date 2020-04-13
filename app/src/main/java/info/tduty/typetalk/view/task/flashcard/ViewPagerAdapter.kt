@@ -3,7 +3,6 @@ package info.tduty.typetalk.view.task.flashcard
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import info.tduty.typetalk.data.model.FlashcardVO
-import info.tduty.typetalk.view.task.flashcard.PagerVH
 import java.util.*
 
 class ViewPagerAdapter : RecyclerView.Adapter<PagerVH>() {

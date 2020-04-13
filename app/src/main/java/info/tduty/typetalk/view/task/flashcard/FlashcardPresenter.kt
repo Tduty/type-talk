@@ -16,8 +16,6 @@ class FlashcardPresenter(
     private val taskInteractor: TaskInteractor
 ) {
 
-    private val TASK_TYPE = TaskType.FLASHCARDS
-
     private val disposables = CompositeDisposable()
     private lateinit var flashcards: List<FlashcardVO>
 
@@ -50,6 +48,6 @@ class FlashcardPresenter(
     }
 
     fun onDestroy() {
-
+        disposables.dispose()
     }
 }

@@ -1,14 +1,12 @@
 package info.tduty.typetalk.view.task.flashcard
 
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.FlashcardVO
+import info.tduty.typetalk.view.task.flashcard.PagerVH
 import java.util.*
 
-class ViewPagerAdapter: RecyclerView.Adapter<PagerVH>() {
+class ViewPagerAdapter : RecyclerView.Adapter<PagerVH>() {
 
     private var flashcardVO: List<FlashcardVO> = Collections.emptyList()
 

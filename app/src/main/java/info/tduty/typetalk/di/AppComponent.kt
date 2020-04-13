@@ -17,6 +17,12 @@ import info.tduty.typetalk.view.main.di.MainComponent
 import info.tduty.typetalk.view.main.di.MainModule
 import info.tduty.typetalk.view.task.flashcard.di.FlashcardComponent
 import info.tduty.typetalk.view.task.flashcard.di.FlashcardModule
+import info.tduty.typetalk.view.task.phrasebuilding.di.PhraseBuildingComponent
+import info.tduty.typetalk.view.task.phrasebuilding.di.PhraseBuildingModule
+import info.tduty.typetalk.view.task.wordamess.di.WordamessComponent
+import info.tduty.typetalk.view.task.wordamess.di.WordamessModule
+import info.tduty.typetalk.view.task.translation.di.TranslationComponent
+import info.tduty.typetalk.view.task.translation.di.TranslationModule
 import javax.inject.Singleton
 
 /**
@@ -53,5 +59,11 @@ interface AppComponent {
     fun plus(module: AuthQRModule): AuthQRComponent
 
     fun plus(module: FlashcardModule): FlashcardComponent
+
+    fun plus(module: WordamessModule): WordamessComponent
+
+    fun plus(module: PhraseBuildingModule): PhraseBuildingComponent
+
+    fun plus(module: TranslationModule): TranslationComponent
 
 }

@@ -22,7 +22,8 @@ import kotlinx.android.synthetic.main.fragment_task_flashcard.*
 import javax.inject.Inject
 
 
-class FlashcardFragment : Fragment(R.layout.fragment_task_flashcard), FlashcardView {
+class FlashcardFragment : Fragment(R.layout.fragment_task_flashcard),
+    FlashcardView {
 
     companion object {
 
@@ -32,7 +33,8 @@ class FlashcardFragment : Fragment(R.layout.fragment_task_flashcard), FlashcardV
         fun newInstance(taskVO: TaskVO): FlashcardFragment {
             val bundle = Bundle()
             bundle.putParcelable(ARGUMENT_TASK_VO, taskVO)
-            val fragment = FlashcardFragment()
+            val fragment =
+                FlashcardFragment()
             fragment.arguments = bundle
             return fragment
         }
@@ -139,7 +141,11 @@ class FlashcardFragment : Fragment(R.layout.fragment_task_flashcard), FlashcardV
     override fun showError() {
         // TODO Проработать флоу ошибки для задания
         view?.let {
-            Snackbar.make(it, getString(R.string.auth_screen_error_authorization), Snackbar.LENGTH_LONG).show()
+            Snackbar.make(
+                it,
+                getString(R.string.auth_screen_error_authorization),
+                Snackbar.LENGTH_LONG
+            ).show()
         }
     }
 }

@@ -2,20 +2,22 @@ package info.tduty.typetalk.mapper
 
 import info.tduty.typetalk.data.model.TaskType
 import info.tduty.typetalk.mapper.task.FlashcardPayloadMapper
+import info.tduty.typetalk.mapper.task.PhraseBuildingPayloadMapper
+import info.tduty.typetalk.mapper.task.WordamessPayloadMapper
+import info.tduty.typetalk.mapper.task.TranslationPayloadMapper
+
 
 class TaskPayloadMapperStrategy {
 
     fun getTaskPayloadMapper(type: TaskType): TaskPayloadMapper? {
-        when(type) {
-            TaskType.FLASHCARDS -> {
-                return FlashcardPayloadMapper()
-            }
-            TaskType.WORDAMESS -> TODO()
-            TaskType.HURRY_UP -> TODO()
-            TaskType.PHRASE_BUILDING -> TODO()
-            TaskType.TRANSLATION -> TODO()
-            TaskType.DICTIONARY_PICTIONARY -> TODO()
-            TaskType.EMPTY -> TODO()
+        return when(type) {
+            TaskType.FLASHCARDS -> FlashcardPayloadMapper()
+            TaskType.WORDAMESS -> WordamessPayloadMapper()
+            TaskType.HURRY_UP -> null
+            TaskType.PHRASE_BUILDING -> PhraseBuildingPayloadMapper()
+            TaskType.TRANSLATION -> TranslationPayloadMapper()
+            TaskType.DICTIONARY_PICTIONARY -> null
+            TaskType.EMPTY -> null
         }
     }
 }

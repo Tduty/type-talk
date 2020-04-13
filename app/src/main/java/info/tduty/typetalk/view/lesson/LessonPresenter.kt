@@ -57,7 +57,7 @@ class LessonPresenter(
     }
 
     fun openTask(id: String, task: TaskType) {
-        view.openTask(tasks.first { it.id == id && it.type == task })
+        view.openTask(tasks.first { it.id == id && it.type == task }, lesson.id)
     }
 
 }

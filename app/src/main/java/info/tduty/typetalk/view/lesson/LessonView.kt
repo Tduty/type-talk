@@ -11,5 +11,5 @@ interface LessonView {
 
     fun setTasks(tasks: List<TaskVO>)
 
-    fun openTask(taskVO: TaskVO)
+    fun openTask(taskVO: TaskVO, lessonId: String)
 }

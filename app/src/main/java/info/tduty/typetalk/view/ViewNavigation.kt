@@ -26,4 +26,6 @@ interface ViewNavigation {
     fun openLoginAuth()
 
     fun openFlashcardTask(taskVO: TaskVO)
+
+    fun openTranslationTask(taskVO: TaskVO)
 }

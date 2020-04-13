@@ -4,6 +4,8 @@ import info.tduty.typetalk.data.model.TaskType
 import info.tduty.typetalk.mapper.task.FlashcardPayloadMapper
 import info.tduty.typetalk.mapper.task.PhraseBuildingPayloadMapper
 import info.tduty.typetalk.mapper.task.WordamessPayloadMapper
+import info.tduty.typetalk.mapper.task.TranslationPayloadMapper
+
 
 class TaskPayloadMapperStrategy {
 
@@ -13,7 +15,7 @@ class TaskPayloadMapperStrategy {
             TaskType.WORDAMESS -> WordamessPayloadMapper()
             TaskType.HURRY_UP -> null
             TaskType.PHRASE_BUILDING -> PhraseBuildingPayloadMapper()
-            TaskType.TRANSLATION -> null
+            TaskType.TRANSLATION -> TranslationPayloadMapper()
             TaskType.DICTIONARY_PICTIONARY -> null
             TaskType.EMPTY -> null
         }

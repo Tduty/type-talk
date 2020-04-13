@@ -2,10 +2,7 @@ package info.tduty.typetalk.view.chat
 
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -61,11 +58,14 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
         setupListeners()
         setHasOptionsMenu(true)
 
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
         presenter.onCreate(chatId, type)
     }
 
     override fun onDetach() {
         super.onDetach()
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         presenter.onDestroy()
     }
 

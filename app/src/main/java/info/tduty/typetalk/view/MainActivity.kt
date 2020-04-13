@@ -2,6 +2,7 @@ package info.tduty.typetalk.view
 
 import android.os.Bundle
 import android.view.MenuItem
+
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -9,7 +10,6 @@ import androidx.fragment.app.Fragment
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.db.model.ChatEntity
-import info.tduty.typetalk.data.model.TaskType
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.view.chat.ChatFragment
@@ -22,6 +22,7 @@ import info.tduty.typetalk.view.main.MainFragment
 import info.tduty.typetalk.view.task.flashcard.FlashcardFragment
 import info.tduty.typetalk.view.task.phrasebuilding.PhraseBuildingFragment
 import info.tduty.typetalk.view.task.wordamess.WordamessFragment
+import info.tduty.typetalk.view.task.translation.TranslationFragment
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -86,6 +87,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
     override fun openFlashcardTask(taskVO: TaskVO) {
         showFragment(FlashcardFragment.newInstance(taskVO))
+    }
+
+    override fun openTranslationTask(taskVO: TaskVO) {
+        showFragment(TranslationFragment.newInstance(taskVO))
     }
 
     fun setupToolbar(toolbar: Toolbar, @StringRes title: Int, withBackButton: Boolean) {

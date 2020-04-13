@@ -79,7 +79,7 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
         adapter.setTasks(tasks)
     }
 
-    override fun openTask(taskVO: TaskVO) {
+    override fun openTask(taskVO: TaskVO, lessonId: String) {
         when(taskVO.type) {
             TaskType.FLASHCARDS -> {
                 (activity as? ViewNavigation)?.openFlashcardTask(taskVO)
@@ -87,7 +87,9 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
             TaskType.WORDAMESS -> TODO()
             TaskType.HURRY_UP -> TODO()
             TaskType.PHRASE_BUILDING -> TODO()
-            TaskType.TRANSLATION -> TODO()
+            TaskType.TRANSLATION -> {
+                (activity as? ViewNavigation)?.openTranslationTask(taskVO)
+            }
             TaskType.DICTIONARY_PICTIONARY -> TODO()
             TaskType.EMPTY -> TODO()
         }

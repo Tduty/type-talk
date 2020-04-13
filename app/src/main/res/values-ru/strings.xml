@@ -69,6 +69,7 @@
 
     <!-- Task -->
     <string name="task_screen_flashcard_description">Чтобы увидеть перевод слова, нажмите на карточку</string>
+
     <string name="task_wordamess_info">Choose misspelled words</string>
     <string name="task_screen_wordamess_btn_correct">Correct</string>
     <string name="task_screen_wordamess_btn_correct_with_num">Correct (%1$d)</string>
@@ -79,6 +80,12 @@
     <string name="task_screen_wordamess_error_selected_no_error">No error words were selected</string>
     <string name="task_screen_phrase_building_wrong_sentence">Incorrectly constructed sentence</string>
     <string name="task_screen_empty_error">Error getting task, contact teacher</string>
-    <!-- Taks -->
+
+    <string name="task_screen_translation_description">TRANSLATE THE WORD/PHRASE</string>
+    <string name="task_screen_translation_btn_next">NEXT</string>
+    <string name="task_screen_translation_btn_send_to_teacher">Send to teacher</string>
+    <string name="task_screen_translation_btn_complete">Completed</string>
+    <string name="task_screen_translation_btn_skip">Skip</string>
+    <!---->
 
 </resources>

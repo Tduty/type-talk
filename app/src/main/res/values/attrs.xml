@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FlowLayout">
+        <attr name="minHorizontalSpacing" />
+        <attr name="verticalSpacing" />
+        <attr name="selectedColor" />
+        <attr name="deselectedColor" />
+        <attr name="isClickableChip" />
+        <attr name="isDragAndDropChip" />
+    </declare-styleable>
+</resources>

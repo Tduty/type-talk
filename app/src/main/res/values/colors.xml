@@ -5,13 +5,18 @@
     <color name="colorAccent">#EEC64C</color>
 
     <color name="white">#ffffff</color>
+    <color name="white2">#FEFEFE</color>
     <color name="black">#000000</color>
+    <color name="mine_shaft">#2B2B2B</color>
     <color name="alabaster">#f9f9f9</color>
     <color name="alto">#d3d3d3</color>
+    <color name="silverB">#BBBBBB</color>
     <color name="silver">#c9c9c9</color>
     <color name="tundora">#484848</color>
+    <color name="dove_gray">#696969</color>
     <color name="corn">#dfa800</color>
     <color name="bright_sun">#fece3c</color>
     <color name="headerColor">#FECE3C</color>
     <color name="scorpion">#575757</color>
+    <color name="cosmos">#FFD1D1</color>
 </resources>

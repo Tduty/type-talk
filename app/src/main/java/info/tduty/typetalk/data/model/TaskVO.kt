@@ -14,6 +14,7 @@ data class TaskVO(
     @DrawableRes val icon: Int = 0,
     val title: String,
     val payload: String,
+    val lessonId: String,
     val optional: Boolean = false,
     val checked: Boolean = false
 ) : Parcelable

@@ -75,11 +75,11 @@ class PagerVH(
     }
 
     fun showCorrectState() {
-        if (isLastVH) itemView.btn_next.setText(R.string.button_сomplete)
+        if (isLastVH) itemView.btn_next.setText(R.string.button_complete)
         else itemView.btn_next.setText(R.string.button_next)
         itemView.btn_next.visibility = View.VISIBLE
         itemView.tv_info_about_task.visibility = View.VISIBLE
-        itemView.tv_info_about_task.setText(R.string.task_screen_phrase_building_congritulation_description)
+        itemView.tv_info_about_task.setText(R.string.task_screen_phrase_building_congratulation_description)
         itemView.fl_chip.visibility = View.GONE
     }
 

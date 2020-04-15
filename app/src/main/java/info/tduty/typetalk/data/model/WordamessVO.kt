@@ -6,5 +6,8 @@ package info.tduty.typetalk.data.model
 data class WordamessVO(
     val isMistake: Boolean,
     val body: String,
-    val correctBody: String?
+    val correctBody: String?,
+    var inputText: String = "",
+    var isCorrected: Boolean = false,
+    var isSkipped: Boolean = false
 ): TaskPayloadVO(TaskType.WORDAMESS)

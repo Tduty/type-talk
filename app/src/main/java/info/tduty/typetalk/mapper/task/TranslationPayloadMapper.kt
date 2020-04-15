@@ -29,7 +29,7 @@ class TranslationPayloadMapper : TaskPayloadMapper {
             val word = payloadElement.asJsonObject.get("word").asString
             val currentTranslate = payloadElement.asJsonObject.get("current_translate").asString
 
-            return TranslationVO(type, word, currentTranslate, "", TaskType.TRANSLATION)
+            return TranslationVO(type, word, currentTranslate)
         } catch (ex: JsonSyntaxException) {
             ex.printStackTrace()
         }

@@ -4,7 +4,7 @@
     <string name="app_name">TypeTalk</string>
     <string name="action_settings">Settings</string>
     <string name="button_skip">Skip</string>
-    <string name="button_сomplete">Complete</string>
+    <string name="button_complete">Complete</string>
     <string name="button_next">Next</string>
     <string name="empty_string" />
 
@@ -71,15 +71,16 @@
     <string name="task_screen_flashcard_description">Чтобы увидеть перевод слова, нажмите на карточку</string>
 
     <string name="task_wordamess_info">Choose misspelled words</string>
+    <string name="task_wordamess_description_correct">Enter the correct word</string>
+    <string name="task_screen_wordamess_input_hint">Correct</string>
     <string name="task_screen_wordamess_btn_correct">Correct</string>
     <string name="task_screen_wordamess_btn_correct_with_num">Correct (%1$d)</string>
-    <string name="task_screen_phrase_building_description">Drag the words to the bottom area in order to build a sentence</string>
-    <string name="task_screen_phrase_building_congritulation_description">Congratulations!\nYou have correctly written this sentence</string>
-    <string name="task_screen_phrase_building_drags_words">Drag words here in order</string>
-
     <string name="task_screen_wordamess_error_selected_no_error">No error words were selected</string>
+
+    <string name="task_screen_phrase_building_description">Drag the words to the bottom area in order to build a sentence</string>
+    <string name="task_screen_phrase_building_congratulation_description">Congratulations!\nYou have correctly written this sentence</string>
+    <string name="task_screen_phrase_building_drags_words">Drag words here in order</string>
     <string name="task_screen_phrase_building_wrong_sentence">Incorrectly constructed sentence</string>
-    <string name="task_screen_empty_error">Error getting task, contact teacher</string>
 
     <string name="task_screen_translation_description">Translate the word/phrase</string>
     <string name="task_btn_next">Next</string>
@@ -89,6 +90,8 @@
 
     <string name="task_screen_dictionary_pictionary_description">Describe the picture in one word</string>
     <string name="task_screen_dictionary_pictionary_input_hint">Describe</string>
+
+    <string name="task_screen_empty_error">Error getting task, contact teacher</string>
     <!---->
 
 </resources>

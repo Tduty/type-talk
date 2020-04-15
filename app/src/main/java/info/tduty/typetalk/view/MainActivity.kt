@@ -19,6 +19,7 @@ import info.tduty.typetalk.view.lesson.LessonFragment
 import info.tduty.typetalk.view.login.password.LoginFragment
 import info.tduty.typetalk.view.login.password.qr.AuthQRFragment
 import info.tduty.typetalk.view.main.MainFragment
+import info.tduty.typetalk.view.task.dictionarypicationary.DictionaryPictionaryFragment
 import info.tduty.typetalk.view.task.flashcard.FlashcardFragment
 import info.tduty.typetalk.view.task.phrasebuilding.PhraseBuildingFragment
 import info.tduty.typetalk.view.task.wordamess.WordamessFragment
@@ -91,6 +92,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
     override fun openTranslationTask(taskVO: TaskVO) {
         showFragment(TranslationFragment.newInstance(taskVO))
+    }
+
+    override fun openDictionaryPictionary(taskVO: TaskVO) {
+        showFragment(DictionaryPictionaryFragment.newInstance(taskVO))
     }
 
     fun setupToolbar(toolbar: Toolbar, @StringRes title: Int, withBackButton: Boolean) {

@@ -1,6 +1,7 @@
 package info.tduty.typetalk.view.task.translation
 
 import info.tduty.typetalk.data.model.TranslationVO
+import info.tduty.typetalk.view.task.StateInputWord
 
 interface TranslationView {
 
@@ -10,7 +11,7 @@ interface TranslationView {
 
     fun setTitleNextButton(title: Int)
 
-    fun setStateEditWord(state: StateEditWord)
+    fun setStateEditWord(state: StateInputWord)
 
     fun setValueToInput(value: String)
 
@@ -19,11 +20,4 @@ interface TranslationView {
     fun hiddenKeyboard()
 
     fun completeTask()
-
-    enum class StateEditWord {
-        DEFAULT,
-        VALID,
-        EDIT,
-        ERROR
-    }
 }

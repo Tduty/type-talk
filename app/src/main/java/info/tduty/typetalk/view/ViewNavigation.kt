@@ -28,4 +28,6 @@ interface ViewNavigation {
     fun openFlashcardTask(taskVO: TaskVO)
 
     fun openTranslationTask(taskVO: TaskVO)
+
+    fun openDictionaryPictionary(taskVO: TaskVO)
 }

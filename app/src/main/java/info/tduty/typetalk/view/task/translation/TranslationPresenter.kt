@@ -7,6 +7,7 @@ import info.tduty.typetalk.data.model.TranslationVO
 import info.tduty.typetalk.domain.interactor.ChatInteractor
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.interactor.TaskInteractor
+import info.tduty.typetalk.view.task.StateInputWord
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -25,30 +26,24 @@ class TranslationPresenter(
     private var task: TaskVO? = null
     private var isCompleted = false
 
-    private val BTN_TITLE_SEND_TO_TEACHER = R.string.task_screen_translation_btn_send_to_teacher
-    private val BTN_TITLE_NEXT = R.string.task_screen_translation_btn_next
-    private val BTN_TITLE_COMPLETED = R.string.task_screen_translation_btn_complete
+    private val BTN_TITLE_SEND_TO_TEACHER = R.string.task_btn_send_to_teacher
+    private val BTN_TITLE_NEXT = R.string.task_btn_next
+    private val BTN_TITLE_COMPLETED = R.string.task_btn_complete
     private val BTN_TITLE_SKIP = R.string.task_screen_translation_btn_skip
 
     fun onCreate(
         taskVO: TaskVO
     ) {
-        disposables.add(
-            taskInteractor.getPayload(taskVO)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ task ->
-                    this.translationList = getTranslationList(task)
 
-                    if (this.translationList.isEmpty()) {
-                        view.showError()
-                    }
+        this.translationList = getTranslationList(taskInteractor.getPayload2(taskVO))
 
-                    this.task = taskVO
+        if (this.translationList.isEmpty()) {
+            view.showError()
+        }
 
-                    view.setupTranslations(translationList)
-                }, Timber::e)
-        )
+        this.task = taskVO
+
+        view.setupTranslations(translationList)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -63,10 +58,10 @@ class TranslationPresenter(
             translationVO.inputWord == translationVO.currentTranslation
         ) {
             view.setValueToInput(translationVO.inputWord!!)
-            view.setStateEditWord(TranslationView.StateEditWord.VALID)
+            view.setStateEditWord(StateInputWord.VALID)
             view.setTitleNextButton(BTN_TITLE_NEXT)
         } else {
-            view.setStateEditWord(TranslationView.StateEditWord.DEFAULT)
+            view.setStateEditWord(StateInputWord.DEFAULT)
         }
         view.hiddenKeyboard()
     }
@@ -75,7 +70,7 @@ class TranslationPresenter(
         val translationVO = translationList[currentItem]
 
         if (word.isEmpty()) {
-            view.setStateEditWord(TranslationView.StateEditWord.DEFAULT)
+            view.setStateEditWord(StateInputWord.DEFAULT)
             setNextButtonTitle(currentItem)
             return
         }
@@ -83,14 +78,14 @@ class TranslationPresenter(
             "phrase" -> {
                 if (word == translationVO.currentTranslation) {
                     translationVO.inputWord = word
-                    view.setStateEditWord(TranslationView.StateEditWord.VALID)
+                    view.setStateEditWord(StateInputWord.VALID)
                     view.setTitleNextButton(BTN_TITLE_NEXT)
                 } else {
-                    view.setStateEditWord(TranslationView.StateEditWord.EDIT)
+                    view.setStateEditWord(StateInputWord.EDIT)
                 }
             }
             "sentence" -> {
-                view.setStateEditWord(TranslationView.StateEditWord.EDIT)
+                view.setStateEditWord(StateInputWord.EDIT)
             }
         }
     }

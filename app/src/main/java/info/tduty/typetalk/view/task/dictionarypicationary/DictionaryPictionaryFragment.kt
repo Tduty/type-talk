@@ -1,4 +1,4 @@
-package info.tduty.typetalk.view.task.translation
+package info.tduty.typetalk.view.task.dictionarypicationary
 
 import android.content.res.Resources
 import android.graphics.drawable.GradientDrawable
@@ -16,54 +16,45 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
+import info.tduty.typetalk.data.model.DictionaryPictionaryVO
 import info.tduty.typetalk.data.model.TaskVO
-import info.tduty.typetalk.data.model.TranslationVO
 import info.tduty.typetalk.utils.KeyboardHelper
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.task.StateInputWord
-import info.tduty.typetalk.view.task.translation.di.TranslationModule
+import info.tduty.typetalk.view.task.dictionarypicationary.di.DictionaryPictionaryModule
+import kotlinx.android.synthetic.main.fragment_task_dictionary_pictionary.*
+import kotlinx.android.synthetic.main.fragment_task_dictionary_pictionary.view.*
 import kotlinx.android.synthetic.main.fragment_task_flashcard.btn_next
-import kotlinx.android.synthetic.main.fragment_task_translation.*
-import kotlinx.android.synthetic.main.fragment_task_translation.view.*
 import kotlinx.android.synthetic.main.item_edittext_enter_word.*
 import kotlinx.android.synthetic.main.item_task_card_content_word.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
-
-class TranslationFragment : Fragment(R.layout.fragment_task_translation), TranslationView {
+class DictionaryPictionaryFragment: Fragment(R.layout.fragment_task_dictionary_pictionary), DictionaryPictionaryView {
 
     companion object {
 
         private const val ARGUMENT_TASK_VO = "task_vo"
 
         @JvmStatic
-        fun newInstance(taskVO: TaskVO): TranslationFragment {
+        fun newInstance(taskVO: TaskVO) : DictionaryPictionaryFragment {
             val bundle = Bundle()
             bundle.putParcelable(ARGUMENT_TASK_VO, taskVO)
-            val fragment = TranslationFragment()
+            val fragment = DictionaryPictionaryFragment()
             fragment.arguments = bundle
             return fragment
         }
     }
 
     @Inject
-    lateinit var presenter: TranslationPresenter
-    lateinit var adapter: ViewPagerAdapter
+    lateinit var presenter: DictionaryPictionaryPresenter
     private var lessonsId: String = ""
-
+    private var adapter: VpAdapter? = null
     val Int.dp: Float get() =  Resources.getSystem().displayMetrics.density
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupFragmentComponent()
-    }
-
-    private fun setupFragmentComponent() {
-        App.get(this.requireContext())
-            .appComponent
-            .plus(TranslationModule(this))
-            .inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,7 +69,8 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
 
         setupViewPager()
         setupListener()
-        setStateEditWord(StateInputWord.DEFAULT)
+        setupInput()
+        setStateInput(StateInputWord.DEFAULT)
 
         presenter.onCreate(taskVO)
     }
@@ -97,6 +89,15 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
         return true
     }
 
+    private fun setupToolbar(toolbar: Toolbar, title: String, isShowBackButton: Boolean) {
+        toolbar.title = title
+        (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
+        (activity as? AppCompatActivity)?.supportActionBar?.setHomeButtonEnabled(isShowBackButton)
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(
+            isShowBackButton
+        )
+    }
+
     private fun setupListener() {
         view?.setOnClickListener {
             et_word.clearFocus()
@@ -104,13 +105,13 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
         }
 
         btn_next?.setOnClickListener {
-            presenter.onClickNext(vp_translation.currentItem, et_word.text.toString())
+            presenter.onClickNext(vp_dictionary_pictionary.currentItem, et_word.text.toString())
         }
 
         et_word.setOnFocusChangeListener { _, hasFocus ->
             run {
                 if (!hasFocus) {
-                    presenter.onChangeEditText(et_word.text.toString(), vp_translation.currentItem)
+                    presenter.onChangeEditText(et_word.text.toString(), vp_dictionary_pictionary.currentItem)
                 }
             }
         }
@@ -121,54 +122,48 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                presenter.onChangeEditText(p0.toString(), vp_translation.currentItem)
+                presenter.onChangeEditText(p0.toString(), vp_dictionary_pictionary.currentItem)
             }
         })
 
-        vp_translation.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        vp_dictionary_pictionary.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                presenter.onScrollCard(position)
+                presenter.onScrollCard()
             }
         })
 
         // Business rule: swipe blocked
-        vp_translation.isUserInputEnabled = false
+        vp_dictionary_pictionary.isUserInputEnabled = false
+    }
+
+    private fun setupInput() {
+        et_word.hint = activity?.resources?.getString(R.string.task_screen_dictionary_pictionary_input_hint)
     }
 
     private fun setupViewPager() {
-        adapter = ViewPagerAdapter()
-        vp_translation.adapter = adapter
+        adapter = VpAdapter(requireContext())
+        vp_dictionary_pictionary.adapter = adapter
     }
 
-    private fun setupToolbar(toolbar: Toolbar, title: String, isShowBackButton: Boolean) {
-        toolbar.title = title
-        (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
-        (activity as? AppCompatActivity)?.supportActionBar?.setHomeButtonEnabled(isShowBackButton)
-        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(
-            isShowBackButton
-        )
-    }
 
-    override fun setupTranslations(translationList: List<TranslationVO>) {
-        adapter.setupTranslationList(translationList)
-        adapter.notifyDataSetChanged()
-    }
-
-    override fun showWord(position: Int, isAnimated: Boolean) {
-        vp_translation.setCurrentItem(position, isAnimated)
+    private fun setupFragmentComponent() {
+        App.get(this.requireContext())
+            .appComponent
+            .plus(DictionaryPictionaryModule(this))
+            .inject(this)
     }
 
     override fun setTitleNextButton(title: Int) {
-        btn_next.text = activity?.resources?.getString(title)
+        btn_next.text = requireActivity().resources?.getString(title)
     }
 
-    override fun setStateEditWord(state: StateInputWord) {
-        when(state) {
+    override fun setStateInput(state: StateInputWord) {
+        when (state) {
             StateInputWord.DEFAULT -> {
                 clearEditText()
                 cv_container_word.setBackgroundResource(R.drawable.et_circle_bg_shadow)
@@ -183,10 +178,6 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
                 iv_right_top_corner?.visibility = View.GONE
             }
         }
-    }
-
-    override fun setValueToInput(value: String) {
-        et_word.setText(value)
     }
 
     private fun changeBorder(dp: Float, color: Int) {
@@ -212,7 +203,17 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
     }
 
     override fun hiddenKeyboard() {
-       KeyboardHelper.hideKeyboard(activity, view)
+        KeyboardHelper.hideKeyboard(activity, view)
+    }
+
+    override fun setupDictionaryPictionary(dictionaryPictionaryList: List<DictionaryPictionaryVO>) {
+        adapter?.setupDictionaryPictionaryList(dictionaryPictionaryList)
+        adapter?.notifyDataSetChanged()
+    }
+
+
+    override fun showWord(position: Int, isAnimated: Boolean) {
+        vp_dictionary_pictionary.setCurrentItem(position, isAnimated)
     }
 
     override fun completeTask() {

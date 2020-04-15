@@ -15,6 +15,8 @@ import info.tduty.typetalk.view.login.password.qr.di.AuthQRComponent
 import info.tduty.typetalk.view.login.password.qr.di.AuthQRModule
 import info.tduty.typetalk.view.main.di.MainComponent
 import info.tduty.typetalk.view.main.di.MainModule
+import info.tduty.typetalk.view.task.dictionarypicationary.di.DictionaryPictionaryComponent
+import info.tduty.typetalk.view.task.dictionarypicationary.di.DictionaryPictionaryModule
 import info.tduty.typetalk.view.task.flashcard.di.FlashcardComponent
 import info.tduty.typetalk.view.task.flashcard.di.FlashcardModule
 import info.tduty.typetalk.view.task.phrasebuilding.di.PhraseBuildingComponent
@@ -66,4 +68,5 @@ interface AppComponent {
 
     fun plus(module: TranslationModule): TranslationComponent
 
+    fun plus(module: DictionaryPictionaryModule): DictionaryPictionaryComponent
 }

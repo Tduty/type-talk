@@ -1,10 +1,8 @@
 package info.tduty.typetalk.mapper
 
+import info.tduty.typetalk.data.model.DictionaryPictionaryVO
 import info.tduty.typetalk.data.model.TaskType
-import info.tduty.typetalk.mapper.task.FlashcardPayloadMapper
-import info.tduty.typetalk.mapper.task.PhraseBuildingPayloadMapper
-import info.tduty.typetalk.mapper.task.WordamessPayloadMapper
-import info.tduty.typetalk.mapper.task.TranslationPayloadMapper
+import info.tduty.typetalk.mapper.task.*
 
 
 class TaskPayloadMapperStrategy {
@@ -16,7 +14,7 @@ class TaskPayloadMapperStrategy {
             TaskType.HURRY_UP -> null
             TaskType.PHRASE_BUILDING -> PhraseBuildingPayloadMapper()
             TaskType.TRANSLATION -> TranslationPayloadMapper()
-            TaskType.DICTIONARY_PICTIONARY -> null
+            TaskType.DICTIONARY_PICTIONARY -> DictionaryPictionaryMapper()
             TaskType.EMPTY -> null
         }
     }

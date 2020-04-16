@@ -43,25 +43,9 @@ class DictionaryFragment : Fragment(R.layout.fragment_dictionary), DictionaryVie
         super.onViewCreated(view, savedInstanceState)
 
         (activity as? MainActivity)?.setupToolbar(view.toolbar as Toolbar, R.string.title_dictionary, true)
-        setHasOptionsMenu(true)
 
         setupRV(view)
         presenter.onCreate()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        inflater.inflate(R.menu.menu_dictionary, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.action_chat -> {
-                (activity as? ViewNavigation)?.openTeacherChat()
-            }
-        }
-        return true
     }
 
     private fun setupRV(view: View) {

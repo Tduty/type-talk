@@ -190,7 +190,7 @@ class WordamessFragment : Fragment(R.layout.fragment_wordamess), WordamessView {
     }
 
     override fun completeTask(lessonId: String) {
-        (activity as? ViewNavigation)?.openLesson(lessonId)
+        (activity as? ViewNavigation)?.closeFragment()
     }
 
     override fun showErrorExistCorrectWords() {

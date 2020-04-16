@@ -29,7 +29,7 @@ class DataLoaderManager(
         socketOnOpenDisposable = socketManager.onOpened()
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
-            .subscribe({ loadData() }, Timber::e)
+            .subscribe({ loadDataInBackground() }, Timber::e)
     }
 
     fun loadData(): Completable {

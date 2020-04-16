@@ -94,6 +94,6 @@ class PhraseBuildingFragment : Fragment(R.layout.fragment_phrase_building), Phra
     }
 
     override fun openLesson(lessonId: String) {
-        (activity as? ViewNavigation)?.openLesson(lessonId)
+        (activity as? ViewNavigation)?.closeFragment()
     }
 }

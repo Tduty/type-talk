@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -18,7 +17,6 @@ import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.lesson.di.LessonsModule
 import kotlinx.android.synthetic.main.fragment_lesson.*
-import kotlinx.android.synthetic.main.fragment_main.toolbar
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
 
@@ -82,12 +80,14 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
     override fun openTask(taskVO: TaskVO, lessonId: String) {
         when(taskVO.type) {
             TaskType.FLASHCARDS -> (activity as? ViewNavigation)?.openFlashcardTask(taskVO)
-            TaskType.WORDAMESS -> TODO()
-            TaskType.HURRY_UP -> TODO()
-            TaskType.PHRASE_BUILDING -> TODO()
+            TaskType.WORDAMESS -> (activity as? ViewNavigation)?.openWordamess(taskVO)
+            TaskType.HURRY_UP -> {
+            }
+            TaskType.PHRASE_BUILDING -> (activity as? ViewNavigation)?.openPhraseBuilding(taskVO)
             TaskType.TRANSLATION -> (activity as? ViewNavigation)?.openTranslationTask(taskVO)
             TaskType.DICTIONARY_PICTIONARY -> (activity as? ViewNavigation)?.openDictionaryPictionary(taskVO)
-            TaskType.EMPTY -> TODO()
+            TaskType.EMPTY -> {
+            }
         }
     }
 

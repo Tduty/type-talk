@@ -217,6 +217,6 @@ class DictionaryPictionaryFragment: Fragment(R.layout.fragment_task_dictionary_p
     }
 
     override fun completeTask() {
-        (activity as? ViewNavigation)?.openLesson(this.lessonsId)
+        (activity as? ViewNavigation)?.closeFragment()
     }
 }

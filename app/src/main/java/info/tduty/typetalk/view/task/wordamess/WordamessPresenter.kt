@@ -37,9 +37,10 @@ class WordamessPresenter(
     private fun setupCorrectBlock() {
         correctList = selectedTasks.values.shuffled()
         selectedTasks.clear()
+        view.setupTasksForCorrect(correctList)
+        view.showWordForCorrect(0)
         view.setStateEditWord(WordamessView.StateEditWord.DEFAULT)
         view.setValueToInput("")
-        view.setupTasksForCorrect(correctList)
         view.showCorrectBlock()
     }
 

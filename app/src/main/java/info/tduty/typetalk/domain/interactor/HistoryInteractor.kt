@@ -39,25 +39,6 @@ class HistoryInteractor(
             }
     }
 
-    fun loadHistory(chatId: String): Observable<List<MessageVO>> {
-        return historyProvider.getHistory(chatId)
-            .doOnError { Timber.e(it) }
-            .flatMap { messages ->
-                if (messages.isEmpty()) {
-                    Observable.just(Optional.empty())
-                } else {
-                    chatWrapper.getByChatId(messages[0].chatId)
-                        .map { Optional.of(it) }
-                }
-                    .flatMap { chat ->
-                        val dbList = messages.map { toDB(it) }
-                        val voList = dbList.map { toVO(it, chat.get()?.type) }
-                        messageWrapper.insert(dbList)
-                            .andThen(Observable.just(voList))
-                    }
-            }
-    }
-
     fun getHistory(chatId: String, chatType: String?): Observable<List<MessageVO>> {
         return messageWrapper.getByChatId(chatId)
             .map { messages ->
@@ -87,7 +68,7 @@ class HistoryInteractor(
     private fun toDB(dto: MessageDTO): MessageEntity {
         return MessageEntity(
             syncId = dto.id,
-            title = dto.senderName ?: "Default", //TODO добавить в DTO name в будущем выпилится
+            title = dto.senderName, //TODO добавить в DTO name в будущем выпилится
             content = dto.body,
             chatId = dto.chatId,
             avatarURL = "cl_your_teacher_chat", //TODO придумать норм способ добавлять аватарку
@@ -100,7 +81,7 @@ class HistoryInteractor(
     private fun toDB(payload: MessageNewPayload): MessageEntity {
         return MessageEntity(
             syncId = payload.id,
-            title = payload.senderName ?: "", //TODO добавить в DTO name в будущем выпилится
+            title = payload.senderName, //TODO добавить в DTO name в будущем выпилится
             content = payload.body,
             chatId = payload.chatId,
             avatarURL = "cl_your_teacher_chat", //TODO придумать норм способ добавлять аватарку

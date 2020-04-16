@@ -180,6 +180,6 @@ class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
     }
 
     override fun showError() {
-        view.let { Snackbar.make(view!!, getString(R.string.auth_screen_error_authorization), Snackbar.LENGTH_LONG).show() }
+        view?.let { Snackbar.make(it, getString(R.string.auth_screen_error_authorization), Snackbar.LENGTH_LONG).show() }
     }
 }

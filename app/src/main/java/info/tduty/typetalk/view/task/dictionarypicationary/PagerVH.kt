@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.DictionaryPictionaryVO
+import info.tduty.typetalk.data.pref.UrlStorage
 import kotlinx.android.synthetic.main.item_pager_task_dictionary_pictionary.view.*
 
 
@@ -28,7 +29,7 @@ class PagerVH(
 
     fun onBind(dictionaryPictionaryVO: DictionaryPictionaryVO) {
         Picasso.with(context)
-            .load(dictionaryPictionaryVO.url)
+            .load(UrlStorage.getUrl() + dictionaryPictionaryVO.url)
             .into(itemView.iv_content)
     }
 

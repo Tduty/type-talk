@@ -38,6 +38,10 @@ class ChipLayout(context: Context, attrs: AttributeSet) : FlowLayout(context, at
         addView(view)
     }
 
+    fun clearAll() {
+        removeAllViews()
+    }
+
     private fun setClickableListener(
         view: View, text: String,
         clickListener: ((Boolean, String) -> Unit)? = null

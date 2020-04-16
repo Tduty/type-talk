@@ -1,11 +1,13 @@
 package info.tduty.typetalk.view
 
-import info.tduty.typetalk.data.model.TaskVO
 
+import info.tduty.typetalk.data.model.TaskVO
 /**
  * Created by Evgeniy Mezentsev on 07.03.2020.
  */
 interface ViewNavigation {
+
+    fun closeFragment()
 
     fun openMain()
 
@@ -30,4 +32,10 @@ interface ViewNavigation {
     fun openTranslationTask(taskVO: TaskVO)
 
     fun openDictionaryPictionary(taskVO: TaskVO)
+
+    fun openWordamessTask(taskVO: TaskVO)
+
+    fun openPhaserBuilderTask(taskVO: TaskVO)
+
+    fun openHurryUpTask(taskVO: TaskVO)
 }

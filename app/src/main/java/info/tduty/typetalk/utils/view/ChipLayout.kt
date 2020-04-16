@@ -30,6 +30,10 @@ class ChipLayout(context: Context, attrs: AttributeSet) : FlowLayout(context, at
         isDragAndDropChip = a.getBoolean(R.styleable.FlowLayout_isDragAndDropChip, false)
     }
 
+    fun addChip(view: View) {
+        addView(view)
+    }
+
     fun addChip(text: String, clickListener: ((Boolean, String) -> Unit)? = null) {
         val view = LayoutInflater.from(context).inflate(R.layout.item_chip, this, false)
         view.tv_chip.text = text

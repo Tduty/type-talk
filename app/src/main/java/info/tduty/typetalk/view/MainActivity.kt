@@ -21,13 +21,14 @@ import info.tduty.typetalk.view.login.password.qr.AuthQRFragment
 import info.tduty.typetalk.view.main.MainFragment
 import info.tduty.typetalk.view.task.dictionarypicationary.DictionaryPictionaryFragment
 import info.tduty.typetalk.view.task.flashcard.FlashcardFragment
+import info.tduty.typetalk.view.task.hurryup.HurryUpFragment
+import info.tduty.typetalk.view.task.phrasebuilding.PhraseBuildingFragment
 import info.tduty.typetalk.view.task.translation.TranslationFragment
+import info.tduty.typetalk.view.task.wordamess.WordamessFragment
 import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
-
-    private var currentFragment: Fragment? = null
 
     @Inject
     lateinit var userDataHelper: UserDataHelper
@@ -46,6 +47,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
             onBackPressed()
             true
         } else super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        when (supportFragmentManager.findFragmentById(R.id.content_frame)) {
+            is AuthQRFragment -> openLoginAuth()
+            else -> super.onBackPressed()
+        }
+    }
+
+    override fun closeFragment() {
+        supportFragmentManager.popBackStack()
     }
 
     override fun openMain() {
@@ -69,7 +81,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
     }
 
     override fun openLesson(lessonId: String) {
-        showFragment(LessonFragment.newInstance(lessonId))
+        showFragment(LessonFragment.newInstance(lessonId), lessonId)
     }
 
     override fun openDictionary() {
@@ -96,6 +108,29 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
         showFragment(DictionaryPictionaryFragment.newInstance(taskVO))
     }
 
+<<<<<<< HEAD
+    override fun openWordamess(taskVO: TaskVO) {
+        showFragment(WordamessFragment.newInstance(taskVO))
+    }
+
+    override fun openPhraseBuilding(taskVO: TaskVO) {
+        showFragment(PhraseBuildingFragment.newInstance(taskVO))
+    }
+
+=======
+    override fun openWordamessTask(taskVO: TaskVO) {
+        showFragment(WordamessFragment.newInstance(taskVO))
+    }
+
+    override fun openPhaserBuilderTask(taskVO: TaskVO) {
+        showFragment(PhraseBuildingFragment.newInstance(taskVO))
+    }
+
+    override fun openHurryUpTask(taskVO: TaskVO) {
+        showFragment(HurryUpFragment.newInstance(taskVO))
+    }
+
+>>>>>>> resolve conflicts
     fun setupToolbar(toolbar: Toolbar, @StringRes title: Int, withBackButton: Boolean) {
         toolbar.setTitle(title)
         this.setSupportActionBar(toolbar)
@@ -110,15 +145,31 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
             .inject(this)
     }
 
-    private fun showFragment(fragment: Fragment) {
+    private fun showFragment(fragment: Fragment, tag: String? = null) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.content_frame, fragment)
-        if (currentFragment != null) transaction.addToBackStack(null)
-        currentFragment = fragment
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.content_frame)
+        currentFragment?.let {
+            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+            transaction.hide(it)
+            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+        }
+        transaction.add(R.id.content_frame, fragment, tag)
+        if (!isFragmentWithoutBackStack(currentFragment)) {
+            transaction.addToBackStack(null)
+        }
         try {
             transaction.commit()
         } catch (ignored: IllegalStateException) {
             Timber.e(ignored)
+        }
+    }
+
+    private fun isFragmentWithoutBackStack(fragment: Fragment?): Boolean {
+        return if (fragment == null) true
+        else when (fragment) {
+            is AuthQRFragment,
+            is LoginFragment -> true
+            else -> false
         }
     }
 }

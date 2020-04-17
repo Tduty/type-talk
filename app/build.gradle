@@ -55,6 +55,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-vision:20.0.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
+    implementation 'com.github.uzairiqbal91:CircularTimerView:1.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'android.arch.persistence.room:testing:1.1.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

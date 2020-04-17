@@ -108,16 +108,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
         showFragment(DictionaryPictionaryFragment.newInstance(taskVO))
     }
 
-<<<<<<< HEAD
-    override fun openWordamess(taskVO: TaskVO) {
-        showFragment(WordamessFragment.newInstance(taskVO))
-    }
-
-    override fun openPhraseBuilding(taskVO: TaskVO) {
-        showFragment(PhraseBuildingFragment.newInstance(taskVO))
-    }
-
-=======
     override fun openWordamessTask(taskVO: TaskVO) {
         showFragment(WordamessFragment.newInstance(taskVO))
     }
@@ -130,7 +120,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
         showFragment(HurryUpFragment.newInstance(taskVO))
     }
 
->>>>>>> resolve conflicts
     fun setupToolbar(toolbar: Toolbar, @StringRes title: Int, withBackButton: Boolean) {
         toolbar.setTitle(title)
         this.setSupportActionBar(toolbar)

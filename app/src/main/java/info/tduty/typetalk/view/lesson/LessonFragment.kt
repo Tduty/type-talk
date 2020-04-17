@@ -81,7 +81,7 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
         when(taskVO.type) {
             TaskType.FLASHCARDS -> (activity as? ViewNavigation)?.openFlashcardTask(taskVO)
             TaskType.WORDAMESS -> (activity as? ViewNavigation)?.openWordamessTask(taskVO)
-            TaskType.HURRY_UP -> (activity as? ViewNavigation)?.openHurryUp(taskVO)
+            TaskType.HURRY_UP -> (activity as? ViewNavigation)?.openHurryUpTask(taskVO)
             TaskType.PHRASE_BUILDING -> (activity as? ViewNavigation)?.openPhaserBuilderTask(taskVO)
             TaskType.TRANSLATION -> (activity as? ViewNavigation)?.openTranslationTask(taskVO)
             TaskType.DICTIONARY_PICTIONARY -> (activity as? ViewNavigation)?.openDictionaryPictionary(taskVO)

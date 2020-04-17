@@ -11,7 +11,7 @@ class TaskPayloadMapperStrategy {
         return when(type) {
             TaskType.FLASHCARDS -> FlashcardPayloadMapper()
             TaskType.WORDAMESS -> WordamessPayloadMapper()
-            TaskType.HURRY_UP -> null
+            TaskType.HURRY_UP -> HurryUpPayloadMapper()
             TaskType.PHRASE_BUILDING -> PhraseBuildingPayloadMapper()
             TaskType.TRANSLATION -> TranslationPayloadMapper()
             TaskType.DICTIONARY_PICTIONARY -> DictionaryPictionaryMapper()

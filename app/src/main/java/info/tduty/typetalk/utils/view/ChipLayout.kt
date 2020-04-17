@@ -2,6 +2,7 @@ package info.tduty.typetalk.utils.view
 
 import android.content.ClipData
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -17,7 +18,7 @@ class ChipLayout(context: Context, attrs: AttributeSet) : FlowLayout(context, at
 
     private val selectedView = mutableSetOf<View>()
 
-    private val selectedColor: Int
+    private var selectedColor: Int
     private val unselectedColor: Int
     private val isClickableChip: Boolean
     private val isDragAndDropChip: Boolean
@@ -28,10 +29,6 @@ class ChipLayout(context: Context, attrs: AttributeSet) : FlowLayout(context, at
         unselectedColor = a.getColor(R.styleable.FlowLayout_deselectedColor, -1)
         isClickableChip = a.getBoolean(R.styleable.FlowLayout_isClickableChip, false)
         isDragAndDropChip = a.getBoolean(R.styleable.FlowLayout_isDragAndDropChip, false)
-    }
-
-    fun addChip(view: View) {
-        addView(view)
     }
 
     fun addChip(text: String, clickListener: ((Boolean, String) -> Unit)? = null) {

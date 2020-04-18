@@ -4,6 +4,6 @@ class HurryUpVO(
     val word: String,
     val type: String,
     val translate: String,
-    val isComplete: Boolean,
+    var isComplete: Boolean,
     val anyTranslates: List<String>
 ) : TaskPayloadVO(TaskType.HURRY_UP)

@@ -2,7 +2,6 @@ package info.tduty.typetalk.view.task.flashcard
 
 import info.tduty.typetalk.data.model.FlashcardVO
 import info.tduty.typetalk.data.model.TaskPayloadVO
-import info.tduty.typetalk.data.model.TaskType
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.domain.interactor.TaskInteractor
 import io.reactivex.android.schedulers.AndroidSchedulers

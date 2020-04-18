@@ -1,27 +1,26 @@
 package info.tduty.typetalk.view.task.hurryup
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.widget.Toast
+import android.view.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
-import com.uzairiqbal.circulartimerview.CircularTimerListener
-import com.uzairiqbal.circulartimerview.TimeFormatEnum
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.HurryUpVO
 import info.tduty.typetalk.data.model.TaskVO
+import info.tduty.typetalk.utils.timer.CircleAngleAnimation
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.task.hurryup.di.HurryUpModule
+import kotlinx.android.synthetic.main.alert_dialog_information.view.*
 import kotlinx.android.synthetic.main.fragment_task_hurry_up.*
 import kotlinx.android.synthetic.main.fragment_task_hurry_up.view.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.math.ceil
 
 
 class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
@@ -45,6 +44,7 @@ class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
     lateinit var adapter: VpAdapter
 
     private var lessonsId: String = ""
+    private var anim: CircleAngleAnimation? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,22 +70,37 @@ class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
 
         setupViewPager()
         setupListener()
-        setupTimer()
+        setupTimer(60)
 
         presenter.onCreate(taskVO)
     }
 
-    private fun setupTimer() {
-        // To Initialize Timer
-        progress_circular.setCircularTimerListener(object : CircularTimerListener {
+    override fun onStart() {
+        super.onStart()
+        presenter.onStart()
+    }
 
-            override fun updateDataOnTick(remainingTimeInMs: Long): String {
-                return ceil((remainingTimeInMs / 1000f).toDouble()).toString()
-            }
+    override fun onPause() {
+        super.onPause()
+        presenter.onPause()
+    }
 
-            override fun onTimerFinished() {}
+    private fun setupTimer(seconds: Long) {
+        anim = CircleAngleAnimation(circle,
+            0,
+            seconds * 1000,
+            1000,
+            { miliSeconds -> timer_text.text = getFormatedTime(miliSeconds) },
+            { presenter.completedTask() })
+        anim?.setAnimationListener(anim)
+    }
 
-        }, 1, TimeFormatEnum.MINUTES, 10)
+    fun getFormatedTime(remainingTimeInMs: Long): String {
+       return String.format("%02d:%02d",
+            TimeUnit.MILLISECONDS.toMinutes(remainingTimeInMs) -
+                    TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(remainingTimeInMs)),
+            TimeUnit.MILLISECONDS.toSeconds(remainingTimeInMs) -
+                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(remainingTimeInMs)))
     }
 
     private fun setupListener() {
@@ -126,7 +141,6 @@ class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
     }
 
     override fun setupHurryUp(hurryUpList: List<HurryUpVO>) {
-        progress_circular.startTimer()
         adapter.setupHurryUpList(hurryUpList) {
             presenter.onClickListener(it)
         }
@@ -144,9 +158,80 @@ class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
 
     override fun nextPage(isAnimated: Boolean) {
         if (vp_hurry_up.currentItem == adapter.itemCount - 1) {
-            completeTask()
+            presenter.completedTask()
             return
         }
         vp_hurry_up.setCurrentItem(vp_hurry_up.currentItem + 1, isAnimated)
+    }
+
+    override fun showCompleteAlertDialog(title: Int, message: Int, isTryAgain: Boolean) {
+        val mDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.alert_dialog_information, null)
+        val mBuilder = AlertDialog.Builder(requireContext())
+            .setView(mDialogView)
+        val  mAlertDialog = mBuilder.show()
+
+        mAlertDialog.setCancelable(false)
+        mAlertDialog.setCanceledOnTouchOutside(false)
+        mAlertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val titleString = resources.getString(title)
+        val messageString = resources.getString(message)
+        val titleFirstButton = resources.getString(R.string.task_screen_hurry_up_title_first_button_completed_alert_dialog)
+        val titleSecondButton = resources.getString(R.string.task_screen_hurry_up_title_second_button_completed_alert_dialog)
+
+        mDialogView.tv_title.text = titleString
+        mDialogView.tv_message.text = messageString
+        if (isTryAgain) {
+            mDialogView.btn_first_button.visibility = View.VISIBLE
+            mDialogView.btn_first_button.text = titleFirstButton
+            mDialogView.btn_first_button.setOnClickListener {
+                mAlertDialog.dismiss()
+                presenter.tryAgain()
+            }
+        } else {
+            mDialogView.btn_first_button.visibility = View.GONE
+        }
+        mDialogView.btn_second_button.text = titleSecondButton
+        mDialogView.btn_second_button.setOnClickListener {
+            completeTask()
+            mAlertDialog.dismiss()
+        }
+    }
+
+    override fun showStartAlertDialog(title: Int, message: Int) {
+        val mDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.alert_dialog_information, null)
+        val mBuilder = AlertDialog.Builder(requireContext())
+            .setView(mDialogView)
+        val  mAlertDialog = mBuilder.show()
+
+        mAlertDialog.setCancelable(false)
+        mAlertDialog.setCanceledOnTouchOutside(false)
+        mAlertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val titleString = resources.getString(title)
+        val messageString = resources.getString(message)
+        val titleFirstButton = resources.getString(R.string.task_screen_hurry_up_title_first_button_start_alert_dialog)
+        val titleSecondButton = resources.getString(R.string.task_screen_hurry_up_title_second_button_start_alert_dialog)
+
+        mDialogView.tv_title.text = titleString
+        mDialogView.tv_message.text = messageString
+        mDialogView.btn_first_button.text = titleFirstButton
+        mDialogView.btn_first_button.setOnClickListener {
+            mAlertDialog.dismiss()
+            completeTask()
+        }
+        mDialogView.btn_second_button.text = titleSecondButton
+        mDialogView.btn_second_button.setOnClickListener {
+            presenter.startTask()
+            mAlertDialog.dismiss()
+        }
+    }
+
+    override fun startTimer() {
+        circle.startAnimation(anim)
+    }
+
+    override fun stopTimer() {
+        anim?.stop()
     }
 }

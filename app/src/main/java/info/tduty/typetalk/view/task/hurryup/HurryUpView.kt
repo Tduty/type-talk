@@ -1,7 +1,6 @@
 package info.tduty.typetalk.view.task.hurryup
 
 import info.tduty.typetalk.data.model.HurryUpVO
-import info.tduty.typetalk.data.model.WordamessVO
 
 interface HurryUpView {
 
@@ -12,4 +11,12 @@ interface HurryUpView {
     fun showError()
 
     fun nextPage(isAnimated: Boolean)
+
+    fun showCompleteAlertDialog(title: Int, message: Int, isTryAgain: Boolean)
+
+    fun showStartAlertDialog(title: Int, message: Int)
+
+    fun startTimer()
+
+    fun stopTimer()
 }

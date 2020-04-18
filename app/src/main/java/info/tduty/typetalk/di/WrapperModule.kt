@@ -14,6 +14,12 @@ class WrapperModule {
 
     @Provides
     @Singleton
+    fun provideClassWrapper(classDao: ClassDao): ClassWrapper {
+        return ClassWrapper(classDao)
+    }
+
+    @Provides
+    @Singleton
     fun provideLessonWrapper(lessonDao: LessonDao): LessonWrapper {
         return LessonWrapper(lessonDao)
     }

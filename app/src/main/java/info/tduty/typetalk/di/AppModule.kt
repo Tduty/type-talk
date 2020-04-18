@@ -12,10 +12,7 @@ import info.tduty.typetalk.data.pref.TokenStorage
 import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.data.pref.UserDataSharedPreferencesHelper
 import info.tduty.typetalk.data.serializer.EventDeserializer
-import info.tduty.typetalk.domain.interactor.ChatInteractor
-import info.tduty.typetalk.domain.interactor.DictionaryInteractor
-import info.tduty.typetalk.domain.interactor.HistoryInteractor
-import info.tduty.typetalk.domain.interactor.LessonInteractor
+import info.tduty.typetalk.domain.interactor.*
 import info.tduty.typetalk.domain.managers.*
 import info.tduty.typetalk.socket.EventBusRx
 import info.tduty.typetalk.socket.EventHandler
@@ -71,13 +68,15 @@ class AppModule(private val application: Application) {
     @Provides
     @Singleton
     fun provideHistoryManager(socketManager: SocketManager,
+                              userDataHelper: UserDataHelper,
                               databaseManager: DatabaseManager,
                               chatInteractor: ChatInteractor,
                               historyInteractor: HistoryInteractor,
                               lessonInteractor: LessonInteractor,
-                              dictionaryInteractor: DictionaryInteractor): DataLoaderManager {
-        return DataLoaderManager(socketManager, databaseManager, chatInteractor, historyInteractor,
-            lessonInteractor, dictionaryInteractor)
+                              dictionaryInteractor: DictionaryInteractor,
+                              classInteractor: ClassInteractor): DataLoaderManager {
+        return DataLoaderManager(socketManager, userDataHelper, databaseManager, chatInteractor,
+            historyInteractor, lessonInteractor, dictionaryInteractor, classInteractor)
     }
 
     @Provides

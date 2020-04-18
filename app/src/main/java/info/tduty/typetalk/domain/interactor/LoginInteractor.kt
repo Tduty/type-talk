@@ -57,7 +57,8 @@ class LoginInteractor(private val userDataHelper: UserDataHelper,
         return UserData(
             id = userDTO.id,
             surname = userDTO.name,
-            classNumber = userDTO.className ?: "null"
+            classNumber = userDTO.className ?: "null",
+            isTeacher = userDTO.isTeacher
         )
     }
 }

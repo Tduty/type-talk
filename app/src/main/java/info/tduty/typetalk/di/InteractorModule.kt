@@ -20,6 +20,15 @@ class InteractorModule {
 
     @Provides
     @Singleton
+    fun provideClassInteractor(
+        classWrapper: ClassWrapper,
+        classProvider: ClassProvider
+    ): ClassInteractor {
+        return ClassInteractor(classWrapper, classProvider)
+    }
+
+    @Provides
+    @Singleton
     fun provideLessonInteractor(
         lessonProvider: LessonProvider,
         lessonWrapper: LessonWrapper,

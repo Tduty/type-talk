@@ -12,6 +12,7 @@ import info.tduty.typetalk.data.db.model.*
 
 @Database(
     entities = [
+        ClassEntity::class,
         ChatEntity::class,
         LessonEntity::class,
         MessageEntity::class,
@@ -23,6 +24,7 @@ import info.tduty.typetalk.data.db.model.*
 )
 @TypeConverters(DbConvector::class)
 abstract class AppDatabase : RoomDatabase() {
+    abstract fun getClassDao(): ClassDao
     abstract fun getTaskDao(): TaskDao
     abstract fun getChatDao(): ChatDao
     abstract fun getLessonsDao(): LessonDao

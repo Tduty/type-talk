@@ -22,6 +22,12 @@ class DatabaseModule {
 
     @Provides
     @Singleton
+    fun provideClassDao(database: AppDatabase): ClassDao {
+        return database.getClassDao()
+    }
+
+    @Provides
+    @Singleton
     fun provideLessonDao(database: AppDatabase): LessonDao {
         return database.getLessonsDao()
     }

@@ -25,6 +25,7 @@ import info.tduty.typetalk.view.task.hurryup.HurryUpFragment
 import info.tduty.typetalk.view.task.phrasebuilding.PhraseBuildingFragment
 import info.tduty.typetalk.view.task.translation.TranslationFragment
 import info.tduty.typetalk.view.task.wordamess.WordamessFragment
+import info.tduty.typetalk.view.teacher.main.MainTeacherFragment
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
         setupComponent()
 
-        if (userDataHelper.isSavedUser()) showFragment(MainFragment.newInstance())
+        if (userDataHelper.isSavedUser()) showMainFragment()
         else showFragment(LoginFragment.newInstance())
     }
 
@@ -54,6 +55,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
             is AuthQRFragment -> openLoginAuth()
             else -> super.onBackPressed()
         }
+    }
+
+    private fun showMainFragment() {
+        if (userDataHelper.getSavedUser().isTeacher) showFragment(MainTeacherFragment.newInstance())
+        else showFragment(MainFragment.newInstance())
     }
 
     override fun closeFragment() {

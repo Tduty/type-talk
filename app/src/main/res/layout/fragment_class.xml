@@ -33,10 +33,9 @@
                 app:cardElevation="2dp">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_lessons"
+                    android:id="@+id/rv_students"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"/>
+                    android:layout_height="match_parent" />
 
             </androidx.cardview.widget.CardView>
 

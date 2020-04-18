@@ -27,6 +27,8 @@ import info.tduty.typetalk.view.task.wordamess.di.WordamessComponent
 import info.tduty.typetalk.view.task.wordamess.di.WordamessModule
 import info.tduty.typetalk.view.task.translation.di.TranslationComponent
 import info.tduty.typetalk.view.task.translation.di.TranslationModule
+import info.tduty.typetalk.view.teacher.classinfo.di.ClassComponent
+import info.tduty.typetalk.view.teacher.classinfo.di.ClassModule
 import info.tduty.typetalk.view.teacher.main.di.MainTeacherComponent
 import info.tduty.typetalk.view.teacher.main.di.MainTeacherModule
 import javax.inject.Singleton
@@ -59,6 +61,8 @@ interface AppComponent {
     fun plus(module: MainModule): MainComponent
 
     fun plus(module: MainTeacherModule): MainTeacherComponent
+
+    fun plus(module: ClassModule): ClassComponent
 
     fun plus(module: ChatModule): ChatComponent
 

@@ -18,7 +18,8 @@ class DataLoaderManager(
     private val historyInteractor: HistoryInteractor,
     private val lessonInteractor: LessonInteractor,
     private val dictionaryInteractor: DictionaryInteractor,
-    private val classInteractor: ClassInteractor
+    private val classInteractor: ClassInteractor,
+    private val studentInteractor: StudentInteractor
 ) {
 
     private var disposable: Disposable? = null
@@ -41,7 +42,8 @@ class DataLoaderManager(
     private fun loadTeacherData(): Completable {
         return Completable.concatArray(
             getHistory(),
-            getClasses()
+            getClasses(),
+            getStudents()
         ).onErrorComplete()
     }
 
@@ -80,6 +82,11 @@ class DataLoaderManager(
 
     private fun getClasses(): Completable {
         return classInteractor.loadClasses()
+            .doOnError { Timber.e(it) }
+    }
+
+    private fun getStudents(): Completable {
+        return studentInteractor.loadStudents()
             .doOnError { Timber.e(it) }
     }
 }

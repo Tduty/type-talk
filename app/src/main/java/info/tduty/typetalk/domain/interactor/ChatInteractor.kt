@@ -5,6 +5,7 @@ import info.tduty.typetalk.data.db.model.ChatEntity
 import info.tduty.typetalk.data.db.wrapper.ChatWrapper
 import info.tduty.typetalk.data.dto.ChatDTO
 import info.tduty.typetalk.data.model.ChatVO
+import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.domain.provider.ChatProvider
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -15,7 +16,8 @@ import timber.log.Timber
  */
 class ChatInteractor(
     private val chatWrapper: ChatWrapper,
-    private val chatProvider: ChatProvider
+    private val chatProvider: ChatProvider,
+    private val userDataHelper: UserDataHelper
 ) {
 
     fun getChat(chatId: String): Observable<ChatVO> {
@@ -83,7 +85,7 @@ class ChatInteractor(
             type = db.type,
             avatarURL = getIconByType(db.type),
             description = db.description,
-            isTeacherChat = db.type == ChatEntity.TEACHER_CHAT
+            isTeacherChat = isTeacherChat(db.type)
         )
     }
 
@@ -94,7 +96,7 @@ class ChatInteractor(
             type = dto.type,
             avatarURL = getIconByType(dto.type),
             description = dto.description ?: "",
-            isTeacherChat = dto.type == ChatEntity.TEACHER_CHAT
+            isTeacherChat = isTeacherChat(dto.type)
         )
     }
 
@@ -106,6 +108,11 @@ class ChatInteractor(
             imageURL = dto.icon,
             description = dto.description ?: ""
         )
+    }
+
+    private fun isTeacherChat(type: String): Boolean {
+        return if (userDataHelper.isSavedUser() && userDataHelper.getSavedUser().isTeacher) false
+        else type == ChatEntity.TEACHER_CHAT
     }
 
     private fun getIconByType(type: String): Int {

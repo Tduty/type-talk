@@ -2,6 +2,7 @@ package info.tduty.typetalk.socket
 
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.interactor.LessonInteractor
+import info.tduty.typetalk.domain.interactor.StudentInteractor
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -13,7 +14,8 @@ import timber.log.Timber
 class EventHandler(
     private val socketEventListener: SocketEventListener,
     private val historyInteractor: HistoryInteractor,
-    private val lessonInteractor: LessonInteractor
+    private val lessonInteractor: LessonInteractor,
+    private val studentInteractor: StudentInteractor
 ) {
 
     private val disposables = CompositeDisposable()
@@ -22,11 +24,20 @@ class EventHandler(
         disposables.addAll(listenMessageNew())
         disposables.addAll(listenTyping())
         disposables.addAll(listenLessons())
+        disposables.addAll(listenUserStatuses())
     }
 
     private fun listenMessageNew(): Disposable {
         return socketEventListener.messageNewPayloadObservable()
             .flatMapCompletable { historyInteractor.addMessage(it) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .subscribe({}, Timber::e)
+    }
+
+    private fun listenUserStatuses(): Disposable {
+        return socketEventListener.userStatusPayloadObservable()
+            .flatMapCompletable { studentInteractor.updateStudentStatus(it.userId, it.status) }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({}, Timber::e)

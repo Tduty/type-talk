@@ -50,6 +50,9 @@
     <string name="class_managment_lesson_content">Here you can view lesson statistics, create and open a lesson or dictionary</string>
     <string name="class_chat_title">Сlass chat</string>
     <string name="class_chat_content">Сontact all class members immediately</string>
+
+    <string name="class_student_not_connected">Not connected</string>
+    <string name="class_student_disconnected">Disconnected</string>
     <!---->
 
     <!-- Dictionary -->

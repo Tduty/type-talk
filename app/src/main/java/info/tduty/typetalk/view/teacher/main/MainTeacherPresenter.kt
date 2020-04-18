@@ -1,5 +1,6 @@
 package info.tduty.typetalk.view.teacher.main
 
+import info.tduty.typetalk.data.model.ClassVO
 import info.tduty.typetalk.domain.interactor.ClassInteractor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -15,6 +16,7 @@ class MainTeacherPresenter(
 ) {
 
     private var disposable: Disposable? = null
+    private var classes: List<ClassVO> = emptyList()
 
     fun onCreate() {
         getClasses()
@@ -25,7 +27,7 @@ class MainTeacherPresenter(
     }
 
     fun openClass(id: String) {
-        view.openClassScreen(id)
+        view.openClassScreen(id, classes.firstOrNull { it.id == id }?.name ?: "")
     }
 
     private fun getClasses() {
@@ -33,6 +35,9 @@ class MainTeacherPresenter(
         disposable = classInteractor.getClasses()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ view.setClasses(it) }, Timber::e)
+            .subscribe({ classes ->
+                this.classes = classes
+                view.setClasses(classes)
+            }, Timber::e)
     }
 }

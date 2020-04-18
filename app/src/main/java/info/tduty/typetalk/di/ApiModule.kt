@@ -50,6 +50,19 @@ class ApiModule {
 
     @Provides
     @Singleton
+    fun provideStudentApi(
+        retrofitBuilder: Retrofit.Builder,
+        okHttpClient: OkHttpClient
+    ): StudentApi {
+        return retrofitBuilder
+            .baseUrl(UrlStorage.getUrl())
+            .client(okHttpClient)
+            .build()
+            .create(StudentApi::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun provideLessonApi(
         retrofitBuilder: Retrofit.Builder,
         okHttpClient: OkHttpClient

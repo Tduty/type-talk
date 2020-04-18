@@ -9,6 +9,8 @@ import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.ClassVO
 import info.tduty.typetalk.view.MainActivity
+import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.teacher.classinfo.ClassFragment
 import info.tduty.typetalk.view.teacher.main.di.MainTeacherModule
 import kotlinx.android.synthetic.main.fragment_lesson.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
@@ -17,8 +19,7 @@ import javax.inject.Inject
 /**
  * Created by Evgeniy Mezentsev on 18.04.2020.
  */
-class MainTeacherFragment : Fragment(R.layout.fragment_main_teacher),
-    MainTeacherView {
+class MainTeacherFragment : Fragment(R.layout.fragment_main_teacher), MainTeacherView {
 
     companion object {
 
@@ -69,7 +70,7 @@ class MainTeacherFragment : Fragment(R.layout.fragment_main_teacher),
         adapter.setClasses(classes)
     }
 
-    override fun openClassScreen(classId: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun openClassScreen(classId: String, className: String) {
+        (activity as? ViewNavigation)?.openClass(classId, className)
     }
 }

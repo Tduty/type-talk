@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName
  * Created by Evgeniy Mezentsev on 08.03.2020.
  */
 data class ChatDTO(
-
     @SerializedName("id")
     val id: String,
 

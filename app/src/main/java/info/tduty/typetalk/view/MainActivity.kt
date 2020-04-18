@@ -25,7 +25,9 @@ import info.tduty.typetalk.view.task.hurryup.HurryUpFragment
 import info.tduty.typetalk.view.task.phrasebuilding.PhraseBuildingFragment
 import info.tduty.typetalk.view.task.translation.TranslationFragment
 import info.tduty.typetalk.view.task.wordamess.WordamessFragment
+import info.tduty.typetalk.view.teacher.classinfo.ClassFragment
 import info.tduty.typetalk.view.teacher.main.MainTeacherFragment
+import kotlinx.android.synthetic.main.toolbar.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -67,7 +69,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
     }
 
     override fun openMain() {
-        showFragment(MainFragment.newInstance())
+        showMainFragment()
+    }
+
+    override fun openClass(classId: String, className: String) {
+        showFragment(ClassFragment.newInstance(classId, className))
     }
 
     override fun openChat(chatId: String) {
@@ -128,6 +134,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
     fun setupToolbar(toolbar: Toolbar, @StringRes title: Int, withBackButton: Boolean) {
         toolbar.setTitle(title)
+        this.setSupportActionBar(toolbar)
+
+        this.supportActionBar?.setHomeButtonEnabled(withBackButton)
+        this.supportActionBar?.setDisplayHomeAsUpEnabled(withBackButton)
+    }
+
+    fun setupToolbar(toolbar: Toolbar, title: String, withBackButton: Boolean) {
+        toolbar.title = title
         this.setSupportActionBar(toolbar)
 
         this.supportActionBar?.setHomeButtonEnabled(withBackButton)

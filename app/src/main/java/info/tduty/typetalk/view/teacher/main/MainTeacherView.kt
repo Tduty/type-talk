@@ -9,5 +9,5 @@ interface MainTeacherView {
 
     fun setClasses(classes: List<ClassVO>)
 
-    fun openClassScreen(classId: String)
+    fun openClassScreen(classId: String, className: String)
 }

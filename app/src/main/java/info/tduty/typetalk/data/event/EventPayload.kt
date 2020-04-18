@@ -8,7 +8,7 @@ import java.util.*
 interface EventPayload {
 
     enum class Type {
-        MESSAGE_NEW, LESSON, TYPING;
+        MESSAGE_NEW, USER_STATUS, LESSON, TYPING;
 
         val string: String
             get() = name.toLowerCase(Locale.ROOT)

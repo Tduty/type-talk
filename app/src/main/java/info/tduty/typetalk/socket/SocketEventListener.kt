@@ -4,8 +4,8 @@ import info.tduty.typetalk.data.event.EventPayload
 import info.tduty.typetalk.data.event.payload.LessonPayload
 import info.tduty.typetalk.data.event.payload.MessageNewPayload
 import info.tduty.typetalk.data.event.payload.TypingPayload
+import info.tduty.typetalk.data.event.payload.UserStatusPayload
 import io.reactivex.Flowable
-import io.reactivex.Observable
 
 /**
  * Created by Evgeniy Mezentsev on 04.03.2020.
@@ -16,11 +16,17 @@ class SocketEventListener(private val eventBus: EventBusRx) {
         client.listenEvent(EventPayload.Type.LESSON, eventBus)
         client.listenEvent(EventPayload.Type.MESSAGE_NEW, eventBus)
         client.listenEvent(EventPayload.Type.TYPING, eventBus)
+        client.listenEvent(EventPayload.Type.USER_STATUS, eventBus)
     }
 
     fun messageNewPayloadObservable(): Flowable<MessageNewPayload> {
         return eventBus
             .observeEvents(MessageNewPayload::class.java)
+    }
+
+    fun userStatusPayloadObservable(): Flowable<UserStatusPayload> {
+        return eventBus
+            .observeEvents(UserStatusPayload::class.java)
     }
 
     fun typingPayloadObservable(): Flowable<TypingPayload> {

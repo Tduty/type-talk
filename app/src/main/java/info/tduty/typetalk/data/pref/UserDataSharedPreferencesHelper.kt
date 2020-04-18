@@ -13,6 +13,10 @@ class UserDataSharedPreferencesHelper(
     private val APP_PREFERENCES_USER = "typetalk-data-user"
     private var preferences: SharedPreferencesHelper = SharedPreferencesHelper(context, MODE_PRIVATE)
 
+    override fun removeUserData() {
+        preferences.putString(APP_PREFERENCES_USER, null)
+    }
+
     override fun setUserData(userData: UserData) {
         val userJson = gson.toJson(userData)
         saveUserJsonData(userJson)

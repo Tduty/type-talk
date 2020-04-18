@@ -74,9 +74,11 @@ class AppModule(private val application: Application) {
                               historyInteractor: HistoryInteractor,
                               lessonInteractor: LessonInteractor,
                               dictionaryInteractor: DictionaryInteractor,
-                              classInteractor: ClassInteractor): DataLoaderManager {
+                              classInteractor: ClassInteractor,
+                              studentInteractor: StudentInteractor): DataLoaderManager {
         return DataLoaderManager(socketManager, userDataHelper, databaseManager, chatInteractor,
-            historyInteractor, lessonInteractor, dictionaryInteractor, classInteractor)
+            historyInteractor, lessonInteractor, dictionaryInteractor, classInteractor,
+            studentInteractor)
     }
 
     @Provides
@@ -115,9 +117,11 @@ class AppModule(private val application: Application) {
     @Singleton
     fun provideEventHandler(socketEventListener: SocketEventListener,
                             historyInteractor: HistoryInteractor,
-                            lessonInteractor: LessonInteractor
+                            lessonInteractor: LessonInteractor,
+                            studentInteractor: StudentInteractor
     ): EventHandler {
-        return EventHandler(socketEventListener, historyInteractor, lessonInteractor)
+        return EventHandler(socketEventListener, historyInteractor, lessonInteractor,
+            studentInteractor)
     }
 
     @Provides

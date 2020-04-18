@@ -11,6 +11,8 @@ interface ViewNavigation {
 
     fun openMain()
 
+    fun openClass(classId: String, className: String)
+
     fun openChat(chatId: String)
 
     fun openTeacherChat()

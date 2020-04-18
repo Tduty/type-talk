@@ -1,7 +1,6 @@
 package info.tduty.typetalk.view.task.wordamess
 
 import info.tduty.typetalk.data.model.WordamessVO
-import info.tduty.typetalk.view.task.translation.TranslationView
 
 /**
  * Created by Evgeniy Mezentsev on 12.04.2020.

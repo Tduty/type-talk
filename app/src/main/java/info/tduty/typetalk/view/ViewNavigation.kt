@@ -33,7 +33,9 @@ interface ViewNavigation {
 
     fun openDictionaryPictionary(taskVO: TaskVO)
 
-    fun openWordamess(taskVO: TaskVO)
+    fun openWordamessTask(taskVO: TaskVO)
 
-    fun openPhraseBuilding(taskVO: TaskVO)
+    fun openPhaserBuilderTask(taskVO: TaskVO)
+
+    fun openHurryUpTask(taskVO: TaskVO)
 }

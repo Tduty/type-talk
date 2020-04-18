@@ -2,7 +2,6 @@ package info.tduty.typetalk.utils.view
 
 import android.content.ClipData
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -10,31 +9,32 @@ import android.view.View
 import info.tduty.typetalk.R
 import kotlinx.android.synthetic.main.item_chip.view.*
 
+class ColorChipLayout(context: Context, attrs: AttributeSet) : FlowLayout(context, attrs) {
 
-/**
- * Created by Evgeniy Mezentsev on 11.04.2020.
- */
-class ChipLayout(context: Context, attrs: AttributeSet) : FlowLayout(context, attrs) {
-
+    private val DEFAULT_COLOR: Int = R.color.white
     private val selectedView = mutableSetOf<View>()
 
-    private var selectedColor: Int
-    private val unselectedColor: Int
     private val isClickableChip: Boolean
     private val isDragAndDropChip: Boolean
 
+    var singleClick = false
+
+    enum class TypeColor {
+        SELECTED,
+        BACKGROUND,
+        UNSELECETED
+    }
+
     init {
         val a = context.theme.obtainStyledAttributes(attrs, R.styleable.FlowLayout, 0, 0)
-        selectedColor = a.getColor(R.styleable.FlowLayout_selectedColor, -1)
-        unselectedColor = a.getColor(R.styleable.FlowLayout_deselectedColor, -1)
         isClickableChip = a.getBoolean(R.styleable.FlowLayout_isClickableChip, false)
         isDragAndDropChip = a.getBoolean(R.styleable.FlowLayout_isDragAndDropChip, false)
     }
 
-    fun addChip(text: String, clickListener: ((Boolean, String) -> Unit)? = null) {
+    fun addChip(text: String, colorMap: Map<TypeColor, Int>, clickListener: ((Boolean, String) -> Unit)? = null) {
         val view = LayoutInflater.from(context).inflate(R.layout.item_chip, this, false)
         view.tv_chip.text = text
-        if (isClickableChip) setClickableListener(view, text, clickListener)
+        if (isClickableChip) setClickableListener(view, text, colorMap, clickListener)
         if (isDragAndDropChip) setDragAndDropChip(view)
         addView(view)
     }
@@ -44,17 +44,26 @@ class ChipLayout(context: Context, attrs: AttributeSet) : FlowLayout(context, at
     }
 
     private fun setClickableListener(
-        view: View, text: String,
+        view: View,
+        text: String,
+        colorMap: Map<TypeColor, Int>?,
         clickListener: ((Boolean, String) -> Unit)? = null
     ) {
         view.cv_chip.setOnClickListener {
+            if (singleClick) {
+                view.cv_chip.isClickable = false
+            }
             if (selectedView.contains(view)) {
                 selectedView.remove(view)
-                updateUnselectedColor(view)
+                colorMap?.let {
+                    updateUnselectedColor(view, it[TypeColor.UNSELECETED] ?: DEFAULT_COLOR)
+                }
                 clickListener?.invoke(false, text)
             } else {
                 selectedView.add(view)
-                updateSelectedColor(view)
+                colorMap?.let {
+                    updateSelectedColor(view, it[TypeColor.SELECTED] ?: DEFAULT_COLOR)
+                }
                 clickListener?.invoke(true, text)
             }
         }
@@ -74,11 +83,13 @@ class ChipLayout(context: Context, attrs: AttributeSet) : FlowLayout(context, at
         }
     }
 
-    private fun updateSelectedColor(view: View) {
-        if (selectedColor != -1) view.cv_chip.setCardBackgroundColor(selectedColor)
+    private fun updateSelectedColor(view: View, color: Int) {
+        val resourcesColor = resources.getColor(color)
+        if (color != -1) view.cv_chip.setCardBackgroundColor(resourcesColor)
     }
 
-    private fun updateUnselectedColor(view: View) {
-        if (unselectedColor != -1) view.cv_chip.setCardBackgroundColor(unselectedColor)
+    private fun updateUnselectedColor(view: View, color: Int) {
+        val resourcesColor = resources.getColor(color)
+        if (color != -1) view.cv_chip.setCardBackgroundColor(resourcesColor)
     }
 }

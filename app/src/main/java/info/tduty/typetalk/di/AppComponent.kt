@@ -19,6 +19,8 @@ import info.tduty.typetalk.view.task.dictionarypicationary.di.DictionaryPictiona
 import info.tduty.typetalk.view.task.dictionarypicationary.di.DictionaryPictionaryModule
 import info.tduty.typetalk.view.task.flashcard.di.FlashcardComponent
 import info.tduty.typetalk.view.task.flashcard.di.FlashcardModule
+import info.tduty.typetalk.view.task.hurryup.di.HurryUpComponent
+import info.tduty.typetalk.view.task.hurryup.di.HurryUpModule
 import info.tduty.typetalk.view.task.phrasebuilding.di.PhraseBuildingComponent
 import info.tduty.typetalk.view.task.phrasebuilding.di.PhraseBuildingModule
 import info.tduty.typetalk.view.task.wordamess.di.WordamessComponent
@@ -69,4 +71,6 @@ interface AppComponent {
     fun plus(module: TranslationModule): TranslationComponent
 
     fun plus(module: DictionaryPictionaryModule): DictionaryPictionaryComponent
+
+    fun plus(module: HurryUpModule): HurryUpComponent
 }

@@ -89,6 +89,16 @@
     <string name="task_screen_dictionary_pictionary_description">Describe the picture in one word</string>
     <string name="task_screen_dictionary_pictionary_input_hint">Describe</string>
 
+    <string name="task_screen_hurry_up_title_start_alert_dialog">Are you ready?!</string>
+    <string name="task_screen_hurry_up_message_start_alert_dialog">Task Hurry up</string>
+    <string name="task_screen_hurry_up_title_first_button_start_alert_dialog">Back</string>
+    <string name="task_screen_hurry_up_title_second_button_start_alert_dialog">Start</string>
+    <string name="task_screen_hurry_up_title_completed_alert_dialog">Task finished</string>
+    <string name="task_screen_hurry_up_message_negative_completed_alert_dialog">You looser, try again!</string>
+    <string name="task_screen_hurry_up_message_positive_completed_alert_dialog">You GOD!</string>
+    <string name="task_screen_hurry_up_title_first_button_completed_alert_dialog">Try again</string>
+    <string name="task_screen_hurry_up_title_second_button_completed_alert_dialog">Completed</string>
+
     <string name="task_screen_empty_error">Error getting task, contact teacher</string>
     <!---->
 

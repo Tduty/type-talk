@@ -21,6 +21,7 @@ import info.tduty.typetalk.view.login.password.qr.AuthQRFragment
 import info.tduty.typetalk.view.main.MainFragment
 import info.tduty.typetalk.view.task.dictionarypicationary.DictionaryPictionaryFragment
 import info.tduty.typetalk.view.task.flashcard.FlashcardFragment
+import info.tduty.typetalk.view.task.hurryup.HurryUpFragment
 import info.tduty.typetalk.view.task.phrasebuilding.PhraseBuildingFragment
 import info.tduty.typetalk.view.task.translation.TranslationFragment
 import info.tduty.typetalk.view.task.wordamess.WordamessFragment
@@ -107,12 +108,16 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
         showFragment(DictionaryPictionaryFragment.newInstance(taskVO))
     }
 
-    override fun openWordamess(taskVO: TaskVO) {
+    override fun openWordamessTask(taskVO: TaskVO) {
         showFragment(WordamessFragment.newInstance(taskVO))
     }
 
-    override fun openPhraseBuilding(taskVO: TaskVO) {
+    override fun openPhaserBuilderTask(taskVO: TaskVO) {
         showFragment(PhraseBuildingFragment.newInstance(taskVO))
+    }
+
+    override fun openHurryUpTask(taskVO: TaskVO) {
+        showFragment(HurryUpFragment.newInstance(taskVO))
     }
 
     fun setupToolbar(toolbar: Toolbar, @StringRes title: Int, withBackButton: Boolean) {

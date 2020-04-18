@@ -8,4 +8,20 @@
         <attr name="isClickableChip" />
         <attr name="isDragAndDropChip" />
     </declare-styleable>
+
+    <declare-styleable name="ColorChipLayout">
+        <attr name="minHorizontalSpacing" />
+        <attr name="verticalSpacing" />
+        <attr name="isClickableChip" />
+        <attr name="isDragAndDropChip" />
+    </declare-styleable>
+
+    <declare-styleable name="TimerCircle">
+        <attr name="startAngle" />
+        <attr name="offsetAngle" />
+        <attr name="color" />
+        <attr name="strokeWidth"/>
+        <attr name="cicleSize" />
+        <attr name="fillColor" />
+    </declare-styleable>
 </resources>

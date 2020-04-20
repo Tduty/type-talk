@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuInflater
@@ -26,6 +27,8 @@ import kotlinx.android.synthetic.main.fragment_task_dictionary_pictionary.*
 import kotlinx.android.synthetic.main.fragment_task_dictionary_pictionary.view.*
 import kotlinx.android.synthetic.main.fragment_task_flashcard.btn_next
 import kotlinx.android.synthetic.main.item_edittext_enter_word.*
+import kotlinx.android.synthetic.main.item_edittext_enter_word.view.*
+import kotlinx.android.synthetic.main.item_pager_task_dictionary_pictionary.*
 import kotlinx.android.synthetic.main.item_task_card_content_word.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -168,14 +171,16 @@ class DictionaryPictionaryFragment: Fragment(R.layout.fragment_task_dictionary_p
                 clearEditText()
                 cv_container_word.setBackgroundResource(R.drawable.et_circle_bg_shadow)
                 iv_right_top_corner?.visibility = View.GONE
+                cv_container_word.et_word.isEnabled = true
             }
             StateInputWord.VALID -> {
                 changeBorder(5.dp, R.color.chateau_green)
-                iv_right_top_corner?.visibility = View.VISIBLE
+                cv_container_word.et_word.isEnabled = false
             }
             StateInputWord.EDIT -> {
                 cv_container_word.setBackgroundResource(R.drawable.et_circle_bg_shadow)
                 iv_right_top_corner?.visibility = View.GONE
+                cv_container_word.et_word.isEnabled = true
             }
         }
     }

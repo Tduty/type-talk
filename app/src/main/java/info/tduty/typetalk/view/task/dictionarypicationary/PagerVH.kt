@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.DictionaryPictionaryVO
@@ -28,9 +29,22 @@ class PagerVH(
     }
 
     fun onBind(dictionaryPictionaryVO: DictionaryPictionaryVO) {
-        Picasso.with(context)
-            .load(UrlStorage.getUrl() + dictionaryPictionaryVO.url)
-            .into(itemView.iv_content)
+        setupProgressBar(true)
+        val url = UrlStorage.getUrl() + dictionaryPictionaryVO.url
+        Picasso.with(context).load(url).fetch(object : Callback {
+            override fun onSuccess() {
+                Picasso.with(context).load(url).into(itemView.iv_content)
+                setupProgressBar(false)
+            }
+
+            override fun onError() {
+                setupProgressBar(true)
+            }
+        })
+    }
+
+    private fun setupProgressBar(isShow: Boolean) {
+        itemView.pb_progress.visibility = if (isShow) View.VISIBLE else View.GONE
     }
 
 }

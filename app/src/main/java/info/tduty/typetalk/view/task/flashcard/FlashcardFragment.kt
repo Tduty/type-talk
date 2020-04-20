@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -85,13 +84,6 @@ class FlashcardFragment : Fragment(R.layout.fragment_task_flashcard),
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(withBackButton)
     }
 
-    private fun setupToolbar(toolbar: Toolbar, @StringRes title: Int, withBackButton: Boolean) {
-        toolbar.setTitle(title)
-        (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
-        (activity as? AppCompatActivity)?.supportActionBar?.setHomeButtonEnabled(withBackButton)
-        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(withBackButton)
-    }
-
     private fun setupFragmentComponent() {
         App.get(this.requireContext())
             .appComponent
@@ -111,7 +103,7 @@ class FlashcardFragment : Fragment(R.layout.fragment_task_flashcard),
                 positionOffsetPixels: Int
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                btn_next.isEnabled = position != (vp_flashcard.adapter?.itemCount ?: 0) - 1
+                presenter.onPageScrolled(position)
             }
         })
     }
@@ -138,6 +130,10 @@ class FlashcardFragment : Fragment(R.layout.fragment_task_flashcard),
         }
     }
 
+    override fun setTitleNextButton(title: Int) {
+        btn_next.text = activity?.resources?.getString(title)
+    }
+
     override fun showError() {
         // TODO Проработать флоу ошибки для задания
         view?.let {
@@ -147,5 +143,9 @@ class FlashcardFragment : Fragment(R.layout.fragment_task_flashcard),
                 Snackbar.LENGTH_LONG
             ).show()
         }
+    }
+
+    override fun completeTask() {
+        (activity as? ViewNavigation)?.closeFragment()
     }
 }

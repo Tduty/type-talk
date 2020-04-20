@@ -14,7 +14,8 @@
         android:paddingEnd="30dp"
         android:text="@string/task_screen_phrase_building_description"
         android:textAllCaps="true"
-        android:textColor="@color/dove_gray"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -1,5 +1,6 @@
 package info.tduty.typetalk.view.task.flashcard
 
+import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.FlashcardVO
 import info.tduty.typetalk.data.model.TaskPayloadVO
 import info.tduty.typetalk.data.model.TaskVO
@@ -18,21 +19,18 @@ class FlashcardPresenter(
     private val disposables = CompositeDisposable()
     private lateinit var flashcards: List<FlashcardVO>
 
+    private val BTN_TITLE_NEXT = R.string.task_btn_next
+    private val BTN_TITLE_COMPLETED = R.string.task_btn_complete
+
     fun onCreate(taskVO: TaskVO) {
-        disposables.add(
-            taskInteractor.getPayload(taskVO)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ task ->
-                    this.flashcards = getFlashcards(task)
+        val flashcardsPayload = taskInteractor.getPayload2(taskVO)
+        this.flashcards = getFlashcards(flashcardsPayload)
 
-                    if (this.flashcards.isEmpty()) {
-                        view.showError()
-                    }
+        if (this.flashcards.isEmpty()) {
+            view.showError()
+        }
 
-                    view.setupFlashcards(flashcards)
-                }, Timber::e)
-        )
+        view.setupFlashcards(flashcards)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -41,12 +39,22 @@ class FlashcardPresenter(
     }
 
     fun onClickNext(currentPosition: Int) {
-        if (currentPosition + 1 < flashcards.size) {
+        if (currentPosition == flashcards.size - 1) {
+            view.completeTask()
+        } else if (currentPosition + 1 < flashcards.size) {
             view.showWord(currentPosition + 1, true)
         }
     }
 
     fun onDestroy() {
         disposables.dispose()
+    }
+
+    fun onPageScrolled(position: Int) {
+        if (position == flashcards.size - 1) {
+            view.setTitleNextButton(BTN_TITLE_COMPLETED)
+        } else {
+            view.setTitleNextButton(BTN_TITLE_NEXT)
+        }
     }
 }

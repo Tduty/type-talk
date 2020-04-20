@@ -29,7 +29,6 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupFragmentComponent()
-        setupWindowModeAdJustPan()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,18 +52,6 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginView {
             .inject(this)
     }
 
-    private fun setupWindowModeAdJustPan() {
-        activity?.window?.setSoftInputMode(
-            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
-        )
-    }
-
-    private fun setupWindowModeAdJustResize() {
-        activity?.window?.setSoftInputMode(
-            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
-        )
-    }
-
     override fun showProgress() {
         pb_progress.visibility = View.VISIBLE
     }
@@ -79,7 +66,6 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginView {
 
     override fun openMainScreen() {
         (activity as? ViewNavigation)?.openMain()
-        setupWindowModeAdJustResize()
     }
 
     override fun showError() {

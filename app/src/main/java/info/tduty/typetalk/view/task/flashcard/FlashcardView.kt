@@ -9,4 +9,8 @@ interface FlashcardView {
     fun showWord(position: Int, isAnimated: Boolean)
 
     fun showError()
+
+    fun setTitleNextButton(title: Int)
+
+    fun completeTask()
 }

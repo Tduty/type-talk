@@ -1,9 +1,7 @@
 package info.tduty.typetalk.domain.managers
 
-import info.tduty.typetalk.domain.interactor.ChatInteractor
-import info.tduty.typetalk.domain.interactor.DictionaryInteractor
-import info.tduty.typetalk.domain.interactor.HistoryInteractor
-import info.tduty.typetalk.domain.interactor.LessonInteractor
+import info.tduty.typetalk.data.pref.UserDataHelper
+import info.tduty.typetalk.domain.interactor.*
 import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -14,11 +12,14 @@ import timber.log.Timber
  */
 class DataLoaderManager(
     socketManager: SocketManager,
+    private val userDataHelper: UserDataHelper,
     private val databaseManager: DatabaseManager,
     private val chatInteractor: ChatInteractor,
     private val historyInteractor: HistoryInteractor,
     private val lessonInteractor: LessonInteractor,
-    private val dictionaryInteractor: DictionaryInteractor
+    private val dictionaryInteractor: DictionaryInteractor,
+    private val classInteractor: ClassInteractor,
+    private val studentInteractor: StudentInteractor
 ) {
 
     private var disposable: Disposable? = null
@@ -33,6 +34,20 @@ class DataLoaderManager(
     }
 
     fun loadData(): Completable {
+        return if (!userDataHelper.isSavedUser()) Completable.complete()
+        else if (userDataHelper.getSavedUser().isTeacher) loadTeacherData()
+        else loadStudentData()
+    }
+
+    private fun loadTeacherData(): Completable {
+        return Completable.concatArray(
+            getHistory(),
+            getClasses(),
+            getStudents()
+        ).onErrorComplete()
+    }
+
+    private fun loadStudentData(): Completable {
         return Completable.concatArray(
             getHistory(),
             getLessons(),
@@ -62,6 +77,16 @@ class DataLoaderManager(
 
     private fun getDictionary(): Completable {
         return dictionaryInteractor.loadDictionary()
+            .doOnError { Timber.e(it) }
+    }
+
+    private fun getClasses(): Completable {
+        return classInteractor.loadClasses()
+            .doOnError { Timber.e(it) }
+    }
+
+    private fun getStudents(): Completable {
+        return studentInteractor.loadStudents()
             .doOnError { Timber.e(it) }
     }
 }

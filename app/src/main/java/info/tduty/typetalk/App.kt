@@ -10,7 +10,10 @@ import info.tduty.typetalk.domain.managers.AppLifecycleEventManager
 import info.tduty.typetalk.domain.managers.DataLoaderManager
 import info.tduty.typetalk.socket.EventHandler
 import info.tduty.typetalk.socket.SocketController
+import timber.log.Timber
+import timber.log.Timber.DebugTree
 import javax.inject.Inject
+
 
 /**
  * Created by Evgeniy Mezentsev on 07.03.2020.
@@ -41,6 +44,7 @@ class App : Application() {
 
         initAppComponent()
         initAppLifecycleObserver()
+        Timber.plant(DebugTree())
     }
 
     private fun initAppComponent() {

@@ -20,6 +20,26 @@ class InteractorModule {
 
     @Provides
     @Singleton
+    fun provideClassInteractor(
+        classWrapper: ClassWrapper,
+        classProvider: ClassProvider
+    ): ClassInteractor {
+        return ClassInteractor(classWrapper, classProvider)
+    }
+
+    @Provides
+    @Singleton
+    fun provideStudentInteractor(
+        studentWrapper: StudentWrapper,
+        classWrapper: ClassWrapper,
+        studentProvider: StudentProvider,
+        eventManager: EventManager
+    ): StudentInteractor {
+        return StudentInteractor(studentWrapper, classWrapper, studentProvider, eventManager)
+    }
+
+    @Provides
+    @Singleton
     fun provideLessonInteractor(
         lessonProvider: LessonProvider,
         lessonWrapper: LessonWrapper,
@@ -49,9 +69,10 @@ class InteractorModule {
     @Singleton
     fun provideChatInteractor(
         chatWrapper: ChatWrapper,
-        chatProvider: ChatProvider
+        chatProvider: ChatProvider,
+        userDataHelper: UserDataHelper
     ): ChatInteractor {
-        return ChatInteractor(chatWrapper, chatProvider)
+        return ChatInteractor(chatWrapper, chatProvider, userDataHelper)
     }
 
     @Provides

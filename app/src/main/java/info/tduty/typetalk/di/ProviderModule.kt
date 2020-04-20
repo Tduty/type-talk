@@ -36,6 +36,18 @@ class ProviderModule {
 
     @Provides
     @Singleton
+    fun provideClassProvider(classApi: ClassApi, tokenStorage: TokenStorage): ClassProvider {
+        return ClassProvider(classApi, tokenStorage)
+    }
+
+    @Provides
+    @Singleton
+    fun provideStudentProvider(studentApi: StudentApi, tokenStorage: TokenStorage): StudentProvider {
+        return StudentProvider(studentApi, tokenStorage)
+    }
+
+    @Provides
+    @Singleton
     fun provideChatProvider(chatApi: ChatApi, tokenStorage: TokenStorage): ChatProvider {
         return ChatProvider(chatApi, tokenStorage)
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.db.model.ChatEntity
 import info.tduty.typetalk.data.model.ChatVO
+import info.tduty.typetalk.data.model.CleanBadge
 import info.tduty.typetalk.domain.interactor.ChatInteractor
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.managers.EventManager
@@ -36,12 +37,14 @@ class ChatPresenter(
         }
 
         if (chatId != null) {
+            cleanBadge()
             getHistory(chatId, type)
             listenMessageNew(chatId)
         }
     }
 
     fun onDestroy() {
+        cleanBadge()
         disposables.dispose()
     }
 
@@ -113,5 +116,9 @@ class ChatPresenter(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ view.addEvent(it) }, Timber::e)
         )
+    }
+
+    private fun cleanBadge() {
+        chatId?.let { eventManager.post(CleanBadge(it)) }
     }
 }

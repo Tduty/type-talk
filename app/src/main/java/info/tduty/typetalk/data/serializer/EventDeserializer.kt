@@ -10,6 +10,7 @@ import info.tduty.typetalk.data.event.EventPayload.Type.*
 import info.tduty.typetalk.data.event.payload.LessonPayload
 import info.tduty.typetalk.data.event.payload.MessageNewPayload
 import info.tduty.typetalk.data.event.payload.TypingPayload
+import info.tduty.typetalk.data.event.payload.UserStatusPayload
 import java.lang.reflect.Type
 
 /**
@@ -25,6 +26,7 @@ class EventDeserializer(val gson: Gson) : JsonDeserializer<Event> {
         val typePayload = json.asJsonObject["type"].asString
         val jsonElement = json.asJsonObject["eventPayload"]
         val eventPayload = when (EventPayload.Type.to(typePayload)) {
+            USER_STATUS -> gson.fromJson(jsonElement, UserStatusPayload::class.java)
             MESSAGE_NEW -> gson.fromJson(jsonElement, MessageNewPayload::class.java)
             LESSON -> gson.fromJson(jsonElement, LessonPayload::class.java)
             TYPING -> gson.fromJson(jsonElement, TypingPayload::class.java)

@@ -36,6 +36,23 @@
     <string name="main_chat_item_no_lessons_subtitle">Expect teacher</string>
     <!---->
 
+    <!-- Teacher Main screen -->
+    <string name="main_teacher_members_count_one">1 member</string>
+    <string name="main_teacher_members_count_some">%1$d members</string>
+    <!---->
+
+    <!-- Class screen -->
+    <string name="class_managment_class_title">Manage class</string>
+    <string name="class_managment_class_content">Set up a class, add and remove students, monitor activity</string>
+    <string name="class_managment_lesson_title">Manage lessons</string>
+    <string name="class_managment_lesson_content">Here you can view lesson statistics, create and open a lesson or dictionary</string>
+    <string name="class_chat_title">Сlass chat</string>
+    <string name="class_chat_content">Сontact all class members immediately</string>
+
+    <string name="class_student_not_connected">Not connected</string>
+    <string name="class_student_disconnected">Disconnected</string>
+    <!---->
+
     <!-- Chat -->
     <string name="chat_input_hint_message">Message</string>
     <string name="chat_teacher_title">Teacher</string>

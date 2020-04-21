@@ -25,6 +25,7 @@ class EventHandler(
         disposables.addAll(listenTyping())
         disposables.addAll(listenLessons())
         disposables.addAll(listenUserStatuses())
+        disposables.addAll(listenCorrection())
     }
 
     private fun listenMessageNew(): Disposable {
@@ -53,6 +54,14 @@ class EventHandler(
     private fun listenLessons(): Disposable {
         return socketEventListener.lessonPayloadObservable()
             .flatMapCompletable { lessonInteractor.addLesson(it) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .subscribe({}, Timber::e)
+    }
+
+    private fun listenCorrection(): Disposable {
+        return socketEventListener.correctionPayloadObservable()
+            .flatMapCompletable { historyInteractor.handleCorrection(it) }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({}, Timber::e)

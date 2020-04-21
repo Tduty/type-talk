@@ -19,6 +19,10 @@ class MessageWrapper(private val messageDao: MessageDao) {
         return messageDao.insert(messages)
     }
 
+    fun updateAdditional(syncId: String, type: Int, text: String): Completable {
+        return messageDao.updateAdditional(syncId, type, text)
+    }
+
     fun getByChatId(chatId: String): Observable<List<MessageEntity>> {
         return messageDao.getByChatId(chatId)
             .toObservable()

@@ -1,5 +1,6 @@
 package info.tduty.typetalk.view.chat
 
+import info.tduty.typetalk.data.model.CorrectionVO
 import info.tduty.typetalk.data.model.MessageVO
 
 /**
@@ -18,4 +19,12 @@ interface ChatView {
     fun addEvents(messageVO: List<MessageVO>)
 
     fun setEvents(messageVO: List<MessageVO>)
+
+    fun updateCorrection(correctionVO: CorrectionVO)
+
+    fun showCorrectionState(title: String, body: String, type: CorrectionVO.AdditionalType)
+
+    fun hideCorrectionState()
+
+    fun showMessageActionDialog(messageVO: MessageVO)
 }

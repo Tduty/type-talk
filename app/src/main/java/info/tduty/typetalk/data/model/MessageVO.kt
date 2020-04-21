@@ -13,7 +13,8 @@ data class MessageVO(
     val showSender: Boolean,
     val senderName: String,
     @DrawableRes val avatar: Int,
-    val message: String
+    val message: String,
+    var correction: CorrectionVO? = null
 ) {
 
     enum class Type {

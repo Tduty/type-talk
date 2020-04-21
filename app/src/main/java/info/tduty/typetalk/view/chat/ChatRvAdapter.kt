@@ -3,6 +3,7 @@ package info.tduty.typetalk.view.chat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import info.tduty.typetalk.data.model.CorrectionVO
 import info.tduty.typetalk.data.model.MessageVO
 import info.tduty.typetalk.view.chat.item.ChatEventVH
 import info.tduty.typetalk.view.chat.item.ChatItemVH
@@ -11,7 +12,9 @@ import info.tduty.typetalk.view.chat.item.ChatMessageVH
 /**
  * Created by Evgeniy Mezentsev on 07.03.2020.
  */
-class ChatRvAdapter : RecyclerView.Adapter<ChatItemVH>() {
+class ChatRvAdapter(
+    private val listener: (MessageVO) -> Unit
+) : RecyclerView.Adapter<ChatItemVH>() {
 
     companion object {
         private const val CHAT_EVENT = 2
@@ -32,6 +35,13 @@ class ChatRvAdapter : RecyclerView.Adapter<ChatItemVH>() {
         notifyItemRangeChanged(events.size - 1, 1)
     }
 
+    fun updateCorrection(correctionVO: CorrectionVO) {
+        val index = events.indexOfFirst { it.id == correctionVO.syncId }
+        if (index == -1) return
+        events[index].correction = correctionVO
+        notifyItemChanged(index)
+    }
+
     override fun getItemViewType(position: Int): Int {
         return when (events[position].type) {
             MessageVO.Type.EVENT -> CHAT_EVENT
@@ -44,8 +54,8 @@ class ChatRvAdapter : RecyclerView.Adapter<ChatItemVH>() {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             CHAT_EVENT -> ChatEventVH.newInstance(inflater, parent)
-            CHAT_MESSAGE_MY -> ChatMessageVH.newInstance(inflater, true, parent)
-            CHAT_MESSAGE_FOREIGN -> ChatMessageVH.newInstance(inflater, false, parent)
+            CHAT_MESSAGE_MY -> ChatMessageVH.newInstance(inflater, true, parent, listener)
+            CHAT_MESSAGE_FOREIGN -> ChatMessageVH.newInstance(inflater, false, parent, listener)
             else -> ChatEventVH.newInstance(inflater, parent)
         }
     }

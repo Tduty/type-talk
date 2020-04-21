@@ -24,6 +24,12 @@ data class MessageDTO(
     @SerializedName("body")
     val body: String,
 
+    @SerializedName("additional_type")
+    val additionalType: Int?,
+
+    @SerializedName("additional")
+    val additional: String?,
+
     @SerializedName("sending_time")
     val sendingTime: Long, //TODO: перейти к timestamp
 

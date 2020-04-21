@@ -22,6 +22,12 @@ data class MessageEntity(
     @ColumnInfo(name = "content")
     var content: String,
 
+    @ColumnInfo(name = "additional_type")
+    var additionalType: Int?,
+
+    @ColumnInfo(name = "additional")
+    var additional: String?,
+
     @ColumnInfo(name = "avatar_url")
     var avatarURL: String,
 
@@ -42,5 +48,8 @@ data class MessageEntity(
         const val SENDER_TYPE_TEACHER = "teacher"
         const val SENDER_TYPE_MALE = "male"
         const val SENDER_TYPE_FEMALE = "female"
+
+        const val ADDITIONAL_TYPE_CORRECTION = 1
+        const val ADDITIONAL_TYPE_COMMENT = 2
     }
 }

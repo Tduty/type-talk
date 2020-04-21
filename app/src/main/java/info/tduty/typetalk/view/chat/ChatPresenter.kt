@@ -5,6 +5,9 @@ import info.tduty.typetalk.R
 import info.tduty.typetalk.data.db.model.ChatEntity
 import info.tduty.typetalk.data.model.ChatVO
 import info.tduty.typetalk.data.model.CleanBadge
+import info.tduty.typetalk.data.model.CorrectionVO
+import info.tduty.typetalk.data.model.MessageVO
+import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.domain.interactor.ChatInteractor
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.managers.EventManager
@@ -21,11 +24,15 @@ class ChatPresenter(
     private val context: Context,
     private val chatInteractor: ChatInteractor,
     private val historyInteractor: HistoryInteractor,
-    private val eventManager: EventManager
+    private val eventManager: EventManager,
+    private val userDataHelper: UserDataHelper
 ) {
 
     private var chatId: String? = null
     private val disposables = CompositeDisposable()
+
+    private var correctionId: String? = null
+    private var correctionType: CorrectionVO.AdditionalType = CorrectionVO.AdditionalType.NONE
 
     fun onCreate(chatId: String?, type: String) {
         this.chatId = chatId
@@ -48,9 +55,40 @@ class ChatPresenter(
         disposables.dispose()
     }
 
-    fun sendMessage(message: String) {
+    fun onMessageClick(messageVO: MessageVO) {
+        if (userDataHelper.isTeacher()) {
+            view.showMessageActionDialog(messageVO)
+        }
+    }
+
+    fun onCorrectMessage(messageVO: MessageVO) {
+        setupCorrection(messageVO, CorrectionVO.AdditionalType.CORRECTION)
+    }
+
+    fun onCommentMessage(messageVO: MessageVO) {
+        setupCorrection(messageVO, CorrectionVO.AdditionalType.COMMENT)
+    }
+
+    fun onSendBtnClick(message: String) {
+        if (correctionId == null) sendMessage(message)
+        else sendCorrectionMessage(message)
+    }
+
+    fun cancelCorrection() {
+        removeCorrection()
+    }
+
+    private fun sendMessage(message: String) {
         if (message.isBlank()) return
         chatId?.let { historyInteractor.sendMessage(it, message) }
+    }
+
+    private fun sendCorrectionMessage(message: String) {
+        if (message.isBlank()) return
+        val syncId = correctionId ?: return
+        val chatId = chatId ?: return
+        historyInteractor.sendCorrection(syncId, chatId, message, correctionType)
+        removeCorrection()
     }
 
     private fun loadChat(chatId: String) {
@@ -116,9 +154,28 @@ class ChatPresenter(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ view.addEvent(it) }, Timber::e)
         )
+        disposables.add(
+            eventManager.correctMessage()
+                .filter { chatId == it.chatId }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ view.updateCorrection(it) }, Timber::e)
+        )
     }
 
     private fun cleanBadge() {
         chatId?.let { eventManager.post(CleanBadge(it)) }
+    }
+
+    private fun setupCorrection(messageVO: MessageVO, type: CorrectionVO.AdditionalType) {
+        correctionId = messageVO.id
+        correctionType = type
+        view.showCorrectionState(messageVO.senderName, messageVO.message, correctionType)
+    }
+
+    private fun removeCorrection() {
+        correctionId = null
+        correctionType = CorrectionVO.AdditionalType.NONE
+        view.hideCorrectionState()
     }
 }

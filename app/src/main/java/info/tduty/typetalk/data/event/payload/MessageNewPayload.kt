@@ -20,8 +20,10 @@ class MessageNewPayload(
     val senderType: String? = null,
     @SerializedName("body")
     val body: String,
+    @SerializedName("additional_type")
+    val additionalType: Int? = null,
+    @SerializedName("additional")
+    val additional: String? = null,
     @SerializedName("sending_time")
-    val sendingTime: Long = 0L,
-    @SerializedName("exist_mistake")
-    val existMistake: Boolean = false
+    val sendingTime: Long = 0L
 ) : EventPayload

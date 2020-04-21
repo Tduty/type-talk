@@ -5,4 +5,5 @@ interface UserDataHelper {
     fun setUserData(userData: UserData)
     fun getSavedUser() : UserData
     fun isSavedUser() : Boolean
+    fun isTeacher(): Boolean
 }

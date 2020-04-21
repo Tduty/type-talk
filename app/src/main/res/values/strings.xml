@@ -56,6 +56,10 @@
     <!-- Chat -->
     <string name="chat_input_hint_message">Message</string>
     <string name="chat_teacher_title">Teacher</string>
+    <string name="chat_message_action">Message action</string>
+    <string name="chat_message_teacher_comment">Teacher comment:</string>
+    <string name="chat_message_teacher_correction">Correction from the teacher:</string>
+    <string name="chat_message_teacher_another">From teacher:</string>
     <!---->
 
     <!-- Lesson -->

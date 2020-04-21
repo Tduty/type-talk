@@ -9,6 +9,7 @@
     android:orientation="horizontal">
 
     <LinearLayout
+        android:id="@+id/ll_bubble"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -27,6 +28,33 @@
             android:paddingEnd="10dp"
             android:paddingTop="8dp"
             android:textSize="16sp"
+            tools:text="When you complete your dialogues, please, send a “plus” here." />
+
+        <TextView
+            android:id="@+id/tv_comment_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:visibility="visible"
+            tools:text="Comment by Teacher:" />
+
+        <TextView
+            android:id="@+id/tv_correction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/tundora"
+            android:textSize="16sp"
+            android:visibility="gone"
+            tools:visibility="visible"
             tools:text="When you complete your dialogues, please, send a “plus” here." />
 
     </LinearLayout>

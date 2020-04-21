@@ -26,6 +26,9 @@ interface MessageDao {
     @Update
     fun update(message: MessageEntity)
 
+    @Query("UPDATE message SET additional_type = :type, additional = :text WHERE sync_id = :syncId")
+    fun updateAdditional(syncId: String, type: Int, text: String): Completable
+
     @Delete
     fun delete(message: MessageEntity)
 }

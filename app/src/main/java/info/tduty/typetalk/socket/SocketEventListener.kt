@@ -1,10 +1,7 @@
 package info.tduty.typetalk.socket
 
 import info.tduty.typetalk.data.event.EventPayload
-import info.tduty.typetalk.data.event.payload.LessonPayload
-import info.tduty.typetalk.data.event.payload.MessageNewPayload
-import info.tduty.typetalk.data.event.payload.TypingPayload
-import info.tduty.typetalk.data.event.payload.UserStatusPayload
+import info.tduty.typetalk.data.event.payload.*
 import io.reactivex.Flowable
 
 /**
@@ -17,6 +14,7 @@ class SocketEventListener(private val eventBus: EventBusRx) {
         client.listenEvent(EventPayload.Type.MESSAGE_NEW, eventBus)
         client.listenEvent(EventPayload.Type.TYPING, eventBus)
         client.listenEvent(EventPayload.Type.USER_STATUS, eventBus)
+        client.listenEvent(EventPayload.Type.CORRECTION, eventBus)
     }
 
     fun messageNewPayloadObservable(): Flowable<MessageNewPayload> {
@@ -37,5 +35,10 @@ class SocketEventListener(private val eventBus: EventBusRx) {
     fun lessonPayloadObservable(): Flowable<LessonPayload> {
         return eventBus
             .observeEvents(LessonPayload::class.java)
+    }
+
+    fun correctionPayloadObservable(): Flowable<CorrectionPayload> {
+        return eventBus
+            .observeEvents(CorrectionPayload::class.java)
     }
 }

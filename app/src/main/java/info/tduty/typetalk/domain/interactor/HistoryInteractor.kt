@@ -6,13 +6,14 @@ import info.tduty.typetalk.data.db.model.MessageEntity
 import info.tduty.typetalk.data.db.wrapper.ChatWrapper
 import info.tduty.typetalk.data.db.wrapper.MessageWrapper
 import info.tduty.typetalk.data.dto.MessageDTO
+import info.tduty.typetalk.data.event.payload.CorrectionPayload
 import info.tduty.typetalk.data.event.payload.MessageNewPayload
+import info.tduty.typetalk.data.model.CorrectionVO
 import info.tduty.typetalk.data.model.MessageVO
 import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.domain.managers.EventManager
 import info.tduty.typetalk.domain.provider.HistoryProvider
 import info.tduty.typetalk.socket.SocketController
-import info.tduty.typetalk.utils.Optional
 import io.reactivex.Completable
 import io.reactivex.Observable
 import timber.log.Timber
@@ -57,6 +58,37 @@ class HistoryInteractor(
             .ignoreElements()
     }
 
+    fun handleCorrection(payload: CorrectionPayload): Completable {
+        return messageWrapper.updateAdditional(
+            payload.syncId,
+            payload.additionalType,
+            payload.additional
+        )
+            .doOnComplete {
+                val vo = CorrectionVO(
+                    payload.syncId,
+                    payload.chatId,
+                    payload.additional,
+                    CorrectionVO.AdditionalType.intOf(payload.additionalType)
+                )
+                eventManager.post(vo)
+            }
+    }
+
+    fun sendCorrection(syncId: String, chatId: String, text: String, type: CorrectionVO.AdditionalType) {
+        try {
+            val payload = CorrectionPayload(
+                syncId,
+                chatId,
+                type.id,
+                text
+            )
+            socketController.sendCorrection(payload)
+        } catch (ex: Exception) {
+            Timber.e(ex, "Error sending correction: $syncId in chat $chatId")
+        }
+    }
+
     fun sendMessage(chatId: String, message: String) {
         try {
             socketController.sendMessageNew(toPayload(chatId, message))
@@ -74,6 +106,8 @@ class HistoryInteractor(
             avatarURL = "cl_your_teacher_chat", //TODO придумать норм способ добавлять аватарку
             senderType = dto.senderType,
             isMy = dto.senderId == userDataHelper.getSavedUser().id,
+            additionalType = dto.additionalType,
+            additional = dto.additional,
             sendingTime = dto.sendingTime
         )
     }
@@ -87,6 +121,8 @@ class HistoryInteractor(
             avatarURL = "cl_your_teacher_chat", //TODO придумать норм способ добавлять аватарку
             senderType = payload.senderType ?: MessageEntity.SENDER_TYPE_MALE,
             isMy = payload.senderId == userDataHelper.getSavedUser().id,
+            additionalType = payload.additionalType,
+            additional = payload.additional,
             sendingTime = payload.sendingTime
         )
     }
@@ -100,11 +136,24 @@ class HistoryInteractor(
             showSender = chatType == ChatEntity.CLASS_CHAT || chatType == null,
             senderName = db.title,
             message = db.content,
+            correction = toCorrectionVO(db),
             avatar = when (db.senderType) {
                 MessageEntity.SENDER_TYPE_TEACHER -> R.drawable.ic_teacher_bubble
                 MessageEntity.SENDER_TYPE_FEMALE -> R.drawable.ic_girl_bubble
                 else -> R.drawable.ic_boy_bubble
             }
+        )
+    }
+
+    private fun toCorrectionVO(db: MessageEntity): CorrectionVO? {
+        val additionalType = db.additionalType
+        val additional= db.additional
+        return if (additionalType == null || additional == null) null
+        else CorrectionVO(
+            db.syncId,
+            db.chatId,
+            additional,
+            CorrectionVO.AdditionalType.intOf(additionalType)
         )
     }
 

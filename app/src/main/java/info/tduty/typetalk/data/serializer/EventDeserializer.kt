@@ -7,10 +7,7 @@ import com.google.gson.JsonElement
 import info.tduty.typetalk.data.event.Event
 import info.tduty.typetalk.data.event.EventPayload
 import info.tduty.typetalk.data.event.EventPayload.Type.*
-import info.tduty.typetalk.data.event.payload.LessonPayload
-import info.tduty.typetalk.data.event.payload.MessageNewPayload
-import info.tduty.typetalk.data.event.payload.TypingPayload
-import info.tduty.typetalk.data.event.payload.UserStatusPayload
+import info.tduty.typetalk.data.event.payload.*
 import java.lang.reflect.Type
 
 /**
@@ -30,6 +27,7 @@ class EventDeserializer(val gson: Gson) : JsonDeserializer<Event> {
             MESSAGE_NEW -> gson.fromJson(jsonElement, MessageNewPayload::class.java)
             LESSON -> gson.fromJson(jsonElement, LessonPayload::class.java)
             TYPING -> gson.fromJson(jsonElement, TypingPayload::class.java)
+            CORRECTION -> gson.fromJson(jsonElement, CorrectionPayload::class.java)
         }
         return Event(typePayload, eventPayload)
     }

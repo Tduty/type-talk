@@ -35,6 +35,10 @@ class UserDataSharedPreferencesHelper(
         return getUserForJson(preferences.getString(APP_PREFERENCES_USER)) != null
     }
 
+    override fun isTeacher(): Boolean {
+        return isSavedUser() && getSavedUser().isTeacher
+    }
+
     private fun getUserForJson(userJson: String?): UserData? {
         return try {
             gson.fromJson(userJson, UserData::class.java)

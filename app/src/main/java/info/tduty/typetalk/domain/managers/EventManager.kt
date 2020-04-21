@@ -1,9 +1,6 @@
 package info.tduty.typetalk.domain.managers
 
-import info.tduty.typetalk.data.model.CleanBadge
-import info.tduty.typetalk.data.model.LessonVO
-import info.tduty.typetalk.data.model.MessageVO
-import info.tduty.typetalk.data.model.UserStatusUpdated
+import info.tduty.typetalk.data.model.*
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.subjects.PublishSubject
@@ -24,6 +21,13 @@ class EventManager {
             .toFlowable(BackpressureStrategy.BUFFER)
             .filter { it is MessageVO }
             .cast(MessageVO::class.java)
+    }
+
+    fun correctMessage(): Flowable<CorrectionVO> {
+        return subject
+            .toFlowable(BackpressureStrategy.BUFFER)
+            .filter { it is CorrectionVO }
+            .cast(CorrectionVO::class.java)
     }
 
     fun lessonNew(): Flowable<LessonVO> {

@@ -3,6 +3,7 @@ package info.tduty.typetalk.view.chat
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.db.model.ChatEntity
+import info.tduty.typetalk.data.model.CorrectionVO
 import info.tduty.typetalk.data.model.MessageVO
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.chat.di.ChatModule
@@ -94,7 +96,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
     }
 
     private fun setupRv() {
-        adapter = ChatRvAdapter()
+        adapter = ChatRvAdapter { presenter.onMessageClick(it) }
         rv_messages.adapter = adapter
         rv_messages.addOnLayoutChangeListener { v, _, _, _, b, _, _, _, oldB ->
             if (b < oldB) { v.post { scrollToBottom() } }
@@ -103,7 +105,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
 
     private fun setupListeners() {
         iv_send.setOnClickListener {
-            presenter.sendMessage(et_message.text?.toString() ?: "")
+            presenter.onSendBtnClick(et_message.text?.toString() ?: "")
             et_message.text = SpannableStringBuilder("")
         }
     }
@@ -137,6 +139,44 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
 
     override fun setEvents(messageVO: List<MessageVO>) {
         adapter.setEvents(messageVO)
+    }
+
+    override fun updateCorrection(correctionVO: CorrectionVO) {
+        adapter.updateCorrection(correctionVO)
+    }
+
+    override fun showCorrectionState(
+        title: String,
+        body: String,
+        type: CorrectionVO.AdditionalType
+    ) {
+        ll_correct_block.visibility = View.VISIBLE
+        tv_correction_title.text = title
+        tv_correction_body.text = body
+        if (type == CorrectionVO.AdditionalType.CORRECTION) {
+            et_message.text = SpannableStringBuilder(body)
+        }
+        iv_cancel_correction.setOnClickListener { presenter.cancelCorrection() }
+    }
+
+    override fun hideCorrectionState() {
+        ll_correct_block.visibility = View.GONE
+        tv_correction_title.text = null
+        tv_correction_body.text = null
+        et_message.text = null
+    }
+
+    override fun showMessageActionDialog(messageVO: MessageVO) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(R.string.chat_message_action)
+            .setItems(R.array.message_action) { _, which ->
+                if (which == 0) {
+                    presenter.onCorrectMessage(messageVO)
+                } else if (which == 1) {
+                    presenter.onCommentMessage(messageVO)
+                }
+            }
+        builder.create().show()
     }
 
     private fun scrollToBottom() {

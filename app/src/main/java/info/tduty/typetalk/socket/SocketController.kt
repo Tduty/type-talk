@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import info.tduty.typetalk.data.event.Event
 import info.tduty.typetalk.data.event.EventPayload.Type.*
+import info.tduty.typetalk.data.event.payload.CorrectionPayload
 import info.tduty.typetalk.data.event.payload.LessonPayload
 import info.tduty.typetalk.data.event.payload.MessageNewPayload
 import info.tduty.typetalk.data.event.payload.TypingPayload
@@ -62,6 +63,14 @@ class SocketController(
             client?.pushEvent(Event(MESSAGE_NEW.string, messageNew))
         } catch (ex: Exception) {
             Timber.e(ex, "Error sending event $messageNew")
+        }
+    }
+
+    fun sendCorrection(correction: CorrectionPayload) {
+        try {
+            client?.pushEvent(Event(CORRECTION.string, correction))
+        } catch (ex: Exception) {
+            Timber.e(ex, "Error sending event $correction")
         }
     }
 

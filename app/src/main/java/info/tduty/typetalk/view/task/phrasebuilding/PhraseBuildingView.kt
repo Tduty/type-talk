@@ -11,5 +11,11 @@ interface PhraseBuildingView {
 
     fun nextPage()
 
-    fun openLesson(lessonId: String)
+    fun completeTask()
+
+    fun successCompletedWithIncorrectWord(incorrect: List<PhraseBuildingVO>)
+
+    fun unsuccessComplete(incorrect: List<PhraseBuildingVO>)
+
+    fun nextPage(position: Int)
 }

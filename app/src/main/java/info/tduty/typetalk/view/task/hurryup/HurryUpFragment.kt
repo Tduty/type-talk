@@ -141,8 +141,8 @@ class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
     }
 
     override fun setupHurryUp(hurryUpList: List<HurryUpVO>) {
-        adapter.setupHurryUpList(hurryUpList) {
-            presenter.onClickListener(it)
+        adapter.setupHurryUpList(hurryUpList) { selectedWord, hurryUpVO ->
+            presenter.onSelectWord(selectedWord, hurryUpVO)
         }
     }
 
@@ -164,7 +164,7 @@ class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
         vp_hurry_up.setCurrentItem(vp_hurry_up.currentItem + 1, isAnimated)
     }
 
-    override fun showCompleteAlertDialog(title: Int, message: Int, isTryAgain: Boolean) {
+    override fun showCompleteAlertDialog(title: Int, message: Int, countCompletedTask: Int, isTryAgain: Boolean) {
         val mDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.alert_dialog_information, null)
         val mBuilder = AlertDialog.Builder(requireContext())
             .setView(mDialogView)
@@ -175,7 +175,7 @@ class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
         mAlertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val titleString = resources.getString(title)
-        val messageString = resources.getString(message)
+        val messageString = "${resources.getString(message)} \n Count completed task: $countCompletedTask"
         val titleFirstButton = resources.getString(R.string.task_screen_hurry_up_title_first_button_completed_alert_dialog)
         val titleSecondButton = resources.getString(R.string.task_screen_hurry_up_title_second_button_completed_alert_dialog)
 
@@ -233,5 +233,9 @@ class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
 
     override fun stopTimer() {
         anim?.stop()
+    }
+
+    override fun setPenatlyForTimer(second: Int) {
+        anim?.setPenatly(second)
     }
 }

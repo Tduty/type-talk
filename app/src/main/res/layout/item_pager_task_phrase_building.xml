@@ -96,7 +96,7 @@
                     android:layout_margin="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_cancel_without_bg" />
+                    app:srcCompat="@drawable/ic_cancel_without_bg"/>
 
                 <TextView
                     android:id="@+id/tv_text"
@@ -113,30 +113,51 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_drag_field_placeholder"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_drag_field_placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:visibility="visible">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    app:srcCompat="@drawable/ic_drag" />
+                <LinearLayout
+                    android:id="@+id/ll_drag_field_placeholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:srcCompat="@drawable/ic_drag" />
+
+                    <TextView
+                        android:id="@+id/tv_chip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:text="@string/task_screen_phrase_building_drags_words"
+                        android:textAllCaps="true"
+                        android:textColor="@color/silverB"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tv_chip"
+                    android:id="@+id/tv_skip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:text="@string/task_screen_phrase_building_drags_words"
+                    android:layout_margin="10dp"
+                    android:text="@string/button_skip"
                     android:textAllCaps="true"
-                    android:textColor="@color/silverB"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_cancel_without_bg"/>
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
 

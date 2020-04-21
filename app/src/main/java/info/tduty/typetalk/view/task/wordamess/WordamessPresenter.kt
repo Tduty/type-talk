@@ -3,6 +3,7 @@ package info.tduty.typetalk.view.task.wordamess
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.model.WordamessVO
 import info.tduty.typetalk.domain.interactor.TaskInteractor
+import info.tduty.typetalk.utils.Utils
 
 /**
  * Created by Evgeniy Mezentsev on 12.04.2020.
@@ -12,6 +13,7 @@ class WordamessPresenter(
     private val taskInteractor: TaskInteractor
 ) {
 
+    private var taskVO: TaskVO? = null
     private lateinit var lessonId: String
     private lateinit var tasks: MutableMap<String, WordamessVO>
     private var chooseList: List<WordamessVO> = emptyList()
@@ -19,6 +21,7 @@ class WordamessPresenter(
     private val selectedTasks = hashMapOf<String, WordamessVO>()
 
     fun onCreate(taskVO: TaskVO) {
+        this.taskVO = taskVO
         lessonId = taskVO.lessonId
         val tasks = taskInteractor.getPayload2(taskVO) as? List<WordamessVO> ?: emptyList()
         this.tasks = tasks.map { it.body to it }.toMap().toMutableMap()
@@ -104,7 +107,7 @@ class WordamessPresenter(
             correctList[position].isSkipped = true
         }
         when {
-            isCompleted(position) -> view.completeTask(lessonId)
+            isCompleted(position) -> completeTask()
             position == correctList.lastIndex -> setupChosenBlock()
             else -> {
                 view.setValueToInput("")
@@ -133,6 +136,46 @@ class WordamessPresenter(
                 && position == correctList.lastIndex
     }
 
+    private fun completeTask() {
+        val skippedWord = ArrayList<WordamessVO>()
+        val countSuccessTask = correctList.filter {
+            if (it.isSkipped) {
+                skippedWord.add(it)
+                false
+            } else {
+                true
+            }
+        }.size
+        val countWords = correctList.size
+        val successCompletedTaskPercent =
+            Utils.shared.getSuccessCompletedTaskPercent(countWords, countSuccessTask)
+
+        if (successCompletedTaskPercent >= 50) {
+            successfulExecution(skippedWord)
+        } else {
+            unsuccessfulExecution(skippedWord)
+        }
+    }
+
+    private fun unsuccessfulExecution(skippedWord: List<WordamessVO>) {
+        view.unsuccessComplete(skippedWord)
+    }
+
+    private fun successfulExecution(skippedWord: List<WordamessVO>) {
+        if (skippedWord.isNotEmpty()) {
+            view.successCompletedWithIncorrectWord(skippedWord)
+        } else {
+            view.completeTask()
+        }
+    }
+
     fun onDestroy() {
+    }
+
+    fun tryAgain() {
+        taskVO?.let {
+            view.showWordForCorrect(0)
+            onCreate(it)
+        }
     }
 }

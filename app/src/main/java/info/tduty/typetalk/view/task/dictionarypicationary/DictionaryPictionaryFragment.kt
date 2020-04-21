@@ -4,7 +4,6 @@ import android.content.res.Resources
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuInflater
@@ -20,6 +19,9 @@ import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.DictionaryPictionaryVO
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.utils.KeyboardHelper
+import info.tduty.typetalk.utils.alert.AlertDialogItems
+import info.tduty.typetalk.utils.alert.AlertDialogItemsVO
+import info.tduty.typetalk.utils.alert.TypeAlertItem
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.task.StateInputWord
 import info.tduty.typetalk.view.task.dictionarypicationary.di.DictionaryPictionaryModule
@@ -28,19 +30,19 @@ import kotlinx.android.synthetic.main.fragment_task_dictionary_pictionary.view.*
 import kotlinx.android.synthetic.main.fragment_task_flashcard.btn_next
 import kotlinx.android.synthetic.main.item_edittext_enter_word.*
 import kotlinx.android.synthetic.main.item_edittext_enter_word.view.*
-import kotlinx.android.synthetic.main.item_pager_task_dictionary_pictionary.*
 import kotlinx.android.synthetic.main.item_task_card_content_word.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
-class DictionaryPictionaryFragment: Fragment(R.layout.fragment_task_dictionary_pictionary), DictionaryPictionaryView {
+class DictionaryPictionaryFragment : Fragment(R.layout.fragment_task_dictionary_pictionary),
+    DictionaryPictionaryView {
 
     companion object {
 
         private const val ARGUMENT_TASK_VO = "task_vo"
 
         @JvmStatic
-        fun newInstance(taskVO: TaskVO) : DictionaryPictionaryFragment {
+        fun newInstance(taskVO: TaskVO): DictionaryPictionaryFragment {
             val bundle = Bundle()
             bundle.putParcelable(ARGUMENT_TASK_VO, taskVO)
             val fragment = DictionaryPictionaryFragment()
@@ -53,7 +55,12 @@ class DictionaryPictionaryFragment: Fragment(R.layout.fragment_task_dictionary_p
     lateinit var presenter: DictionaryPictionaryPresenter
     private var lessonsId: String = ""
     private var adapter: VpAdapter? = null
-    val Int.dp: Float get() =  Resources.getSystem().displayMetrics.density
+    val Int.dp: Float get() = Resources.getSystem().displayMetrics.density
+
+    private lateinit var TITLE_FINISHED_ALERT: String
+    private lateinit var TITLE_FAILED_ALERT: String
+    private lateinit var BTN_COMPLETED_ALERT: String
+    private lateinit var BTN_TRY_AGAIN_ALERT: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,9 +81,19 @@ class DictionaryPictionaryFragment: Fragment(R.layout.fragment_task_dictionary_p
         setupListener()
         setupInput()
         setStateInput(StateInputWord.DEFAULT)
+        setupTranslation()
 
         presenter.onCreate(taskVO)
     }
+
+    private fun setupTranslation() {
+        TITLE_FINISHED_ALERT =
+            requireContext().resources.getString(R.string.alert_title_finished_task)
+        TITLE_FAILED_ALERT = requireContext().resources.getString(R.string.alert_title_failed_task)
+        BTN_COMPLETED_ALERT = requireContext().resources.getString(R.string.alert_btn_completed)
+        BTN_TRY_AGAIN_ALERT = requireContext().resources.getString(R.string.alert_btn_try_again)
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
@@ -114,22 +131,27 @@ class DictionaryPictionaryFragment: Fragment(R.layout.fragment_task_dictionary_p
         et_word.setOnFocusChangeListener { _, hasFocus ->
             run {
                 if (!hasFocus) {
-                    presenter.onChangeEditText(et_word.text.toString(), vp_dictionary_pictionary.currentItem)
+                    presenter.onChangeEditText(
+                        et_word.text.toString(),
+                        vp_dictionary_pictionary.currentItem
+                    )
                 }
             }
         }
 
         et_word.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {}
+            override fun afterTextChanged(p0: Editable?) {
+                presenter.onChangeEditText(p0.toString(), vp_dictionary_pictionary.currentItem)
+            }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                presenter.onChangeEditText(p0.toString(), vp_dictionary_pictionary.currentItem)
             }
         })
 
-        vp_dictionary_pictionary.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        vp_dictionary_pictionary.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
@@ -145,14 +167,14 @@ class DictionaryPictionaryFragment: Fragment(R.layout.fragment_task_dictionary_p
     }
 
     private fun setupInput() {
-        et_word.hint = activity?.resources?.getString(R.string.task_screen_dictionary_pictionary_input_hint)
+        et_word.hint =
+            activity?.resources?.getString(R.string.task_screen_dictionary_pictionary_input_hint)
     }
 
     private fun setupViewPager() {
         adapter = VpAdapter(requireContext())
         vp_dictionary_pictionary.adapter = adapter
     }
-
 
     private fun setupFragmentComponent() {
         App.get(this.requireContext())
@@ -182,12 +204,14 @@ class DictionaryPictionaryFragment: Fragment(R.layout.fragment_task_dictionary_p
                 iv_right_top_corner?.visibility = View.GONE
                 cv_container_word.et_word.isEnabled = true
             }
+            StateInputWord.ERROR -> {
+            }
         }
     }
 
     private fun changeBorder(dp: Float, color: Int) {
         cv_container_word.setBackgroundResource(R.drawable.et_circle_bg)
-        val shapeDrawable =  cv_container_word.background as GradientDrawable
+        val shapeDrawable = cv_container_word.background as GradientDrawable
         shapeDrawable.setStroke(dp.roundToInt(), requireContext().resources.getColor(color))
     }
 
@@ -216,12 +240,69 @@ class DictionaryPictionaryFragment: Fragment(R.layout.fragment_task_dictionary_p
         adapter?.notifyDataSetChanged()
     }
 
-
     override fun showWord(position: Int, isAnimated: Boolean) {
         vp_dictionary_pictionary.setCurrentItem(position, isAnimated)
     }
 
+    override fun successCompletedWithIncorrectWord(incorrectWord: List<DictionaryPictionaryVO>) {
+        val alert = AlertDialogItems(
+            requireContext(),
+            getPayloadForAlert(incorrectWord),
+            false,
+            TITLE_FINISHED_ALERT,
+            BTN_COMPLETED_ALERT,
+            null
+        )
+
+        alert.setListenerFirstButton {
+            completeTask()
+            alert.dismiss()
+        }
+
+        alert.showAlert()
+    }
+
+    override fun unsuccessComplete(incorrectWords: List<DictionaryPictionaryVO>) {
+        val alert = AlertDialogItems(
+            requireContext(),
+            getPayloadForAlert(incorrectWords),
+            true,
+            TITLE_FAILED_ALERT,
+            BTN_TRY_AGAIN_ALERT,
+            BTN_COMPLETED_ALERT
+        )
+
+        alert.setListenerFirstButton {
+            presenter.tryAgain()
+            alert.dismiss()
+        }
+
+        alert.setListenerSecondButton {
+            completeTask()
+            alert.dismiss()
+        }
+
+        alert.showAlert()
+    }
+
     override fun completeTask() {
         (activity as? ViewNavigation)?.closeFragment()
+    }
+
+    private fun getPayloadForAlert(dpVO: List<DictionaryPictionaryVO>): List<AlertDialogItemsVO> {
+        return dpVO.map {
+            val type = TypeAlertItem.IMAGE
+            val topWord = getTopWord(it.translates)
+            AlertDialogItemsVO(
+                topWord,
+                it.inputWord ?: "",
+                type,
+                it.image
+            )
+        }
+    }
+
+    private fun getTopWord(words: List<String>): String {
+        return words.joinToString(prefix = "(", postfix = ")")
     }
 }

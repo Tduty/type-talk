@@ -1,7 +1,6 @@
 package info.tduty.typetalk.view.task.translation
 
 import android.content.res.Resources
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
@@ -20,6 +19,9 @@ import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.model.TranslationVO
 import info.tduty.typetalk.utils.KeyboardHelper
+import info.tduty.typetalk.utils.alert.AlertDialogItems
+import info.tduty.typetalk.utils.alert.AlertDialogItemsVO
+import info.tduty.typetalk.utils.alert.TypeAlertItem
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.task.StateInputWord
 import info.tduty.typetalk.view.task.translation.di.TranslationModule
@@ -49,12 +51,18 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
         }
     }
 
+    private lateinit var TITLE_FINISHED_ALERT: String
+    private lateinit var TITLE_FAILED_ALERT: String
+    private lateinit var BTN_COMPLETED_ALERT: String
+    private lateinit var BTN_TRY_AGAIN_ALERT: String
+    private lateinit var INFO_WAIT_TEACHER_ALERT: String
+
     @Inject
     lateinit var presenter: TranslationPresenter
     lateinit var adapter: ViewPagerAdapter
     private var lessonsId: String = ""
 
-    val Int.dp: Float get() =  Resources.getSystem().displayMetrics.density
+    val Int.dp: Float get() = Resources.getSystem().displayMetrics.density
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,9 +89,20 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
         setupViewPager()
         setupListener()
         setStateEditWord(StateInputWord.DEFAULT)
+        setupTranslation()
 
         presenter.onCreate(taskVO)
     }
+
+    private fun setupTranslation() {
+        TITLE_FINISHED_ALERT =
+            requireContext().resources.getString(R.string.alert_title_finished_task)
+        TITLE_FAILED_ALERT = requireContext().resources.getString(R.string.alert_title_failed_task)
+        BTN_COMPLETED_ALERT = requireContext().resources.getString(R.string.alert_btn_completed)
+        BTN_TRY_AGAIN_ALERT = requireContext().resources.getString(R.string.alert_btn_try_again)
+        INFO_WAIT_TEACHER_ALERT = requireContext().resources.getString(R.string.alert_item_information_wait_teacher)
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
@@ -118,13 +137,13 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
         }
 
         et_word.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {}
+            override fun afterTextChanged(p0: Editable?) {
+                presenter.onChangeEditText(p0.toString(), vp_translation.currentItem)
+            }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                presenter.onChangeEditText(p0.toString(), vp_translation.currentItem)
-            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
 
         vp_translation.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -170,7 +189,7 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
     }
 
     override fun setStateEditWord(state: StateInputWord) {
-        when(state) {
+        when (state) {
             StateInputWord.DEFAULT -> {
                 clearEditText()
                 cv_container_word.setBackgroundResource(R.drawable.et_circle_bg_shadow)
@@ -197,7 +216,7 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
 
     private fun changeBorder(dp: Float, color: Int) {
         cv_container_word.setBackgroundResource(R.drawable.et_circle_bg)
-        val shapeDrawable =  cv_container_word.background as GradientDrawable
+        val shapeDrawable = cv_container_word.background as GradientDrawable
         shapeDrawable.setStroke(dp.roundToInt(), requireContext().resources.getColor(color))
     }
 
@@ -218,10 +237,70 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
     }
 
     override fun hiddenKeyboard() {
-       KeyboardHelper.hideKeyboard(activity, view)
+        KeyboardHelper.hideKeyboard(activity, view)
     }
 
     override fun completeTask() {
         (activity as? ViewNavigation)?.closeFragment()
+    }
+
+    override fun successCompletedWithIncorrectWord(incorrectWord: List<TranslationVO>) {
+        val alert = AlertDialogItems(
+            requireContext(),
+            getPayloadForAlert(incorrectWord),
+            false,
+            TITLE_FINISHED_ALERT,
+            BTN_COMPLETED_ALERT,
+            null
+        )
+
+        alert.setListenerFirstButton {
+            completeTask()
+            alert.dismiss()
+        }
+
+        alert.showAlert()
+    }
+
+    override fun unsuccessComplete(incorrectWord: List<TranslationVO>) {
+        val alert = AlertDialogItems(
+            requireContext(),
+            getPayloadForAlert(incorrectWord),
+            true,
+            TITLE_FAILED_ALERT,
+            BTN_TRY_AGAIN_ALERT,
+            BTN_COMPLETED_ALERT
+        )
+
+        alert.setListenerFirstButton {
+            presenter.tryAgain()
+            alert.dismiss()
+        }
+
+        alert.setListenerSecondButton {
+            completeTask()
+            alert.dismiss()
+        }
+
+        alert.showAlert()
+    }
+
+    private fun getPayloadForAlert(traslationList: List<TranslationVO>): List<AlertDialogItemsVO> {
+        return traslationList.map {
+            val type: TypeAlertItem
+            val topWord: String
+            if (it.type == "phrase") {
+                type = TypeAlertItem.ERROR
+                topWord = it.word
+            } else {
+                type = TypeAlertItem.INFO
+                topWord = "${it.word} ($INFO_WAIT_TEACHER_ALERT)"
+            }
+            AlertDialogItemsVO(
+                topWord,
+                it.inputWord ?: "",
+                type
+            )
+        }
     }
 }

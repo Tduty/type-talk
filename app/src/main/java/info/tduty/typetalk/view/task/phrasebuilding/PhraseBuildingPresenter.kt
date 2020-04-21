@@ -3,6 +3,7 @@ package info.tduty.typetalk.view.task.phrasebuilding
 import info.tduty.typetalk.data.model.PhraseBuildingVO
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.domain.interactor.TaskInteractor
+import info.tduty.typetalk.utils.Utils
 
 /**
  * Created by Evgeniy Mezentsev on 12.04.2020.
@@ -12,10 +13,12 @@ class PhraseBuildingPresenter(
     private val taskInteractor: TaskInteractor
 ) {
 
+    private var taskVO: TaskVO? = null
     private lateinit var lessonId: String
     private lateinit var tasks: Map<String, PhraseBuildingVO>
 
     fun onCreate(taskVO: TaskVO) {
+        this.taskVO = taskVO
         this.lessonId = taskVO.lessonId
         val tasks = taskInteractor.getPayload2(taskVO) as? List<PhraseBuildingVO> ?: emptyList()
         this.tasks = tasks.map { it.id to it }.toMap()
@@ -26,12 +29,63 @@ class PhraseBuildingPresenter(
         view.nextPage()
     }
 
-
     fun completeTask() {
-        view.openLesson(lessonId)
+        val incorrect = ArrayList<PhraseBuildingVO>()
+        val countSuccessTask =
+            tasks.values.filter {
+                if (it.isCorrectText) {
+                    true
+                } else {
+                    incorrect.add(it)
+                    false
+                }
+            }.size
+        val countTask = tasks.values.size
+        val successCompletedTaskPercent =
+            Utils.shared.getSuccessCompletedTaskPercent(countTask, countSuccessTask)
+
+        if (successCompletedTaskPercent >= 50) {
+            successfulExecution(incorrect)
+        } else {
+            unsuccessfulExecution(incorrect)
+        }
+    }
+
+    private fun unsuccessfulExecution(incorrect: List<PhraseBuildingVO>) {
+        view.unsuccessComplete(incorrect)
+    }
+
+    private fun successfulExecution(incorrect: List<PhraseBuildingVO>) {
+        if (incorrect.isNotEmpty()) {
+            view.successCompletedWithIncorrectWord(incorrect)
+        } else {
+            view.completeTask()
+        }
     }
 
     fun onDestroy() {
 
     }
+
+    fun tryAgain() {
+        taskVO?.let {
+            view.nextPage(0)
+            onCreate(it)
+        }
+    }
+
+    fun setInputText(
+        id: String,
+        buildWords: MutableList<String>?
+    ) {
+        tasks[id]?.buildingText =
+            buildWords?.joinToString(prefix = "", postfix = "", separator = " ") ?: ""
+    }
+
+    fun setCorrectText(id: String, buildWords: MutableList<String>?) {
+        tasks[id]?.buildingText =
+            buildWords?.joinToString(prefix = "", postfix = "", separator = " ") ?: ""
+        tasks[id]?.isCorrectText = true
+    }
+
 }

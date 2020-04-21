@@ -18,4 +18,8 @@ interface DictionaryPictionaryView {
     fun completeTask()
 
     fun showWord(position: Int, isAnimated: Boolean)
+
+    fun successCompletedWithIncorrectWord(incorrectWord: List<DictionaryPictionaryVO>)
+
+    fun unsuccessComplete(incorrectWords: List<DictionaryPictionaryVO>)
 }

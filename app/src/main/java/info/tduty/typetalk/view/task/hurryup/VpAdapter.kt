@@ -7,10 +7,10 @@ import java.util.*
 
 class VpAdapter : RecyclerView.Adapter<PagerVH>() {
 
-    private var clickListener: ((HurryUpVO) -> Unit)? = null
+    private var clickListener: ((selectedWord: String, HurryUpVO) -> Unit)? = null
     private var hurryUpList: List<HurryUpVO> = Collections.emptyList()
 
-    fun setupHurryUpList(hurryUpList: List<HurryUpVO>, clickListener: ((HurryUpVO) -> Unit)? = null) {
+    fun setupHurryUpList(hurryUpList: List<HurryUpVO>, clickListener: ((selectedWord: String, HurryUpVO) -> Unit)? = null) {
         this.clickListener = clickListener
         this.hurryUpList = hurryUpList
         notifyDataSetChanged()

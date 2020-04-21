@@ -6,7 +6,9 @@ import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.model.TranslationVO
 import info.tduty.typetalk.domain.interactor.ChatInteractor
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
+import info.tduty.typetalk.domain.interactor.LessonInteractor
 import info.tduty.typetalk.domain.interactor.TaskInteractor
+import info.tduty.typetalk.utils.Utils
 import info.tduty.typetalk.view.task.StateInputWord
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -17,6 +19,7 @@ import java.util.*
 class TranslationPresenter(
     val view: TranslationView,
     private val taskInteractor: TaskInteractor,
+    private val lessonsInteractor: LessonInteractor,
     private val chatInteractor: ChatInteractor,
     private val historyInteractor: HistoryInteractor
 ) {
@@ -69,6 +72,8 @@ class TranslationPresenter(
     fun onChangeEditText(word: String, currentItem: Int) {
         val translationVO = translationList[currentItem]
 
+        translationVO.inputWord = word
+
         if (word.isEmpty()) {
             view.setStateEditWord(StateInputWord.DEFAULT)
             setNextButtonTitle(currentItem)
@@ -77,7 +82,6 @@ class TranslationPresenter(
         when (translationVO.type) {
             "phrase" -> {
                 if (word == translationVO.currentTranslation) {
-                    translationVO.inputWord = word
                     view.setStateEditWord(StateInputWord.VALID)
                     view.setTitleNextButton(BTN_TITLE_NEXT)
                 } else {
@@ -90,10 +94,10 @@ class TranslationPresenter(
         }
     }
 
-    private fun getMessageForTeacher(word: String, content: String): String {
+    private fun getMessageForTeacher(word: String, content: String, lessonTitle: String): String {
         return """
                     Task: ${task?.title}
-                    Lessons id: ${task?.lessonId}
+                    Lessons id: $lessonTitle
                     Input word: $word
                     Task content: $content
                 """.trimIndent()
@@ -103,7 +107,7 @@ class TranslationPresenter(
         val translationVO = translationList[currentPosition]
 
         if (isCompleted) {
-            view.completeTask()
+            completeTask()
             return
         }
 
@@ -121,13 +125,57 @@ class TranslationPresenter(
             }
             "sentence" -> {
                 view.setTitleNextButton(BTN_TITLE_SEND_TO_TEACHER)
-                if (word != null && word.isNotEmpty()) {
+                if (word != null) {
                     translationVO.inputWord = word
-                    val message = getMessageForTeacher(word, translationVO.word)
-                    sendMessageToTeacherChat(message)
+                    task?.let {
+                        createMessage(it, word, translationVO.word)
+                    }
                 }
             }
         }
+    }
+
+    private fun completeTask() {
+        val countSuccessTask =
+            translationList.filter { it.currentTranslation == it.inputWord && it.type != "sentence" }
+                .size
+        val countTask = translationList.filter { it.type != "sentence" }.size
+        val successCompletedTaskPercent =
+            Utils.shared.getSuccessCompletedTaskPercent(countTask, countSuccessTask)
+
+        val incorrectWords = translationList.filter { it.currentTranslation != it.inputWord }
+
+        if (successCompletedTaskPercent >= 50) {
+            successfulExecution(incorrectWords)
+        } else {
+            unsuccessfulExecution(incorrectWords)
+        }
+    }
+
+    private fun successfulExecution(incorrectWord: List<TranslationVO>) {
+        if (incorrectWord.isNotEmpty()) {
+            view.successCompletedWithIncorrectWord(incorrectWord)
+        } else {
+            view.completeTask()
+        }
+    }
+
+    private fun unsuccessfulExecution(incorrectWord: List<TranslationVO>) {
+        view.unsuccessComplete(incorrectWord)
+    }
+
+    private fun createMessage(taskVO: TaskVO, word: String, validTranslation: String) {
+        disposables.add(
+            lessonsInteractor.getLesson(taskVO.lessonId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ lesson ->
+                    lesson?.let {
+                        val message = getMessageForTeacher(word, validTranslation, lesson.title)
+                        sendMessageToTeacherChat(message)
+                    }
+                }, Timber::e)
+        )
     }
 
     private fun setNextButtonTitle(position: Int) {
@@ -156,8 +204,15 @@ class TranslationPresenter(
         )
     }
 
-
     fun onDestroy() {
         disposables.dispose()
+    }
+
+    fun tryAgain() {
+        task?.let {
+            isCompleted = false
+            view.showWord(0, false)
+            onCreate(it)
+        }
     }
 }

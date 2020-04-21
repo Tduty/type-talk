@@ -9,6 +9,9 @@ import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.PhraseBuildingVO
 import info.tduty.typetalk.data.model.TaskVO
+import info.tduty.typetalk.utils.alert.AlertDialogItems
+import info.tduty.typetalk.utils.alert.AlertDialogItemsVO
+import info.tduty.typetalk.utils.alert.TypeAlertItem
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.task.phrasebuilding.di.PhraseBuildingModule
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
@@ -35,6 +38,11 @@ class PhraseBuildingFragment : Fragment(R.layout.fragment_phrase_building), Phra
         }
     }
 
+    private lateinit var TITLE_FINISHED_ALERT: String
+    private lateinit var TITLE_FAILED_ALERT: String
+    private lateinit var BTN_COMPLETED_ALERT: String
+    private lateinit var BTN_TRY_AGAIN_ALERT: String
+
     @Inject
     lateinit var presenter: PhraseBuildingPresenter
     lateinit var adapter: VpAdapter
@@ -54,8 +62,17 @@ class PhraseBuildingFragment : Fragment(R.layout.fragment_phrase_building), Phra
         setHasOptionsMenu(true)
 
         setupViewPager()
+        setupTranslation()
 
         presenter.onCreate(taskVO)
+    }
+
+    private fun setupTranslation() {
+        TITLE_FINISHED_ALERT =
+            requireContext().resources.getString(R.string.alert_title_finished_task)
+        TITLE_FAILED_ALERT = requireContext().resources.getString(R.string.alert_title_failed_task)
+        BTN_COMPLETED_ALERT = requireContext().resources.getString(R.string.alert_btn_completed)
+        BTN_TRY_AGAIN_ALERT = requireContext().resources.getString(R.string.alert_btn_try_again)
     }
 
     override fun onDestroy() {
@@ -93,7 +110,68 @@ class PhraseBuildingFragment : Fragment(R.layout.fragment_phrase_building), Phra
         else vp_phrases.currentItem += 1
     }
 
-    override fun openLesson(lessonId: String) {
+    override fun nextPage(position: Int) {
+        vp_phrases.currentItem = position
+    }
+
+    override fun completeTask() {
         (activity as? ViewNavigation)?.closeFragment()
+    }
+
+    override fun successCompletedWithIncorrectWord(incorrect: List<PhraseBuildingVO>) {
+        val alert = AlertDialogItems(
+            requireContext(),
+            getPayloadForAlert(incorrect),
+            false,
+            TITLE_FINISHED_ALERT,
+            BTN_COMPLETED_ALERT,
+            null
+        )
+
+        alert.setListenerFirstButton {
+            completeTask()
+            alert.dismiss()
+        }
+
+        alert.showAlert()
+    }
+
+    override fun unsuccessComplete(incorrect: List<PhraseBuildingVO>) {
+        val alert = AlertDialogItems(
+            requireContext(),
+            getPayloadForAlert(incorrect),
+            true,
+            TITLE_FAILED_ALERT,
+            BTN_TRY_AGAIN_ALERT,
+            BTN_COMPLETED_ALERT
+        )
+
+        alert.setListenerFirstButton {
+            presenter.tryAgain()
+            alert.dismiss()
+        }
+
+        alert.setListenerSecondButton {
+            completeTask()
+            alert.dismiss()
+        }
+
+        alert.showAlert()
+    }
+
+    private fun getPayloadForAlert(dpVO: List<PhraseBuildingVO>): List<AlertDialogItemsVO> {
+        return dpVO.map {
+            val type = TypeAlertItem.ERROR
+            val topWord = getTopWord(it.phrases)
+            AlertDialogItemsVO(
+                topWord,
+                it.buildingText,
+                type
+            )
+        }
+    }
+
+    private fun getTopWord(words: List<String>): String {
+        return words.joinToString(prefix = "(", postfix = ")")
     }
 }

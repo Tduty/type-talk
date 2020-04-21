@@ -123,4 +123,14 @@
     <string name="task_screen_empty_error">Error getting task, contact teacher</string>
     <!---->
 
+    <!-- Alert -->
+    <string name="alert_btn_try_again">Try again</string>
+    <string name="alert_btn_completed">Completed</string>
+
+    <string name="alert_title_finished_task">Task finished</string>
+    <string name="alert_title_failed_task">Task failed</string>
+
+    <string name="alert_item_information_wait_teacher">Expect teacher response</string>
+    <!---->
+
 </resources>

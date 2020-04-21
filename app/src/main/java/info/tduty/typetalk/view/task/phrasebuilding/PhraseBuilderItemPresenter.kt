@@ -15,6 +15,7 @@ class PhraseBuilderItemPresenter(
 
     fun onViewAttachedToWindow(id: String, vh: PagerVH) {
         vhMap[id] = vh
+        vhMap[id]?.showSkip()
     }
 
     fun onViewDetachedFromWindow(id: String) {
@@ -26,11 +27,15 @@ class PhraseBuilderItemPresenter(
     }
 
     fun addText(id: String, text: String) {
+        vhMap[id]?.hiddenSkip()
         buildText[id]?.add(text)
         if (buildText[id] == null) buildText[id] = mutableListOf(text)
         val isCorrectText = buildText[id] == phrases[id]?.phrases
         vhMap[id]?.updateText(buildText[id]?.joinToString(" ") ?: "", isCorrectText)
-        if (isCorrectText) vhMap[id]?.showCorrectState()
+        if (isCorrectText) {
+            vhMap[id]?.showCorrectState()
+            presenter.setCorrectText(id, buildText[id])
+        }
         else if (buildText[id]?.size == phrases[id]?.phrases?.size) {
             vhMap[id]?.clearText()
             vhMap[id]?.showMessageAboutWrongOffer()
@@ -39,11 +44,13 @@ class PhraseBuilderItemPresenter(
     }
 
     fun clearText(id: String) {
+        vhMap[id]?.showSkip()
         buildText[id] = mutableListOf()
         vhMap[id]?.clearText()
     }
 
     fun nextPage(id: String) {
         presenter.nextPage(id)
+        presenter.setInputText(id, buildText[id])
     }
 }

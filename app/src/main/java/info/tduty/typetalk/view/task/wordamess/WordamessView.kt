@@ -33,11 +33,15 @@ interface WordamessView {
 
     fun setClickableBtn(isClickable: Boolean)
 
-    fun completeTask(lessonId: String)
+    fun completeTask()
 
     fun showErrorExistCorrectWords()
 
     fun showErrorTasksEmpty()
+
+    fun successCompletedWithIncorrectWord(skippedWord: List<WordamessVO>)
+
+    fun unsuccessComplete(skippedWord: List<WordamessVO>)
 
     enum class StateEditWord {
         DEFAULT,

@@ -1,11 +1,9 @@
 package info.tduty.typetalk.domain.interactor
 
-import info.tduty.typetalk.R
 import info.tduty.typetalk.data.db.model.ChatEntity
 import info.tduty.typetalk.data.db.wrapper.ChatWrapper
-import info.tduty.typetalk.data.dto.ChatDTO
 import info.tduty.typetalk.data.model.ChatVO
-import info.tduty.typetalk.data.pref.UserDataHelper
+import info.tduty.typetalk.domain.mapper.ChatMapper
 import info.tduty.typetalk.domain.provider.ChatProvider
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -17,48 +15,28 @@ import timber.log.Timber
 class ChatInteractor(
     private val chatWrapper: ChatWrapper,
     private val chatProvider: ChatProvider,
-    private val userDataHelper: UserDataHelper
+    private val chatMapper: ChatMapper
 ) {
 
-    fun getChat(chatId: String): Observable<ChatVO> {
-        return chatWrapper.getByChatId(chatId)
-            .map { toVO(it) }
-            .switchIfEmpty(
-                chatProvider.getChat(chatId)
-                    .doOnError { Timber.e(it) }
-                    .flatMap { dto ->
-                        chatWrapper.insert(toDB(dto))
-                            .andThen(Observable.just(dto))
-                            .map { toVO(it) }
-                    }
-            )
+    fun getChat(chatId: String?, type: String): Observable<ChatVO> {
+        return when (type) {
+            ChatEntity.CLASS_CHAT -> getClassChat()
+            ChatEntity.TEACHER_CHAT -> getTeacherChat()
+            else -> chatId?.let { getChat(it) } ?: Observable.empty()
+        }
     }
 
     fun getTeacherChat(): Observable<ChatVO> {
         return chatWrapper.getTeacherChat()
             .doOnError { Timber.e(it) }
-            .map { toVO(it) }
+            .map { chatMapper.toVO(it) }
             .switchIfEmpty(
                 chatProvider.getChatTeacher()
                     .doOnError { Timber.e(it) }
                     .flatMap { dto ->
-                        chatWrapper.insert(toDB(dto))
+                        chatWrapper.insert(chatMapper.toDB(dto))
                             .andThen(Observable.just(dto))
-                            .map { toVO(it) }
-                    }
-            )
-    }
-
-    fun getClassChat(): Observable<ChatVO> {
-        return chatWrapper.getClassChat()
-            .map { toVO(it) }
-            .switchIfEmpty (
-                chatProvider.getChatClass()
-                    .doOnError { Timber.e(it) }
-                    .flatMap { dto ->
-                        chatWrapper.insert(toDB(dto))
-                            .andThen(Observable.just(dto))
-                            .map { toVO(it) }
+                            .map { chatMapper.toVO(it) }
                     }
             )
     }
@@ -66,60 +44,43 @@ class ChatInteractor(
     fun loadChats(): Completable {
         return chatProvider.getChats()
             .flatMapCompletable { chats ->
-                chatWrapper.insert(chats.map { toDB(it) })
+                chatWrapper.insert(chats.map { chatMapper.toDB(it) })
             }
     }
 
     fun loadAllChats(): Observable<List<String>> {
         return chatProvider.getChats()
             .flatMap { chats ->
-                chatWrapper.insert(chats.map { toDB(it) })
+                chatWrapper.insert(chats.map { chatMapper.toDB(it) })
                     .andThen(Observable.just(chats.map { it.id }))
             }
     }
 
-    private fun toVO(db: ChatEntity): ChatVO {
-        return ChatVO(
-            chatId = db.chatId,
-            title = db.title,
-            type = db.type,
-            avatarURL = getIconByType(db.type),
-            description = db.description,
-            isTeacherChat = isTeacherChat(db.type)
-        )
+    private fun getChat(chatId: String): Observable<ChatVO> {
+        return chatWrapper.getByChatId(chatId)
+            .map { chatMapper.toVO(it) }
+            .switchIfEmpty(
+                chatProvider.getChat(chatId)
+                    .doOnError { Timber.e(it) }
+                    .flatMap { dto ->
+                        chatWrapper.insert(chatMapper.toDB(dto))
+                            .andThen(Observable.just(dto))
+                            .map { chatMapper.toVO(it) }
+                    }
+            )
     }
 
-    private fun toVO(dto: ChatDTO): ChatVO {
-        return ChatVO(
-            chatId = dto.id,
-            title = dto.title,
-            type = dto.type,
-            avatarURL = getIconByType(dto.type),
-            description = dto.description ?: "",
-            isTeacherChat = isTeacherChat(dto.type)
-        )
-    }
-
-    private fun toDB(dto: ChatDTO): ChatEntity {
-        return ChatEntity(
-            chatId = dto.id,
-            title = dto.title,
-            type = dto.type,
-            imageURL = dto.icon,
-            description = dto.description ?: ""
-        )
-    }
-
-    private fun isTeacherChat(type: String): Boolean {
-        return if (userDataHelper.isSavedUser() && userDataHelper.getSavedUser().isTeacher) false
-        else type == ChatEntity.TEACHER_CHAT
-    }
-
-    private fun getIconByType(type: String): Int {
-        return when (type) {
-            ChatEntity.TEACHER_CHAT -> R.drawable.ic_teacher_bg_varden
-            ChatEntity.CLASS_CHAT -> R.drawable.ic_class_bg_varden
-            else -> R.drawable.ic_boy_bg_varden
-        }
+    private fun getClassChat(): Observable<ChatVO> {
+        return chatWrapper.getClassChat()
+            .map { chatMapper.toVO(it) }
+            .switchIfEmpty (
+                chatProvider.getChatClass()
+                    .doOnError { Timber.e(it) }
+                    .flatMap { dto ->
+                        chatWrapper.insert(chatMapper.toDB(dto))
+                            .andThen(Observable.just(dto))
+                            .map { chatMapper.toVO(it) }
+                    }
+            )
     }
 }

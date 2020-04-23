@@ -5,6 +5,7 @@ import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * Created by Evgeniy Mezentsev on 08.03.2020.
@@ -29,4 +30,9 @@ interface ChatApi {
 
     @GET("class")
     fun geChatClass(@Header("Authorization") token: String): Observable<ChatDTO>
+
+    @GET("lesson/{lesson_id}")
+    fun getTaskChats(@Header("Authorization") token: String,
+                     @Path("lesson_id") lessonId: String,
+                     @Query("task_id") taskId: String): Observable<List<ChatDTO>>
 }

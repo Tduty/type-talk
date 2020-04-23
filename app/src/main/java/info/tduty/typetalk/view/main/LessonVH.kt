@@ -29,7 +29,7 @@ class LessonVH(
     }
 
     fun onBind(lessonVO: LessonVO) {
-        val numberRes = R.string.main_chat_item_lesson_number
+        val numberRes = R.string.lesson_number
         itemView.tv_lesson_nmb.text = itemView.context.getString(numberRes, lessonVO.number)
         itemView.tv_lesson_title.text = lessonVO.title
         itemView.iv_lesson_ic.setImageResource(lessonVO.icon)

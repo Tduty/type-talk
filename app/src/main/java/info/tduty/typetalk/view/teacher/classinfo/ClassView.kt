@@ -19,5 +19,7 @@ interface ClassView {
 
     fun openChat(chatId: String)
 
+    fun openManageLessons(classId: String)
+
     fun openClassChat()
 }

@@ -12,7 +12,11 @@ interface ChatView {
 
     fun setToolbarIcon(icon: Int)
 
+    fun hideUserInput()
+
     fun showTeacherMenu()
+
+    fun addEventToStart(messageVO: MessageVO)
 
     fun addEvent(messageVO: MessageVO)
 
@@ -27,4 +31,6 @@ interface ChatView {
     fun hideCorrectionState()
 
     fun showMessageActionDialog(messageVO: MessageVO)
+
+    fun showCountMessages(count: Int, foldingAnimate: Boolean = false)
 }

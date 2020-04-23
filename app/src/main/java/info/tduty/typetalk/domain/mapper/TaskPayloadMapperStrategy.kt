@@ -1,7 +1,7 @@
-package info.tduty.typetalk.mapper
+package info.tduty.typetalk.domain.mapper
 
 import info.tduty.typetalk.data.model.TaskType
-import info.tduty.typetalk.mapper.task.*
+import info.tduty.typetalk.domain.mapper.task.*
 
 
 class TaskPayloadMapperStrategy {
@@ -14,6 +14,7 @@ class TaskPayloadMapperStrategy {
             TaskType.PHRASE_BUILDING -> PhraseBuildingPayloadMapper()
             TaskType.TRANSLATION -> TranslationPayloadMapper()
             TaskType.DICTIONARY_PICTIONARY -> DictionaryPictionaryMapper()
+            TaskType.DIALOG_WITH_UNKNOWN,
             TaskType.EMPTY -> null
         }
     }

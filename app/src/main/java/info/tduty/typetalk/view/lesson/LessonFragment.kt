@@ -1,10 +1,10 @@
 package info.tduty.typetalk.view.lesson
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -15,7 +15,10 @@ import info.tduty.typetalk.data.model.TaskType
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.chat.ChatStarter
 import info.tduty.typetalk.view.lesson.di.LessonsModule
+import kotlinx.android.synthetic.main.alert_dialog_information.view.*
+import kotlinx.android.synthetic.main.alert_dialog_search.view.*
 import kotlinx.android.synthetic.main.fragment_lesson.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
@@ -39,6 +42,7 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
     @Inject
     lateinit var presenter: LessonPresenter
     private lateinit var adapter: RvTasksAdapter
+    private var alertDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +73,14 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_dictionary -> (activity as? ViewNavigation)?.openDictionary()
+            R.id.action_chat -> (activity as? ViewNavigation)?.openTeacherChat()
+        }
+        return true
+    }
+
     override fun setToolbarTitle(title: String) {
         (activity as? AppCompatActivity)?.supportActionBar?.title = title
     }
@@ -77,25 +89,40 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
         adapter.setTasks(tasks)
     }
 
-    override fun openTask(taskVO: TaskVO, lessonId: String) {
-        when(taskVO.type) {
-            TaskType.FLASHCARDS -> (activity as? ViewNavigation)?.openFlashcardTask(taskVO)
-            TaskType.WORDAMESS -> (activity as? ViewNavigation)?.openWordamessTask(taskVO)
-            TaskType.HURRY_UP -> (activity as? ViewNavigation)?.openHurryUpTask(taskVO)
-            TaskType.PHRASE_BUILDING -> (activity as? ViewNavigation)?.openPhaserBuilderTask(taskVO)
-            TaskType.TRANSLATION -> (activity as? ViewNavigation)?.openTranslationTask(taskVO)
-            TaskType.DICTIONARY_PICTIONARY -> (activity as? ViewNavigation)?.openDictionaryPictionary(taskVO)
-            TaskType.EMPTY -> {
-            }
-        }
+    override fun openFlashcardTask(taskVO: TaskVO) {
+        (activity as? ViewNavigation)?.openFlashcardTask(taskVO)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.action_dictionary -> (activity as? ViewNavigation)?.openDictionary()
-            R.id.action_chat -> (activity as? ViewNavigation)?.openTeacherChat()
-        }
-        return true
+    override fun openWordamessTask(taskVO: TaskVO) {
+        (activity as? ViewNavigation)?.openWordamessTask(taskVO)
+    }
+
+    override fun openHurryUpTask(taskVO: TaskVO) {
+        (activity as? ViewNavigation)?.openHurryUpTask(taskVO)
+    }
+
+    override fun openPhraseBuilderTask(taskVO: TaskVO) {
+        (activity as? ViewNavigation)?.openPhaserBuilderTask(taskVO)
+    }
+
+    override fun openTranslationTask(taskVO: TaskVO) {
+        (activity as? ViewNavigation)?.openTranslationTask(taskVO)
+    }
+
+    override fun openDictionaryPictionary(taskVO: TaskVO) {
+        (activity as? ViewNavigation)?.openDictionaryPictionary(taskVO)
+    }
+
+    override fun showDialogSearchView() {
+        setupSearchView()
+    }
+
+    override fun hideDialogSearchView() {
+        alertDialog?.dismiss()
+    }
+
+    override fun openDialogTask(chatStarter: ChatStarter) {
+        (activity as? ViewNavigation)?.openChat(chatStarter)
     }
 
     private fun setupFragmentComponent() {
@@ -109,5 +136,17 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
         adapter = RvTasksAdapter { id, type ->  presenter.openTask(id, type) }
         rv_tasks.layoutManager = LinearLayoutManager(context)
         rv_tasks.adapter = adapter
+    }
+
+    private fun setupSearchView() {
+        val mDialogView =
+            LayoutInflater.from(requireContext()).inflate(R.layout.alert_dialog_search, null)
+        val mBuilder = AlertDialog.Builder(requireContext()).setView(mDialogView)
+        alertDialog = mBuilder.show()
+
+        alertDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        alertDialog?.setOnCancelListener { presenter.cancelOpenDialog() }
+
+        mDialogView.tv_description.setText(R.string.lesson_screen_search_dialog) //TODO
     }
 }

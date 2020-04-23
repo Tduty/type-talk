@@ -48,5 +48,6 @@ data class TaskEntity(
         const val PHRASE_BUILDING__TYPE = "phrase_building"
         const val TRANSLATION_TYPE = "translation"
         const val DICTIONARY_PICTIONARY_TYPE = "dictionary_pictionary"
+        const val DIALOG_WITH_UNKNOWN = "dialog_with_unknown"
     }
 }

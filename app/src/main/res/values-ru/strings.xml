@@ -6,6 +6,8 @@
     <string name="button_skip">Skip</string>
     <string name="button_complete">Complete</string>
     <string name="button_next">Next</string>
+    <string name="lesson_number">Lesson %1$d</string>
+    <string name="completed_progress">%1$d/%2$d completed</string>
     <string name="empty_string" />
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -32,7 +34,6 @@
     <string name="main_chat_bot_title">Your friendly interlocutor</string>
     <string name="main_chat_bot_content">It will help you to develop your communicative skills before the real talk</string>
 
-    <string name="main_chat_item_lesson_number">Lesson %1$d</string>
     <string name="main_chat_item_expected_title">Expected:</string>
     <string name="main_chat_item_no_lessons_title">Lessons not available</string>
     <string name="main_chat_item_no_lessons_subtitle">Expect teacher</string>
@@ -55,6 +56,10 @@
     <string name="class_student_disconnected">Disconnected</string>
     <!---->
 
+    <!-- Manage Lessons screen -->
+    <string name="manage_lessons_can_open_lessons">You can open this for students</string>
+    <!---->
+
     <!-- Dictionary -->
     <string name="default_value_dictionary_translation_field">перевод</string>
     <string name="default_value_dictionary_word_field">слово</string>
@@ -66,6 +71,7 @@
     <!---->
 
     <!-- Chat -->
+    <string name="chat_title_dialog">Dialogue</string>
     <string name="chat_input_hint_message">Message</string>
     <string name="chat_teacher_title">Teacher</string>
     <string name="chat_message_action">Message action</string>
@@ -76,6 +82,7 @@
 
     <!-- Lesson -->
     <string name="title_lesson_screen_default">Урок</string>
+    <string name="lesson_screen_search_dialog">Dialogue search …</string>
     <!---->
 
     <!-- In development -->

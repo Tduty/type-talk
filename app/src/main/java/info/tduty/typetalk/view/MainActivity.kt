@@ -9,9 +9,12 @@ import androidx.fragment.app.Fragment
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.db.model.ChatEntity
+import info.tduty.typetalk.data.model.DialogVO
+import info.tduty.typetalk.data.model.LessonManageVO
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.view.chat.ChatFragment
+import info.tduty.typetalk.view.chat.ChatStarter
 import info.tduty.typetalk.view.debug.InDevelopmentFragment
 import info.tduty.typetalk.view.dictionary.DictionaryFragment
 import info.tduty.typetalk.view.lesson.LessonFragment
@@ -26,6 +29,10 @@ import info.tduty.typetalk.view.task.translation.TranslationFragment
 import info.tduty.typetalk.view.task.wordamess.WordamessFragment
 import info.tduty.typetalk.view.teacher.classinfo.ClassFragment
 import info.tduty.typetalk.view.teacher.main.MainTeacherFragment
+import info.tduty.typetalk.view.teacher.manage.dialog.choose.ChooseStudentsFragment
+import info.tduty.typetalk.view.teacher.manage.dialog.list.DialogsFragment
+import info.tduty.typetalk.view.teacher.manage.lessons.LessonsManageFragment
+import info.tduty.typetalk.view.teacher.manage.tasks.TasksManageFragment
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -74,8 +81,28 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
         showFragment(ClassFragment.newInstance(classId, className))
     }
 
-    override fun openChat(chatId: String) {
-        showFragment(ChatFragment.newInstance(chatId))
+    override fun openManageLessons(classId: String) {
+        showFragment(LessonsManageFragment.newInstance(classId))
+    }
+
+    override fun openManageTasks(classId: String, lesson: LessonManageVO) {
+        showFragment(TasksManageFragment.newInstance(classId, lesson))
+    }
+
+    override fun openDialogs(dialogs: List<DialogVO>) {
+        showFragment(DialogsFragment.newInstance(dialogs))
+    }
+
+    override fun openChooseStudentForDialog(classId: String, lessonId: String, taskId: String) {
+        showFragment(ChooseStudentsFragment.newInstance(classId, lessonId, taskId))
+    }
+
+    override fun openChat(chatId: String, chatType: String?) {
+        showFragment(ChatFragment.newInstance(chatId, chatType))
+    }
+
+    override fun openChat(chatStarter: ChatStarter) {
+        showFragment(ChatFragment.newInstance(chatStarter))
     }
 
     override fun openTeacherChat() {
@@ -132,14 +159,15 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
     fun setupToolbar(toolbar: Toolbar, @StringRes title: Int, withBackButton: Boolean) {
         toolbar.setTitle(title)
-        this.setSupportActionBar(toolbar)
-
-        this.supportActionBar?.setHomeButtonEnabled(withBackButton)
-        this.supportActionBar?.setDisplayHomeAsUpEnabled(withBackButton)
+        setupToolbar(toolbar, withBackButton)
     }
 
     fun setupToolbar(toolbar: Toolbar, title: String, withBackButton: Boolean) {
         toolbar.title = title
+        setupToolbar(toolbar, withBackButton)
+    }
+
+    fun setupToolbar(toolbar: Toolbar, withBackButton: Boolean) {
         this.setSupportActionBar(toolbar)
 
         this.supportActionBar?.setHomeButtonEnabled(withBackButton)

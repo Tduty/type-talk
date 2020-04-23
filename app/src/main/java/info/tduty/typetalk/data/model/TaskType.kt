@@ -15,6 +15,7 @@ enum class TaskType(@DrawableRes val imageSrc: Int) {
     PHRASE_BUILDING(R.drawable.ic_phrase_building),
     TRANSLATION(R.drawable.ic_translation),
     DICTIONARY_PICTIONARY(R.drawable.ic_pictionary),
+    DIALOG_WITH_UNKNOWN(R.drawable.ic_unknown),
     EMPTY(0);
 
     companion object {
@@ -26,6 +27,7 @@ enum class TaskType(@DrawableRes val imageSrc: Int) {
                 TaskEntity.PHRASE_BUILDING__TYPE -> PHRASE_BUILDING
                 TaskEntity.TRANSLATION_TYPE -> TRANSLATION
                 TaskEntity.DICTIONARY_PICTIONARY_TYPE -> DICTIONARY_PICTIONARY
+                TaskEntity.DIALOG_WITH_UNKNOWN -> DIALOG_WITH_UNKNOWN
                 else -> EMPTY
             }
         }

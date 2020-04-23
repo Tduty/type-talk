@@ -9,7 +9,6 @@ import android.view.View
 import info.tduty.typetalk.R
 import kotlinx.android.synthetic.main.item_chip.view.*
 
-
 /**
  * Created by Evgeniy Mezentsev on 11.04.2020.
  */

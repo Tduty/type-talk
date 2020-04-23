@@ -28,4 +28,8 @@ class ChatProvider(
     fun getChatClass(): Observable<ChatDTO> {
         return chatApi.geChatClass(tokenStorage.getToken())
     }
+
+    fun getTaskChat(lessonId: String, taskId: String): Observable<List<ChatDTO>> {
+        return chatApi.getTaskChats(tokenStorage.getToken(), lessonId, taskId)
+    }
 }

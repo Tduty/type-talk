@@ -1,7 +1,11 @@
 package info.tduty.typetalk.view
 
 
+import info.tduty.typetalk.data.model.DialogVO
+import info.tduty.typetalk.data.model.LessonManageVO
 import info.tduty.typetalk.data.model.TaskVO
+import info.tduty.typetalk.view.chat.ChatStarter
+
 /**
  * Created by Evgeniy Mezentsev on 07.03.2020.
  */
@@ -13,7 +17,17 @@ interface ViewNavigation {
 
     fun openClass(classId: String, className: String)
 
-    fun openChat(chatId: String)
+    fun openManageLessons(classId: String)
+
+    fun openManageTasks(classId: String, lesson: LessonManageVO)
+
+    fun openDialogs(dialogs: List<DialogVO>)
+
+    fun openChooseStudentForDialog(classId: String, lessonId: String, taskId: String)
+
+    fun openChat(chatId: String, chatType: String? = null)
+
+    fun openChat(chatStarter: ChatStarter)
 
     fun openTeacherChat()
 

@@ -79,6 +79,7 @@ class ClassFragment : Fragment(R.layout.fragment_class), ClassView {
     }
 
     private fun setupListeners() {
+        cl_manage_lesson.setOnClickListener { presenter.openManageLessons() }
         cl_class.setOnClickListener { presenter.openClassChat() }
     }
 
@@ -104,6 +105,10 @@ class ClassFragment : Fragment(R.layout.fragment_class), ClassView {
 
     override fun openChat(chatId: String) {
         (activity as? ViewNavigation)?.openChat(chatId)
+    }
+
+    override fun openManageLessons(classId: String) {
+        (activity as? ViewNavigation)?.openManageLessons(classId)
     }
 
     override fun openClassChat() {

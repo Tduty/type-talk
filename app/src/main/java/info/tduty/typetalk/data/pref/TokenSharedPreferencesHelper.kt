@@ -1,7 +1,6 @@
 package info.tduty.typetalk.data.pref
 
 import android.content.Context
-import java.lang.IllegalArgumentException
 
 class TokenSharedPreferencesHelper(context: Context) : TokenStorage {
 

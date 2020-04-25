@@ -175,7 +175,7 @@ class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
         mAlertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val titleString = resources.getString(title)
-        val messageString = "${resources.getString(message)} \n Count completed task: $countCompletedTask"
+        val messageString = "${resources.getString(message)} \nCount completed task: $countCompletedTask"
         val titleFirstButton = resources.getString(R.string.task_screen_hurry_up_title_first_button_completed_alert_dialog)
         val titleSecondButton = resources.getString(R.string.task_screen_hurry_up_title_second_button_completed_alert_dialog)
 

@@ -3,10 +3,8 @@ package info.tduty.typetalk.utils.timer
 import android.os.CountDownTimer
 import android.view.animation.Animation
 import android.view.animation.Transformation
-import android.widget.Chronometer
 import kotlin.math.abs
 import kotlin.math.ceil
-import kotlin.math.min
 
 class CircleAngleAnimation(
     circle: Circle,

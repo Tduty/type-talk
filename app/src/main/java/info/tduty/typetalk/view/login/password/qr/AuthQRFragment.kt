@@ -2,13 +2,11 @@ package info.tduty.typetalk.view.login.password.qr
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.SurfaceHolder
 import android.view.View
-import androidx.annotation.NonNull
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.vision.CameraSource
@@ -18,7 +16,6 @@ import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.android.material.snackbar.Snackbar
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
-import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.login.password.qr.di.AuthQRModule
 import kotlinx.android.synthetic.main.fragment_auth_qr.*

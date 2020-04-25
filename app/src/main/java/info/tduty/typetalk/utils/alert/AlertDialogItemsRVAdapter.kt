@@ -33,9 +33,9 @@ class AlertDialogItemsRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
        when(viewType) {
-           0 -> return AlertDialogItemsErrorVH.newInstance(parent)
-           1 -> return AlertDialogItemsInformationVH.newInstance(parent)
-           2 -> return AlertDialogItemsImageVH.newInstance(parent)
+           ViewType.ERROR.type -> return AlertDialogItemsErrorVH.newInstance(parent)
+           ViewType.INFORMATION.type -> return AlertDialogItemsInformationVH.newInstance(parent)
+           ViewType.IMAGE.type -> return AlertDialogItemsImageVH.newInstance(parent)
        }
        return AlertDialogItemsErrorVH.newInstance(parent)
     }

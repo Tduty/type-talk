@@ -85,19 +85,11 @@ class DictionaryPictionaryPresenter(
     }
 
     private fun completeTask() {
-        val incorrectWords = ArrayList<DictionaryPictionaryVO>()
-        val countSuccessTask =
-            dictionaryPictionaryList.filter {
-                if (it.isSuccess()) {
-                    true
-                } else {
-                    incorrectWords.add(it)
-                    false
-                }
-            }.size
+        val incorrectWords = dictionaryPictionaryList.filter { !it.isSuccess() }
+        val countSuccessTask = dictionaryPictionaryList.size - incorrectWords.size
         val countTask = dictionaryPictionaryList.size
         val successCompletedTaskPercent =
-            Utils.shared.getSuccessCompletedTaskPercent(countTask, countSuccessTask)
+            Utils.getSuccessCompletedTaskPercent(countTask, countSuccessTask)
 
         if (successCompletedTaskPercent >= 50) {
             successfulExecution(incorrectWords)

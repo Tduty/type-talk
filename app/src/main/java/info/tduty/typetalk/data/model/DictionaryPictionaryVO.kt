@@ -1,6 +1,5 @@
 package info.tduty.typetalk.data.model
 
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 
 class DictionaryPictionaryVO(

@@ -30,19 +30,11 @@ class PhraseBuildingPresenter(
     }
 
     fun completeTask() {
-        val incorrect = ArrayList<PhraseBuildingVO>()
-        val countSuccessTask =
-            tasks.values.filter {
-                if (it.isCorrectText) {
-                    true
-                } else {
-                    incorrect.add(it)
-                    false
-                }
-            }.size
+        val incorrect = tasks.values.filter { !it.isCorrectText }
+        val countSuccessTask = tasks.values.size - incorrect.size
         val countTask = tasks.values.size
         val successCompletedTaskPercent =
-            Utils.shared.getSuccessCompletedTaskPercent(countTask, countSuccessTask)
+            Utils.getSuccessCompletedTaskPercent(countTask, countSuccessTask)
 
         if (successCompletedTaskPercent >= 50) {
             successfulExecution(incorrect)

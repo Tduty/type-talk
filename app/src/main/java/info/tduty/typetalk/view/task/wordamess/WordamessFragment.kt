@@ -51,11 +51,6 @@ class WordamessFragment : Fragment(R.layout.fragment_wordamess), WordamessView {
         }
     }
 
-    private lateinit var TITLE_FINISHED_ALERT: String
-    private lateinit var TITLE_FAILED_ALERT: String
-    private lateinit var BTN_COMPLETED_ALERT: String
-    private lateinit var BTN_TRY_AGAIN_ALERT: String
-
     @Inject
     lateinit var presenter: WordamessPresenter
 
@@ -81,19 +76,9 @@ class WordamessFragment : Fragment(R.layout.fragment_wordamess), WordamessView {
         setupInputHint()
         setClickableBtn(false)
         setupListeners()
-        setupTranslation()
 
         presenter.onCreate(taskVO)
     }
-
-    private fun setupTranslation() {
-        TITLE_FINISHED_ALERT =
-            requireContext().resources.getString(R.string.alert_title_finished_task)
-        TITLE_FAILED_ALERT = requireContext().resources.getString(R.string.alert_title_failed_task)
-        BTN_COMPLETED_ALERT = requireContext().resources.getString(R.string.alert_btn_completed)
-        BTN_TRY_AGAIN_ALERT = requireContext().resources.getString(R.string.alert_btn_try_again)
-    }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
@@ -270,14 +255,10 @@ class WordamessFragment : Fragment(R.layout.fragment_wordamess), WordamessView {
     }
 
     override fun successCompletedWithIncorrectWord(skippedWord: List<WordamessVO>) {
-        val alert = AlertDialogItems(
-            requireContext(),
-            getPayloadForAlert(skippedWord),
-            false,
-            TITLE_FINISHED_ALERT,
-            BTN_COMPLETED_ALERT,
-            null
-        )
+        val alert = AlertDialogItems(requireContext())
+            .title(R.string.alert_title_finished_task)
+            .items(getPayloadForAlert(skippedWord))
+            .firstButtonTitle(R.string.task_btn_complete)
 
         alert.setListenerFirstButton {
             completeTask()
@@ -287,14 +268,11 @@ class WordamessFragment : Fragment(R.layout.fragment_wordamess), WordamessView {
         alert.showAlert()    }
 
     override fun unsuccessComplete(skippedWord: List<WordamessVO>) {
-        val alert = AlertDialogItems(
-            requireContext(),
-            getPayloadForAlert(skippedWord),
-            true,
-            TITLE_FAILED_ALERT,
-            BTN_TRY_AGAIN_ALERT,
-            BTN_COMPLETED_ALERT
-        )
+        val alert = AlertDialogItems(requireContext())
+            .title(R.string.alert_title_finished_task)
+            .items(getPayloadForAlert(skippedWord))
+            .firstButtonTitle(R.string.alert_btn_try_again)
+            .secondButtonTitle(R.string.alert_btn_completed)
 
         alert.setListenerFirstButton {
             presenter.tryAgain()
@@ -310,12 +288,10 @@ class WordamessFragment : Fragment(R.layout.fragment_wordamess), WordamessView {
 
     private fun getPayloadForAlert(dpVO: List<WordamessVO>): List<AlertDialogItemsVO> {
         return dpVO.map {
-            val type = TypeAlertItem.ERROR
-            val topWord = it.body
             AlertDialogItemsVO(
-                topWord,
+                it.body,
                 it.inputText,
-                type
+                TypeAlertItem.ERROR
             )
         }
     }

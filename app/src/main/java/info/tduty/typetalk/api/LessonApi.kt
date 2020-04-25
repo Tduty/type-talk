@@ -1,7 +1,6 @@
 package info.tduty.typetalk.api
 
 import info.tduty.typetalk.data.dto.LessonDTO
-import info.tduty.typetalk.data.dto.MessageDTO
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Header

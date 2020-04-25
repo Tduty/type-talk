@@ -38,11 +38,6 @@ class PhraseBuildingFragment : Fragment(R.layout.fragment_phrase_building), Phra
         }
     }
 
-    private lateinit var TITLE_FINISHED_ALERT: String
-    private lateinit var TITLE_FAILED_ALERT: String
-    private lateinit var BTN_COMPLETED_ALERT: String
-    private lateinit var BTN_TRY_AGAIN_ALERT: String
-
     @Inject
     lateinit var presenter: PhraseBuildingPresenter
     lateinit var adapter: VpAdapter
@@ -62,17 +57,8 @@ class PhraseBuildingFragment : Fragment(R.layout.fragment_phrase_building), Phra
         setHasOptionsMenu(true)
 
         setupViewPager()
-        setupTranslation()
 
         presenter.onCreate(taskVO)
-    }
-
-    private fun setupTranslation() {
-        TITLE_FINISHED_ALERT =
-            requireContext().resources.getString(R.string.alert_title_finished_task)
-        TITLE_FAILED_ALERT = requireContext().resources.getString(R.string.alert_title_failed_task)
-        BTN_COMPLETED_ALERT = requireContext().resources.getString(R.string.alert_btn_completed)
-        BTN_TRY_AGAIN_ALERT = requireContext().resources.getString(R.string.alert_btn_try_again)
     }
 
     override fun onDestroy() {
@@ -119,14 +105,10 @@ class PhraseBuildingFragment : Fragment(R.layout.fragment_phrase_building), Phra
     }
 
     override fun successCompletedWithIncorrectWord(incorrect: List<PhraseBuildingVO>) {
-        val alert = AlertDialogItems(
-            requireContext(),
-            getPayloadForAlert(incorrect),
-            false,
-            TITLE_FINISHED_ALERT,
-            BTN_COMPLETED_ALERT,
-            null
-        )
+        val alert = AlertDialogItems(requireContext())
+            .title(R.string.alert_title_failed_task)
+            .items(getPayloadForAlert(incorrect))
+            .firstButtonTitle(R.string.alert_btn_try_again)
 
         alert.setListenerFirstButton {
             completeTask()
@@ -137,14 +119,11 @@ class PhraseBuildingFragment : Fragment(R.layout.fragment_phrase_building), Phra
     }
 
     override fun unsuccessComplete(incorrect: List<PhraseBuildingVO>) {
-        val alert = AlertDialogItems(
-            requireContext(),
-            getPayloadForAlert(incorrect),
-            true,
-            TITLE_FAILED_ALERT,
-            BTN_TRY_AGAIN_ALERT,
-            BTN_COMPLETED_ALERT
-        )
+        val alert = AlertDialogItems(requireContext())
+            .title(R.string.alert_title_failed_task)
+            .items(getPayloadForAlert(incorrect))
+            .firstButtonTitle(R.string.alert_btn_try_again)
+            .secondButtonTitle(R.string.alert_btn_completed)
 
         alert.setListenerFirstButton {
             presenter.tryAgain()
@@ -161,12 +140,10 @@ class PhraseBuildingFragment : Fragment(R.layout.fragment_phrase_building), Phra
 
     private fun getPayloadForAlert(dpVO: List<PhraseBuildingVO>): List<AlertDialogItemsVO> {
         return dpVO.map {
-            val type = TypeAlertItem.ERROR
-            val topWord = getTopWord(it.phrases)
             AlertDialogItemsVO(
-                topWord,
+                getTopWord(it.phrases),
                 it.buildingText,
-                type
+                TypeAlertItem.ERROR
             )
         }
     }

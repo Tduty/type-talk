@@ -18,6 +18,8 @@ import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.model.TranslationVO
+import info.tduty.typetalk.data.model.TranslationVO.Companion.PHRASE_TYPE
+import info.tduty.typetalk.data.model.TranslationVO.Companion.SENTENCE_TYPE
 import info.tduty.typetalk.utils.KeyboardHelper
 import info.tduty.typetalk.utils.alert.AlertDialogItems
 import info.tduty.typetalk.utils.alert.AlertDialogItemsVO
@@ -51,12 +53,6 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
         }
     }
 
-    private lateinit var TITLE_FINISHED_ALERT: String
-    private lateinit var TITLE_FAILED_ALERT: String
-    private lateinit var BTN_COMPLETED_ALERT: String
-    private lateinit var BTN_TRY_AGAIN_ALERT: String
-    private lateinit var INFO_WAIT_TEACHER_ALERT: String
-
     @Inject
     lateinit var presenter: TranslationPresenter
     lateinit var adapter: ViewPagerAdapter
@@ -89,20 +85,9 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
         setupViewPager()
         setupListener()
         setStateEditWord(StateInputWord.DEFAULT)
-        setupTranslation()
 
         presenter.onCreate(taskVO)
     }
-
-    private fun setupTranslation() {
-        TITLE_FINISHED_ALERT =
-            requireContext().resources.getString(R.string.alert_title_finished_task)
-        TITLE_FAILED_ALERT = requireContext().resources.getString(R.string.alert_title_failed_task)
-        BTN_COMPLETED_ALERT = requireContext().resources.getString(R.string.alert_btn_completed)
-        BTN_TRY_AGAIN_ALERT = requireContext().resources.getString(R.string.alert_btn_try_again)
-        INFO_WAIT_TEACHER_ALERT = requireContext().resources.getString(R.string.alert_item_information_wait_teacher)
-    }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
@@ -245,14 +230,10 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
     }
 
     override fun successCompletedWithIncorrectWord(incorrectWord: List<TranslationVO>) {
-        val alert = AlertDialogItems(
-            requireContext(),
-            getPayloadForAlert(incorrectWord),
-            false,
-            TITLE_FINISHED_ALERT,
-            BTN_COMPLETED_ALERT,
-            null
-        )
+        val alert = AlertDialogItems(requireContext())
+            .title(R.string.alert_title_finished_task)
+            .items(getPayloadForAlert(incorrectWord))
+            .firstButtonTitle(R.string.alert_btn_completed)
 
         alert.setListenerFirstButton {
             completeTask()
@@ -263,14 +244,11 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
     }
 
     override fun unsuccessComplete(incorrectWord: List<TranslationVO>) {
-        val alert = AlertDialogItems(
-            requireContext(),
-            getPayloadForAlert(incorrectWord),
-            true,
-            TITLE_FAILED_ALERT,
-            BTN_TRY_AGAIN_ALERT,
-            BTN_COMPLETED_ALERT
-        )
+        val alert = AlertDialogItems(requireContext())
+            .title(R.string.alert_title_failed_task)
+            .items(getPayloadForAlert(incorrectWord))
+            .firstButtonTitle(R.string.alert_btn_try_again)
+            .secondButtonTitle(R.string.alert_btn_completed)
 
         alert.setListenerFirstButton {
             presenter.tryAgain()
@@ -286,20 +264,12 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
     }
 
     private fun getPayloadForAlert(traslationList: List<TranslationVO>): List<AlertDialogItemsVO> {
+        val INFO_WAIT_TEACHER_ALERT = requireContext().resources.getString(R.string.alert_item_information_wait_teacher)
         return traslationList.map {
-            val type: TypeAlertItem
-            val topWord: String
-            if (it.type == "phrase") {
-                type = TypeAlertItem.ERROR
-                topWord = it.word
-            } else {
-                type = TypeAlertItem.INFO
-                topWord = "${it.word} ($INFO_WAIT_TEACHER_ALERT)"
-            }
             AlertDialogItemsVO(
-                topWord,
+                if (it.type == PHRASE_TYPE) it.word else "${it.word} ($INFO_WAIT_TEACHER_ALERT)",
                 it.inputWord ?: "",
-                type
+                if (it.type == PHRASE_TYPE) TypeAlertItem.ERROR else TypeAlertItem.INFO
             )
         }
     }

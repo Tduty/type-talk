@@ -57,11 +57,6 @@ class DictionaryPictionaryFragment : Fragment(R.layout.fragment_task_dictionary_
     private var adapter: VpAdapter? = null
     val Int.dp: Float get() = Resources.getSystem().displayMetrics.density
 
-    private lateinit var TITLE_FINISHED_ALERT: String
-    private lateinit var TITLE_FAILED_ALERT: String
-    private lateinit var BTN_COMPLETED_ALERT: String
-    private lateinit var BTN_TRY_AGAIN_ALERT: String
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupFragmentComponent()
@@ -81,19 +76,9 @@ class DictionaryPictionaryFragment : Fragment(R.layout.fragment_task_dictionary_
         setupListener()
         setupInput()
         setStateInput(StateInputWord.DEFAULT)
-        setupTranslation()
 
         presenter.onCreate(taskVO)
     }
-
-    private fun setupTranslation() {
-        TITLE_FINISHED_ALERT =
-            requireContext().resources.getString(R.string.alert_title_finished_task)
-        TITLE_FAILED_ALERT = requireContext().resources.getString(R.string.alert_title_failed_task)
-        BTN_COMPLETED_ALERT = requireContext().resources.getString(R.string.alert_btn_completed)
-        BTN_TRY_AGAIN_ALERT = requireContext().resources.getString(R.string.alert_btn_try_again)
-    }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
@@ -245,14 +230,10 @@ class DictionaryPictionaryFragment : Fragment(R.layout.fragment_task_dictionary_
     }
 
     override fun successCompletedWithIncorrectWord(incorrectWord: List<DictionaryPictionaryVO>) {
-        val alert = AlertDialogItems(
-            requireContext(),
-            getPayloadForAlert(incorrectWord),
-            false,
-            TITLE_FINISHED_ALERT,
-            BTN_COMPLETED_ALERT,
-            null
-        )
+        val alert = AlertDialogItems(requireContext())
+            .items(getPayloadForAlert(incorrectWord))
+            .title(R.string.alert_title_finished_task)
+            .firstButtonTitle(R.string.alert_btn_completed)
 
         alert.setListenerFirstButton {
             completeTask()
@@ -263,14 +244,11 @@ class DictionaryPictionaryFragment : Fragment(R.layout.fragment_task_dictionary_
     }
 
     override fun unsuccessComplete(incorrectWords: List<DictionaryPictionaryVO>) {
-        val alert = AlertDialogItems(
-            requireContext(),
-            getPayloadForAlert(incorrectWords),
-            true,
-            TITLE_FAILED_ALERT,
-            BTN_TRY_AGAIN_ALERT,
-            BTN_COMPLETED_ALERT
-        )
+        val alert = AlertDialogItems(requireContext())
+            .title(R.string.alert_title_failed_task)
+            .items(getPayloadForAlert(incorrectWords))
+            .firstButtonTitle(R.string.alert_btn_try_again)
+            .secondButtonTitle(R.string.alert_btn_completed)
 
         alert.setListenerFirstButton {
             presenter.tryAgain()
@@ -291,12 +269,10 @@ class DictionaryPictionaryFragment : Fragment(R.layout.fragment_task_dictionary_
 
     private fun getPayloadForAlert(dpVO: List<DictionaryPictionaryVO>): List<AlertDialogItemsVO> {
         return dpVO.map {
-            val type = TypeAlertItem.IMAGE
-            val topWord = getTopWord(it.translates)
             AlertDialogItemsVO(
-                topWord,
+                getTopWord(it.translates),
                 it.inputWord ?: "",
-                type,
+                TypeAlertItem.IMAGE,
                 it.image
             )
         }

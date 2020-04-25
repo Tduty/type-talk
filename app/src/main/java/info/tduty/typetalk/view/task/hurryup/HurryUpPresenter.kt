@@ -85,7 +85,7 @@ class HurryUpPresenter(
     private fun isCompleted() : Boolean {
         val countSuccessTask = hurryUpList.filter { it.isComplete }.size
         val countTask = hurryUpList.size
-        return Utils.shared.getSuccessCompletedTaskPercent(countTask, countSuccessTask) >= 50
+        return Utils.getSuccessCompletedTaskPercent(countTask, countSuccessTask) >= 50
     }
 
     fun startTask() {

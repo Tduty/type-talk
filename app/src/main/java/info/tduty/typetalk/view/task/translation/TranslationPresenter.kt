@@ -80,7 +80,7 @@ class TranslationPresenter(
             return
         }
         when (translationVO.type) {
-            "phrase" -> {
+            TranslationVO.PHRASE_TYPE -> {
                 if (word == translationVO.currentTranslation) {
                     view.setStateEditWord(StateInputWord.VALID)
                     view.setTitleNextButton(BTN_TITLE_NEXT)
@@ -88,7 +88,7 @@ class TranslationPresenter(
                     view.setStateEditWord(StateInputWord.EDIT)
                 }
             }
-            "sentence" -> {
+            TranslationVO.SENTENCE_TYPE -> {
                 view.setStateEditWord(StateInputWord.EDIT)
             }
         }
@@ -118,12 +118,12 @@ class TranslationPresenter(
         }
 
         when (translationVO.type) {
-            "phrase" -> {
+            TranslationVO.PHRASE_TYPE -> {
                 if (currentPosition + 1 < translationList.size) {
                     view.showWord(currentPosition + 1, true)
                 }
             }
-            "sentence" -> {
+            TranslationVO.SENTENCE_TYPE -> {
                 view.setTitleNextButton(BTN_TITLE_SEND_TO_TEACHER)
                 if (word != null) {
                     translationVO.inputWord = word
@@ -137,11 +137,11 @@ class TranslationPresenter(
 
     private fun completeTask() {
         val countSuccessTask =
-            translationList.filter { it.currentTranslation == it.inputWord && it.type != "sentence" }
+            translationList.filter { it.currentTranslation == it.inputWord && it.type != TranslationVO.SENTENCE_TYPE }
                 .size
-        val countTask = translationList.filter { it.type != "sentence" }.size
+        val countTask = translationList.filter { it.type != TranslationVO.SENTENCE_TYPE }.size
         val successCompletedTaskPercent =
-            Utils.shared.getSuccessCompletedTaskPercent(countTask, countSuccessTask)
+            Utils.getSuccessCompletedTaskPercent(countTask, countSuccessTask)
 
         val incorrectWords = translationList.filter { it.currentTranslation != it.inputWord }
 
@@ -182,10 +182,10 @@ class TranslationPresenter(
         val translationVO = translationList[position]
 
         when (translationVO.type) {
-            "phrase" -> {
+            TranslationVO.PHRASE_TYPE -> {
                 view.setTitleNextButton(BTN_TITLE_SKIP)
             }
-            "sentence" -> {
+            TranslationVO.SENTENCE_TYPE -> {
                 view.setTitleNextButton(BTN_TITLE_SEND_TO_TEACHER)
             }
         }

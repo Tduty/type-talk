@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import info.tduty.typetalk.R
 import info.tduty.typetalk.utils.alert.AlertDialogItemsVO
 import info.tduty.typetalk.utils.alert.AlertDialogVH

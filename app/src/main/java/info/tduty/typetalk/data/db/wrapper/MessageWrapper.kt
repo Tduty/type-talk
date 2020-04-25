@@ -2,7 +2,6 @@ package info.tduty.typetalk.data.db.wrapper
 
 import info.tduty.typetalk.data.db.dao.MessageDao
 import info.tduty.typetalk.data.db.model.MessageEntity
-import info.tduty.typetalk.data.model.MessageVO
 import io.reactivex.Completable
 import io.reactivex.Observable
 

@@ -1,6 +1,5 @@
 package info.tduty.typetalk.utils.alert
 
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 
 class AlertDialogItemsVO(

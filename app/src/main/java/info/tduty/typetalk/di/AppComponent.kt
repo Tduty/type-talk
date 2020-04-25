@@ -23,10 +23,10 @@ import info.tduty.typetalk.view.task.hurryup.di.HurryUpComponent
 import info.tduty.typetalk.view.task.hurryup.di.HurryUpModule
 import info.tduty.typetalk.view.task.phrasebuilding.di.PhraseBuildingComponent
 import info.tduty.typetalk.view.task.phrasebuilding.di.PhraseBuildingModule
-import info.tduty.typetalk.view.task.wordamess.di.WordamessComponent
-import info.tduty.typetalk.view.task.wordamess.di.WordamessModule
 import info.tduty.typetalk.view.task.translation.di.TranslationComponent
 import info.tduty.typetalk.view.task.translation.di.TranslationModule
+import info.tduty.typetalk.view.task.wordamess.di.WordamessComponent
+import info.tduty.typetalk.view.task.wordamess.di.WordamessModule
 import info.tduty.typetalk.view.teacher.classinfo.di.ClassComponent
 import info.tduty.typetalk.view.teacher.classinfo.di.ClassModule
 import info.tduty.typetalk.view.teacher.main.di.MainTeacherComponent

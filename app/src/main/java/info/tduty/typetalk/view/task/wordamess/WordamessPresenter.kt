@@ -137,18 +137,11 @@ class WordamessPresenter(
     }
 
     private fun completeTask() {
-        val skippedWord = ArrayList<WordamessVO>()
-        val countSuccessTask = correctList.filter {
-            if (it.isSkipped) {
-                skippedWord.add(it)
-                false
-            } else {
-                true
-            }
-        }.size
+        val skippedWord = correctList.filter { !it.isSkipped }
+        val countSuccessTask = correctList.size - skippedWord.size
         val countWords = correctList.size
         val successCompletedTaskPercent =
-            Utils.shared.getSuccessCompletedTaskPercent(countWords, countSuccessTask)
+            Utils.getSuccessCompletedTaskPercent(countWords, countSuccessTask)
 
         if (successCompletedTaskPercent >= 50) {
             successfulExecution(skippedWord)

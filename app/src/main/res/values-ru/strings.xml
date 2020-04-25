@@ -126,7 +126,7 @@
     <!---->
 
     <!-- Alert -->
-    <string name="alert_btn_try_again">Skip</string>
+    <string name="alert_btn_try_again">Try again</string>
     <string name="alert_btn_completed">Completed</string>
     <string name="alert_btn_back">Back</string>
 

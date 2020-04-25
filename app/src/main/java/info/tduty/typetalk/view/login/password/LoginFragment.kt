@@ -2,7 +2,6 @@ package info.tduty.typetalk.view.login.password
 
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import info.tduty.typetalk.App

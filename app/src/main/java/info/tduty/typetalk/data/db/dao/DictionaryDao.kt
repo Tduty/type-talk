@@ -1,7 +1,6 @@
 package info.tduty.typetalk.data.db.dao
 
 import androidx.room.*
-import info.tduty.typetalk.data.db.model.ChatEntity
 import info.tduty.typetalk.data.db.model.DictionaryEntity
 import io.reactivex.Completable
 import io.reactivex.Maybe

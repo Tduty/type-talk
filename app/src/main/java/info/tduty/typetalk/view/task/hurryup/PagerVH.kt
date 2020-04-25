@@ -11,12 +11,12 @@ import kotlinx.android.synthetic.main.item_pager_task_hurry_up.view.*
 
 class PagerVH(
     itemView: View,
-    val clickListener: ((HurryUpVO) -> Unit)? = null
+    val clickListener: ((selectWord: String, HurryUpVO) -> Unit)? = null
 ) : RecyclerView.ViewHolder(itemView) {
 
     companion object {
 
-        fun newInstance(parent: ViewGroup, clickListener: ((HurryUpVO) -> Unit)? = null): PagerVH {
+        fun newInstance(parent: ViewGroup, clickListener: ((selectWord: String, HurryUpVO) -> Unit)? = null): PagerVH {
             val view = LayoutInflater
                 .from(parent.context)
                 .inflate(R.layout.item_pager_task_hurry_up, parent, false)
@@ -31,9 +31,7 @@ class PagerVH(
 
         wordList.forEach {
             itemView.fl_chip.addChip(it.first, it.second) { isSelected: Boolean, body: String ->
-                if (body == hurryUpVO.translate) {
-                    clickListener?.invoke(hurryUpVO)
-                }
+                clickListener?.invoke(body, hurryUpVO)
             }
         }
     }

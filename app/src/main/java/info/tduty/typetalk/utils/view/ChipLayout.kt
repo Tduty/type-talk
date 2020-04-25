@@ -2,7 +2,6 @@ package info.tduty.typetalk.utils.view
 
 import android.content.ClipData
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent

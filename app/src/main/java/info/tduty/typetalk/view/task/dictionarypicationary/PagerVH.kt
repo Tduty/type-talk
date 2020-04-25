@@ -34,6 +34,7 @@ class PagerVH(
         Picasso.with(context).load(url).fetch(object : Callback {
             override fun onSuccess() {
                 Picasso.with(context).load(url).into(itemView.iv_content)
+                dictionaryPictionaryVO.image = itemView.iv_content.getDrawable()
                 setupProgressBar(false)
             }
 

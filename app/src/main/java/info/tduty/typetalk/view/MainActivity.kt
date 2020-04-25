@@ -2,7 +2,6 @@ package info.tduty.typetalk.view
 
 import android.os.Bundle
 import android.view.MenuItem
-
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -27,7 +26,6 @@ import info.tduty.typetalk.view.task.translation.TranslationFragment
 import info.tduty.typetalk.view.task.wordamess.WordamessFragment
 import info.tduty.typetalk.view.teacher.classinfo.ClassFragment
 import info.tduty.typetalk.view.teacher.main.MainTeacherFragment
-import kotlinx.android.synthetic.main.toolbar.*
 import timber.log.Timber
 import javax.inject.Inject
 

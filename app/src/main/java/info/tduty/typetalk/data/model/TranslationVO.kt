@@ -5,4 +5,14 @@ class TranslationVO(
     val word: String,
     val currentTranslation: String,
     var inputWord: String? = ""
-) : TaskPayloadVO(TaskType.TRANSLATION)
+) : TaskPayloadVO(TaskType.TRANSLATION) {
+
+    companion object {
+        val PHRASE_TYPE = "phrase"
+        val SENTENCE_TYPE = "sentence"
+    }
+
+    fun isValid() : Boolean {
+        return currentTranslation == inputWord
+    }
+}

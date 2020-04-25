@@ -68,6 +68,14 @@ class PagerVH(
         }
     }
 
+    fun showSkip() {
+        itemView.tv_skip.visibility = View.VISIBLE
+    }
+
+    fun hiddenSkip() {
+        itemView.tv_skip.visibility = View.GONE
+    }
+
     fun clearText() {
         itemView.tv_text.text = null
         showTextPlaceholder()
@@ -97,6 +105,7 @@ class PagerVH(
     private fun setupListeners() {
         itemView.btn_next.setOnClickListener { presenter.nextPage(phrases.id) }
         itemView.iv_cancel.setOnClickListener { presenter.clearText(phrases.id) }
+        itemView.tv_skip.setOnClickListener { presenter.nextPage(phrases.id) }
     }
 
     private fun updateChips(phrases: PhraseBuildingVO) {

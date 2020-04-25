@@ -4,7 +4,6 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import com.google.gson.JsonSyntaxException
 import info.tduty.typetalk.data.model.TaskPayloadVO
-import info.tduty.typetalk.data.model.TaskType
 import info.tduty.typetalk.data.model.TranslationVO
 import info.tduty.typetalk.mapper.TaskPayloadMapper
 

@@ -1,14 +1,10 @@
 package info.tduty.typetalk.utils.timer
 
-import android.animation.Animator
-import android.animation.TimeInterpolator
-import android.os.Build
 import android.os.CountDownTimer
-import android.view.View
 import android.view.animation.Animation
 import android.view.animation.Transformation
-import androidx.core.view.ViewCompat.animate
-
+import kotlin.math.abs
+import kotlin.math.ceil
 
 class CircleAngleAnimation(
     circle: Circle,
@@ -28,6 +24,9 @@ class CircleAngleAnimation(
     private var isSaved = false
     private var millisInFutureSaved = 0L
 
+    private var penatlyAnimPercent: Double = 0.0
+    private var penatlyTimerPercent: Double = 0.0
+
     init {
         duration = millisInFuture
         oldAngle = circle.angle
@@ -40,7 +39,7 @@ class CircleAngleAnimation(
         transformation: Transformation?
     ) {
         this.lastInterpolatedTime = interpolatedTime
-        val angle = oldAngle + (newAngle - oldAngle) * interpolatedTime
+        val angle = oldAngle + (newAngle - oldAngle) * lastInterpolatedTime
         circle.angle = angle
         circle.requestLayout()
     }
@@ -60,7 +59,7 @@ class CircleAngleAnimation(
         timer = object: CountDownTimer(sec, countDownInterval) {
             override fun onTick(millisUntilFinished: Long) {
                 millisInFutureSaved = millisUntilFinished
-                onChangeValue?.invoke(millisUntilFinished)
+                onChangeValue?.invoke(millisInFutureSaved)
             }
 
             override fun onFinish() {
@@ -71,11 +70,43 @@ class CircleAngleAnimation(
         timer?.start()
     }
 
+    override fun start() {
+        penatlyAnimPercent = 0.0
+        penatlyTimerPercent = 0.0
+        super.start()
+    }
+
     fun stop() {
         isSaved = true
         oldAngle = circle.angle
         this.cancel()
         timer?.cancel()
         circle.requestLayout()
+    }
+
+    fun setPenatly(second: Int) {
+        penatlyAnimPercent = getPenatlyPercent(second)
+        penatlyTimerPercent = getPenatlyPercent(second)
+        stop()
+        millisInFutureSaved = (millisInFutureSaved - (millisInFuture.toDouble() * (penatlyAnimPercent / 100.0))).toLong()
+        oldAngle -= (abs(newAngle - 360) * (penatlyAnimPercent / 100.0)).toFloat()
+
+        var duration = duration
+        duration -= (second * countDownInterval)
+
+        if (oldAngle <= 0 || duration <= 0) {
+            timer?.onFinish()
+            return
+        } else {
+            this.duration = duration
+        }
+
+        start()
+    }
+
+    private fun getPenatlyPercent(second: Int): Double {
+        if (second <= 0) return 0.0
+        val allSecond = millisInFuture.toDouble() / countDownInterval.toDouble()
+        return ceil((second / allSecond) * 100.0)
     }
 }

@@ -20,4 +20,8 @@ interface TranslationView {
     fun hiddenKeyboard()
 
     fun completeTask()
+
+    fun successCompletedWithIncorrectWord(incorrectWord: List<TranslationVO>)
+
+    fun unsuccessComplete(incorrectWord: List<TranslationVO>)
 }

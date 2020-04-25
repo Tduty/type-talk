@@ -8,7 +8,6 @@ import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.managers.EventManager
 import info.tduty.typetalk.view.chat.ChatFragment
 import info.tduty.typetalk.view.chat.ChatPresenter
-import info.tduty.typetalk.view.chat.ChatView
 
 /**
  * Created by Evgeniy Mezentsev on 07.03.2020.

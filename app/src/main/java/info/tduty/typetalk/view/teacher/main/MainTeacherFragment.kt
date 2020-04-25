@@ -10,7 +10,6 @@ import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.ClassVO
 import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.ViewNavigation
-import info.tduty.typetalk.view.teacher.classinfo.ClassFragment
 import info.tduty.typetalk.view.teacher.main.di.MainTeacherModule
 import kotlinx.android.synthetic.main.fragment_lesson.*
 import kotlinx.android.synthetic.main.fragment_main.view.*

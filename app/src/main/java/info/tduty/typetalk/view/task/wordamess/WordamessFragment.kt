@@ -19,6 +19,9 @@ import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.model.WordamessVO
 import info.tduty.typetalk.utils.KeyboardHelper
+import info.tduty.typetalk.utils.alert.AlertDialogItems
+import info.tduty.typetalk.utils.alert.AlertDialogItemsVO
+import info.tduty.typetalk.utils.alert.TypeAlertItem
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.task.wordamess.di.WordamessModule
 import kotlinx.android.synthetic.main.fragment_wordamess.*
@@ -188,7 +191,7 @@ class WordamessFragment : Fragment(R.layout.fragment_wordamess), WordamessView {
         btn_correct.isEnabled = isClickable
     }
 
-    override fun completeTask(lessonId: String) {
+    override fun completeTask() {
         (activity as? ViewNavigation)?.closeFragment()
     }
 
@@ -220,12 +223,13 @@ class WordamessFragment : Fragment(R.layout.fragment_wordamess), WordamessView {
             }
         }
         et_word.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {}
+            override fun afterTextChanged(p0: Editable?) {
+                presenter.onChangeEditText(p0.toString(), vp_correct.currentItem)
+            }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                presenter.onChangeEditText(p0.toString(), vp_correct.currentItem)
             }
         })
 
@@ -248,5 +252,47 @@ class WordamessFragment : Fragment(R.layout.fragment_wordamess), WordamessView {
         cv_container_word.setBackgroundResource(R.drawable.et_circle_bg)
         val shapeDrawable =  cv_container_word.background as GradientDrawable
         shapeDrawable.setStroke(dp.roundToInt(), requireContext().resources.getColor(color))
+    }
+
+    override fun successCompletedWithIncorrectWord(skippedWord: List<WordamessVO>) {
+        val alert = AlertDialogItems(requireContext())
+            .title(R.string.alert_title_finished_task)
+            .items(getPayloadForAlert(skippedWord))
+            .firstButtonTitle(R.string.task_btn_complete)
+
+        alert.setListenerFirstButton {
+            completeTask()
+            alert.dismiss()
+        }
+
+        alert.showAlert()    }
+
+    override fun unsuccessComplete(skippedWord: List<WordamessVO>) {
+        val alert = AlertDialogItems(requireContext())
+            .title(R.string.alert_title_finished_task)
+            .items(getPayloadForAlert(skippedWord))
+            .firstButtonTitle(R.string.alert_btn_try_again)
+            .secondButtonTitle(R.string.alert_btn_completed)
+
+        alert.setListenerFirstButton {
+            presenter.tryAgain()
+            alert.dismiss()
+        }
+
+        alert.setListenerSecondButton {
+            completeTask()
+            alert.dismiss()
+        }
+
+        alert.showAlert()    }
+
+    private fun getPayloadForAlert(dpVO: List<WordamessVO>): List<AlertDialogItemsVO> {
+        return dpVO.map {
+            AlertDialogItemsVO(
+                it.body,
+                it.inputText,
+                TypeAlertItem.ERROR
+            )
+        }
     }
 }

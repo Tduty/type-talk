@@ -1,7 +1,6 @@
 package info.tduty.typetalk.domain.interactor
 
 import android.util.Base64
-import com.google.gson.JsonObject
 import info.tduty.typetalk.data.dto.UserDTO
 import info.tduty.typetalk.data.pref.TokenStorage
 import info.tduty.typetalk.data.pref.UserData

@@ -6,6 +6,7 @@ import info.tduty.typetalk.data.model.HurryUpVO
 import info.tduty.typetalk.data.model.TaskPayloadVO
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.domain.interactor.TaskInteractor
+import info.tduty.typetalk.utils.Utils
 import java.util.*
 
 
@@ -42,15 +43,19 @@ class HurryUpPresenter(
         return payload2 as? List<HurryUpVO> ?: Collections.emptyList()
     }
 
-    fun onClickListener(hurryUpVO: HurryUpVO) {
-        hurryUpVO.isComplete = true
+    fun onSelectWord(selectedWord: String, hurryUpVO: HurryUpVO) {
+        if (hurryUpVO.translate == selectedWord) {
+            hurryUpVO.isComplete = true
 
-        val handler = Handler()
-        val runnable = Runnable {
-            view.nextPage(true)
+            val handler = Handler()
+            val runnable = Runnable {
+                view.nextPage(true)
+            }
+
+            handler.postDelayed(runnable, 500)
+        } else {
+            view.setPenatlyForTimer(5)
         }
-
-        handler.postDelayed(runnable,400)
     }
 
     fun onStart() {
@@ -72,12 +77,15 @@ class HurryUpPresenter(
         view.showCompleteAlertDialog(
             titleCompletedAlertDialog,
             if (isCompleted) messagePositiveCompletedAlertDialog else messageNegativeCompletedAlertDialog,
+            hurryUpList.filter { it.isComplete }.size,
             !isCompleted
             )
     }
 
     private fun isCompleted() : Boolean {
-        return hurryUpList.find { !it.isComplete } == null
+        val countSuccessTask = hurryUpList.filter { it.isComplete }.size
+        val countTask = hurryUpList.size
+        return Utils.getSuccessCompletedTaskPercent(countTask, countSuccessTask) >= 50
     }
 
     fun startTask() {

@@ -8,7 +8,6 @@ import info.tduty.typetalk.data.model.TaskType
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.mapper.TaskPayloadMapperStrategy
 import io.reactivex.Observable
-import java.lang.Exception
 import java.util.*
 
 class TaskInteractor(

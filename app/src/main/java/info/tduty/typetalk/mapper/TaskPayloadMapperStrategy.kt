@@ -1,6 +1,5 @@
 package info.tduty.typetalk.mapper
 
-import info.tduty.typetalk.data.model.DictionaryPictionaryVO
 import info.tduty.typetalk.data.model.TaskType
 import info.tduty.typetalk.mapper.task.*
 

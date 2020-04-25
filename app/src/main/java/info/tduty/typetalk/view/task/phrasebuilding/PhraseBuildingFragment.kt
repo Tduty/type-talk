@@ -9,6 +9,9 @@ import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.PhraseBuildingVO
 import info.tduty.typetalk.data.model.TaskVO
+import info.tduty.typetalk.utils.alert.AlertDialogItems
+import info.tduty.typetalk.utils.alert.AlertDialogItemsVO
+import info.tduty.typetalk.utils.alert.TypeAlertItem
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.task.phrasebuilding.di.PhraseBuildingModule
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
@@ -93,7 +96,59 @@ class PhraseBuildingFragment : Fragment(R.layout.fragment_phrase_building), Phra
         else vp_phrases.currentItem += 1
     }
 
-    override fun openLesson(lessonId: String) {
+    override fun nextPage(position: Int) {
+        vp_phrases.currentItem = position
+    }
+
+    override fun completeTask() {
         (activity as? ViewNavigation)?.closeFragment()
+    }
+
+    override fun successCompletedWithIncorrectWord(incorrect: List<PhraseBuildingVO>) {
+        val alert = AlertDialogItems(requireContext())
+            .title(R.string.alert_title_failed_task)
+            .items(getPayloadForAlert(incorrect))
+            .firstButtonTitle(R.string.alert_btn_try_again)
+
+        alert.setListenerFirstButton {
+            completeTask()
+            alert.dismiss()
+        }
+
+        alert.showAlert()
+    }
+
+    override fun unsuccessComplete(incorrect: List<PhraseBuildingVO>) {
+        val alert = AlertDialogItems(requireContext())
+            .title(R.string.alert_title_failed_task)
+            .items(getPayloadForAlert(incorrect))
+            .firstButtonTitle(R.string.alert_btn_try_again)
+            .secondButtonTitle(R.string.alert_btn_completed)
+
+        alert.setListenerFirstButton {
+            presenter.tryAgain()
+            alert.dismiss()
+        }
+
+        alert.setListenerSecondButton {
+            completeTask()
+            alert.dismiss()
+        }
+
+        alert.showAlert()
+    }
+
+    private fun getPayloadForAlert(dpVO: List<PhraseBuildingVO>): List<AlertDialogItemsVO> {
+        return dpVO.map {
+            AlertDialogItemsVO(
+                getTopWord(it.phrases),
+                it.buildingText,
+                TypeAlertItem.ERROR
+            )
+        }
+    }
+
+    private fun getTopWord(words: List<String>): String {
+        return words.joinToString(prefix = "(", postfix = ")")
     }
 }

@@ -1,7 +1,6 @@
 package info.tduty.typetalk.view.task.translation
 
 import android.content.res.Resources
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
@@ -19,7 +18,12 @@ import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.model.TranslationVO
+import info.tduty.typetalk.data.model.TranslationVO.Companion.PHRASE_TYPE
+import info.tduty.typetalk.data.model.TranslationVO.Companion.SENTENCE_TYPE
 import info.tduty.typetalk.utils.KeyboardHelper
+import info.tduty.typetalk.utils.alert.AlertDialogItems
+import info.tduty.typetalk.utils.alert.AlertDialogItemsVO
+import info.tduty.typetalk.utils.alert.TypeAlertItem
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.task.StateInputWord
 import info.tduty.typetalk.view.task.translation.di.TranslationModule
@@ -54,7 +58,7 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
     lateinit var adapter: ViewPagerAdapter
     private var lessonsId: String = ""
 
-    val Int.dp: Float get() =  Resources.getSystem().displayMetrics.density
+    val Int.dp: Float get() = Resources.getSystem().displayMetrics.density
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,13 +122,13 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
         }
 
         et_word.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {}
+            override fun afterTextChanged(p0: Editable?) {
+                presenter.onChangeEditText(p0.toString(), vp_translation.currentItem)
+            }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                presenter.onChangeEditText(p0.toString(), vp_translation.currentItem)
-            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
 
         vp_translation.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -170,7 +174,7 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
     }
 
     override fun setStateEditWord(state: StateInputWord) {
-        when(state) {
+        when (state) {
             StateInputWord.DEFAULT -> {
                 clearEditText()
                 cv_container_word.setBackgroundResource(R.drawable.et_circle_bg_shadow)
@@ -197,7 +201,7 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
 
     private fun changeBorder(dp: Float, color: Int) {
         cv_container_word.setBackgroundResource(R.drawable.et_circle_bg)
-        val shapeDrawable =  cv_container_word.background as GradientDrawable
+        val shapeDrawable = cv_container_word.background as GradientDrawable
         shapeDrawable.setStroke(dp.roundToInt(), requireContext().resources.getColor(color))
     }
 
@@ -218,10 +222,55 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
     }
 
     override fun hiddenKeyboard() {
-       KeyboardHelper.hideKeyboard(activity, view)
+        KeyboardHelper.hideKeyboard(activity, view)
     }
 
     override fun completeTask() {
         (activity as? ViewNavigation)?.closeFragment()
+    }
+
+    override fun successCompletedWithIncorrectWord(incorrectWord: List<TranslationVO>) {
+        val alert = AlertDialogItems(requireContext())
+            .title(R.string.alert_title_finished_task)
+            .items(getPayloadForAlert(incorrectWord))
+            .firstButtonTitle(R.string.alert_btn_completed)
+
+        alert.setListenerFirstButton {
+            completeTask()
+            alert.dismiss()
+        }
+
+        alert.showAlert()
+    }
+
+    override fun unsuccessComplete(incorrectWord: List<TranslationVO>) {
+        val alert = AlertDialogItems(requireContext())
+            .title(R.string.alert_title_failed_task)
+            .items(getPayloadForAlert(incorrectWord))
+            .firstButtonTitle(R.string.alert_btn_try_again)
+            .secondButtonTitle(R.string.alert_btn_completed)
+
+        alert.setListenerFirstButton {
+            presenter.tryAgain()
+            alert.dismiss()
+        }
+
+        alert.setListenerSecondButton {
+            completeTask()
+            alert.dismiss()
+        }
+
+        alert.showAlert()
+    }
+
+    private fun getPayloadForAlert(traslationList: List<TranslationVO>): List<AlertDialogItemsVO> {
+        val INFO_WAIT_TEACHER_ALERT = requireContext().resources.getString(R.string.alert_item_information_wait_teacher)
+        return traslationList.map {
+            AlertDialogItemsVO(
+                if (it.type == PHRASE_TYPE) it.word else "${it.word} ($INFO_WAIT_TEACHER_ALERT)",
+                it.inputWord ?: "",
+                if (it.type == PHRASE_TYPE) TypeAlertItem.ERROR else TypeAlertItem.INFO
+            )
+        }
     }
 }

@@ -13,15 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.wajahatkarim3.easyflipview.EasyFlipView
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
-import info.tduty.typetalk.data.model.ExpectedVO
 import info.tduty.typetalk.data.model.LessonVO
-import info.tduty.typetalk.data.model.StatusVO
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.main.di.MainModule
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import kotlinx.android.synthetic.main.item_chats_control_block.*
-import kotlinx.android.synthetic.main.item_no_lessons.*
 import javax.inject.Inject
 
 /**

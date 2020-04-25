@@ -1,10 +1,8 @@
 package info.tduty.typetalk.mapper.task
 
-import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import com.google.gson.JsonSyntaxException
-import com.google.gson.reflect.TypeToken
 import info.tduty.typetalk.data.model.PhraseBuildingVO
 import info.tduty.typetalk.mapper.TaskPayloadMapper
 

@@ -12,11 +12,13 @@ interface HurryUpView {
 
     fun nextPage(isAnimated: Boolean)
 
-    fun showCompleteAlertDialog(title: Int, message: Int, isTryAgain: Boolean)
+    fun showCompleteAlertDialog(title: Int, message: Int, countCompletedTask: Int, isTryAgain: Boolean)
 
     fun showStartAlertDialog(title: Int, message: Int)
 
     fun startTimer()
 
     fun stopTimer()
+
+    fun setPenatlyForTimer(second: Int)
 }

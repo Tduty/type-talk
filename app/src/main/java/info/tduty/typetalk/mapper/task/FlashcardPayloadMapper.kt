@@ -1,12 +1,12 @@
 package info.tduty.typetalk.mapper.task
 
-import com.google.gson.*
+import com.google.gson.JsonElement
+import com.google.gson.JsonParser
+import com.google.gson.JsonSyntaxException
 import info.tduty.typetalk.data.model.FlashcardVO
 import info.tduty.typetalk.data.model.TaskPayloadVO
 import info.tduty.typetalk.data.model.TaskType
 import info.tduty.typetalk.mapper.TaskPayloadMapper
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class FlashcardPayloadMapper : TaskPayloadMapper {

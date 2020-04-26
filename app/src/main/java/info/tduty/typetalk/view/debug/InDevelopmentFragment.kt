@@ -10,12 +10,13 @@ import androidx.fragment.app.Fragment
 import info.tduty.typetalk.R
 import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
 
 /**
  * Created by Evgeniy Mezentsev on 07.04.2020.
  */
-class InDevelopmentFragment : Fragment(R.layout.fragment_in_development) {
+class InDevelopmentFragment : BaseFragment(R.layout.fragment_in_development) {
 
     companion object {
 

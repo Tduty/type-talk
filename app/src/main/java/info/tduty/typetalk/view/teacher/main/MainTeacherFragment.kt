@@ -10,6 +10,7 @@ import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.ClassVO
 import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.teacher.main.di.MainTeacherModule
 import kotlinx.android.synthetic.main.fragment_lesson.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
@@ -18,7 +19,7 @@ import javax.inject.Inject
 /**
  * Created by Evgeniy Mezentsev on 18.04.2020.
  */
-class MainTeacherFragment : Fragment(R.layout.fragment_main_teacher), MainTeacherView {
+class MainTeacherFragment : BaseFragment(R.layout.fragment_main_teacher), MainTeacherView {
 
     companion object {
 

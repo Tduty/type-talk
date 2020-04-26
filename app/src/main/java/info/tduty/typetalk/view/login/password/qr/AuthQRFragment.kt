@@ -17,13 +17,14 @@ import com.google.android.material.snackbar.Snackbar
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.login.password.qr.di.AuthQRModule
 import kotlinx.android.synthetic.main.fragment_auth_qr.*
 import java.io.IOException
 import javax.inject.Inject
 
 
-class AuthQRFragment: Fragment(R.layout.fragment_auth_qr),
+class AuthQRFragment: BaseFragment(R.layout.fragment_auth_qr),
     AuthQRView {
 
     companion object {

@@ -56,7 +56,14 @@ class LessonPresenter(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ tasks ->
                     this.tasks = tasks
-                    view.setTasks(tasks)
+                    val task2 = mutableListOf<TaskVO>()
+                    tasks.forEach {
+                        task2.add(it)
+                        task2.add(it)
+                        task2.add(it)
+                        task2.add(it)
+                    }
+                    view.setTasks(task2)
                     view.setToolbarTitle(lesson.title)
                 }, Timber::e)
         )

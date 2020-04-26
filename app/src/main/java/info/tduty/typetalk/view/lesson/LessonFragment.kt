@@ -15,13 +15,14 @@ import info.tduty.typetalk.data.model.TaskType
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.lesson.di.LessonsModule
 import kotlinx.android.synthetic.main.fragment_lesson.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
 
 
-class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
+class LessonFragment : BaseFragment(R.layout.fragment_lesson), LessonView {
 
     companion object {
 

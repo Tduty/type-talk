@@ -23,6 +23,7 @@ import info.tduty.typetalk.utils.alert.AlertDialogItems
 import info.tduty.typetalk.utils.alert.AlertDialogItemsVO
 import info.tduty.typetalk.utils.alert.TypeAlertItem
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.task.wordamess.di.WordamessModule
 import kotlinx.android.synthetic.main.fragment_wordamess.*
 import kotlinx.android.synthetic.main.fragment_wordamess.view.*
@@ -35,7 +36,7 @@ import kotlin.math.roundToInt
 /**
  * Created by Evgeniy Mezentsev on 11.04.2020.
  */
-class WordamessFragment : Fragment(R.layout.fragment_wordamess), WordamessView {
+class WordamessFragment : BaseFragment(R.layout.fragment_wordamess), WordamessView {
 
     companion object {
 

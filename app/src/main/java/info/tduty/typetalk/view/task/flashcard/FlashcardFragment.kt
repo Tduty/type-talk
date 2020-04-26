@@ -15,13 +15,14 @@ import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.FlashcardVO
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.task.flashcard.di.FlashcardModule
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
 import kotlinx.android.synthetic.main.fragment_task_flashcard.*
 import javax.inject.Inject
 
 
-class FlashcardFragment : Fragment(R.layout.fragment_task_flashcard),
+class FlashcardFragment : BaseFragment(R.layout.fragment_task_flashcard),
     FlashcardView {
 
     companion object {

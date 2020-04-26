@@ -14,13 +14,14 @@ import info.tduty.typetalk.data.db.model.ChatEntity
 import info.tduty.typetalk.data.model.CorrectionVO
 import info.tduty.typetalk.data.model.MessageVO
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.chat.di.ChatModule
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.toolbar_chat.*
 import javax.inject.Inject
 
 
-class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
+class ChatFragment : BaseFragment(R.layout.fragment_chat), ChatView {
 
     companion object {
 

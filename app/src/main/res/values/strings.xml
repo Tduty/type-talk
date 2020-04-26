@@ -13,12 +13,12 @@
     <string name="login_screen_surname">Surname</string>
     <string name="login_screen_password">Password</string>
     <string name="login_screen_next">Next</string>
-    <string name="login_screen_qr_code">enter with the help\n of a teacher</string>
+    <string name="login_screen_qr_code">enter with your\nteacher\'s help</string>
 
-    <string name="qr_login_screen_message_description">Use you camera to scan the teacher’s QR code tp get access</string>
+    <string name="qr_login_screen_message_description">Use you camera to scan the teacher’s QR code to get access</string>
 
         <!-- Error -->
-        <string name="auth_screen_error_authorization">An authorization error has occurred, contact your teacher.</string>
+        <string name="auth_screen_error_authorization">An authorization error has occurred, contact your teacher</string>
         <!---->
     <!---->
 
@@ -32,8 +32,8 @@
 
     <string name="main_chat_item_lesson_number">Lesson %1$d</string>
     <string name="main_chat_item_expected_title">Expected:</string>
-    <string name="main_chat_item_no_lessons_title">Lessons not available</string>
-    <string name="main_chat_item_no_lessons_subtitle">Expect teacher</string>
+    <string name="main_chat_item_no_lessons_title">Lessons are not available yet</string>
+    <string name="main_chat_item_no_lessons_subtitle">Expect your teacher\'s consultation</string>
     <!---->
 
     <!-- Teacher Main screen -->
@@ -46,8 +46,8 @@
     <string name="class_managment_class_content">Set up a class, add and remove students, monitor activity</string>
     <string name="class_managment_lesson_title">Manage lessons</string>
     <string name="class_managment_lesson_content">Here you can view lesson statistics, create and open a lesson or dictionary</string>
-    <string name="class_chat_title">Сlass chat</string>
-    <string name="class_chat_content">Сontact all class members immediately</string>
+    <string name="class_chat_title">Class chat</string>
+    <string name="class_chat_content">Contact all class members immediately</string>
 
     <string name="class_student_not_connected">Not connected</string>
     <string name="class_student_disconnected">Disconnected</string>
@@ -72,13 +72,13 @@
     <string name="default_value_dictionary_trasncription_field">[transcription]</string>
     <string name="title_topic_default_value">Title topic</string>
     <string name="title_dictionary">Dictionary</string>
-    <string name="dictionary_emnty_title">Dictionary unavailable</string>
-    <string name="dictionary_emnty_subtitle">Expect lesson opening</string>
+    <string name="dictionary_emnty_title">Dictionary is unavailable	</string>
+    <string name="dictionary_emnty_subtitle">Expect opening of a lesson</string>
     <!---->
 
     <!-- In development -->
-    <string name="in_development_title">In development</string>
-    <string name="in_development_text">Screen in development</string>
+    <string name="in_development_title">In developing</string>
+    <string name="in_development_text">This screen is developing</string>
     <!---->
 
     <!-- Menu -->
@@ -87,18 +87,18 @@
     <!---->
 
     <!-- Task -->
-    <string name="task_screen_flashcard_description">To see the translation of a word, click on the card</string>
+    <string name="task_screen_flashcard_description">Click on the card to see the translation of a word</string>
 
-    <string name="task_wordamess_info">Choose misspelled words</string>
+    <string name="task_wordamess_info">Choose the misspelled word</string>
     <string name="task_wordamess_description_correct">Enter the correct word</string>
     <string name="task_screen_wordamess_input_hint">Correct</string>
     <string name="task_screen_wordamess_btn_correct">Correct</string>
     <string name="task_screen_wordamess_btn_correct_with_num">Correct (%1$d)</string>
-    <string name="task_screen_wordamess_error_selected_no_error">No error words were selected</string>
+    <string name="task_screen_wordamess_error_selected_no_error">No misspelled words were selected</string>
 
-    <string name="task_screen_phrase_building_description">Drag the words to the bottom area in order to build a sentence</string>
-    <string name="task_screen_phrase_building_congratulation_description">Congratulations!\nYou have correctly written this sentence</string>
-    <string name="task_screen_phrase_building_drags_words">Drag words here in order</string>
+    <string name="task_screen_phrase_building_description">Drag the words in the right order to the bottom area of your screen to build a sentence</string>
+    <string name="task_screen_phrase_building_congratulation_description">Congratulations!\nYou have written this sentence correctly</string>
+    <string name="task_screen_phrase_building_drags_words">Drag words here in the right order</string>
     <string name="task_screen_phrase_building_wrong_sentence">Incorrectly constructed sentence</string>
 
     <string name="task_screen_translation_description">Translate the word/phrase</string>
@@ -107,20 +107,20 @@
     <string name="task_btn_complete">Completed</string>
     <string name="task_screen_translation_btn_skip">Skip</string>
 
-    <string name="task_screen_dictionary_pictionary_description">Describe the picture in one word</string>
-    <string name="task_screen_dictionary_pictionary_input_hint">Describe</string>
+    <string name="task_screen_dictionary_pictionary_description">Recollect the most appropriate word of the active vocabulary to illustrate the picture</string>
+    <string name="task_screen_dictionary_pictionary_input_hint">Enter the most appropriate word</string>
 
     <string name="task_screen_hurry_up_title_start_alert_dialog">Are you ready?!</string>
     <string name="task_screen_hurry_up_message_start_alert_dialog">Task Hurry up</string>
     <string name="task_screen_hurry_up_title_first_button_start_alert_dialog">Back</string>
     <string name="task_screen_hurry_up_title_second_button_start_alert_dialog">Start</string>
-    <string name="task_screen_hurry_up_title_completed_alert_dialog">Task finished</string>
-    <string name="task_screen_hurry_up_message_negative_completed_alert_dialog">You looser, try again!</string>
-    <string name="task_screen_hurry_up_message_positive_completed_alert_dialog">You GOD!</string>
+    <string name="task_screen_hurry_up_title_completed_alert_dialog">Task is finished</string>
+    <string name="task_screen_hurry_up_message_negative_completed_alert_dialog">Not very good, try again, please!</string>
+    <string name="task_screen_hurry_up_message_positive_completed_alert_dialog">Excellent results!</string>
     <string name="task_screen_hurry_up_title_first_button_completed_alert_dialog">Try again</string>
     <string name="task_screen_hurry_up_title_second_button_completed_alert_dialog">Completed</string>
 
-    <string name="task_screen_empty_error">Error getting task, contact teacher</string>
+    <string name="task_screen_empty_error">Getting the task is failed, contact your teacher</string>
     <!---->
 
     <!-- Alert -->

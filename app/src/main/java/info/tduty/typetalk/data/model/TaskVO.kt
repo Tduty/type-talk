@@ -16,5 +16,5 @@ data class TaskVO(
     val payload: String,
     val lessonId: String,
     val optional: Boolean = false,
-    val checked: Boolean = false
+    var checked: Boolean = false
 ) : Parcelable

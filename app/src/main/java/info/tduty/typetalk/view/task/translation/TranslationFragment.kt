@@ -19,7 +19,6 @@ import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.model.TranslationVO
 import info.tduty.typetalk.data.model.TranslationVO.Companion.PHRASE_TYPE
-import info.tduty.typetalk.data.model.TranslationVO.Companion.SENTENCE_TYPE
 import info.tduty.typetalk.utils.KeyboardHelper
 import info.tduty.typetalk.utils.alert.AlertDialogItems
 import info.tduty.typetalk.utils.alert.AlertDialogItemsVO
@@ -236,6 +235,7 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
             .firstButtonTitle(R.string.alert_btn_completed)
 
         alert.setListenerFirstButton {
+            presenter.sendEventCompleteTask()
             completeTask()
             alert.dismiss()
         }

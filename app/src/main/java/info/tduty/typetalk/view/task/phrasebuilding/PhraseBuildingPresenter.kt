@@ -1,8 +1,10 @@
 package info.tduty.typetalk.view.task.phrasebuilding
 
+import info.tduty.typetalk.data.event.payload.CompleteTaskPayload
 import info.tduty.typetalk.data.model.PhraseBuildingVO
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.domain.interactor.TaskInteractor
+import info.tduty.typetalk.socket.SocketController
 import info.tduty.typetalk.utils.Utils
 
 /**
@@ -10,7 +12,8 @@ import info.tduty.typetalk.utils.Utils
  */
 class PhraseBuildingPresenter(
     val view: PhraseBuildingView,
-    private val taskInteractor: TaskInteractor
+    private val taskInteractor: TaskInteractor,
+    val socketController: SocketController
 ) {
 
     private var taskVO: TaskVO? = null
@@ -51,6 +54,7 @@ class PhraseBuildingPresenter(
         if (incorrect.isNotEmpty()) {
             view.successCompletedWithIncorrectWord(incorrect)
         } else {
+            sendEventCompleteTask()
             view.completeTask()
         }
     }
@@ -80,4 +84,13 @@ class PhraseBuildingPresenter(
         tasks[id]?.isCorrectText = true
     }
 
+    fun sendEventCompleteTask() {
+        socketController.sendCompleteTask(
+            CompleteTaskPayload(
+                taskVO?.lessonId ?: "",
+                taskVO?.id ?: "",
+                true
+            )
+        )
+    }
 }

@@ -1,6 +1,7 @@
 package info.tduty.typetalk.view.task.translation
 
 import info.tduty.typetalk.R
+import info.tduty.typetalk.data.event.payload.CompleteTaskPayload
 import info.tduty.typetalk.data.model.TaskPayloadVO
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.model.TranslationVO
@@ -8,6 +9,7 @@ import info.tduty.typetalk.domain.interactor.ChatInteractor
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.interactor.LessonInteractor
 import info.tduty.typetalk.domain.interactor.TaskInteractor
+import info.tduty.typetalk.socket.SocketController
 import info.tduty.typetalk.utils.Utils
 import info.tduty.typetalk.view.task.StateInputWord
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,7 +23,8 @@ class TranslationPresenter(
     private val taskInteractor: TaskInteractor,
     private val lessonsInteractor: LessonInteractor,
     private val chatInteractor: ChatInteractor,
-    private val historyInteractor: HistoryInteractor
+    private val historyInteractor: HistoryInteractor,
+    private val socketController: SocketController
 ) {
 
     private val disposables = CompositeDisposable()
@@ -214,5 +217,15 @@ class TranslationPresenter(
             view.showWord(0, false)
             onCreate(it)
         }
+    }
+
+    fun sendEventCompleteTask() {
+        socketController.sendCompleteTask(
+            CompleteTaskPayload(
+                task?.lessonId ?: "",
+                task?.id ?: "",
+                true
+            )
+        )
     }
 }

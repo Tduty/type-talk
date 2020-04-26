@@ -15,6 +15,10 @@ class TaskWrapper(private val taskDao: TaskDao) {
         return taskDao.insert(tasks)
     }
 
+    fun updateState(taskId: String, isPerformed: Boolean): Completable {
+        return taskDao.updateState(taskId, isPerformed)
+    }
+
     fun getTasksByLessonId(lessonsId: String): Observable<List<TaskEntity>> {
         return taskDao.getAllTasksByLessonId(lessonsId).toObservable()
     }

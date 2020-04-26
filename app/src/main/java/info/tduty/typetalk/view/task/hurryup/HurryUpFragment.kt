@@ -192,7 +192,11 @@ class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
             mDialogView.btn_first_button.visibility = View.GONE
         }
         mDialogView.btn_second_button.text = titleSecondButton
+        //TODO: заменить alert
         mDialogView.btn_second_button.setOnClickListener {
+            if (!isTryAgain) {
+                presenter.sendEventCompleteTask()
+            }
             completeTask()
             mAlertDialog.dismiss()
         }

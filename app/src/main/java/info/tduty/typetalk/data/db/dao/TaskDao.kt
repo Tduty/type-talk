@@ -25,6 +25,9 @@ interface TaskDao {
     @Update
     fun update(task: TaskEntity?)
 
+    @Query("UPDATE task SET is_preformed = :isPerformed WHERE task_id = :id")
+    fun updateState(id: String, isPerformed: Boolean): Completable
+
     @Delete
     fun delete(task: TaskEntity?)
 }

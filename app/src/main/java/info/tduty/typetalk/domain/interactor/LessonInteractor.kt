@@ -7,9 +7,9 @@ import info.tduty.typetalk.data.db.wrapper.LessonWrapper
 import info.tduty.typetalk.data.db.wrapper.TaskWrapper
 import info.tduty.typetalk.data.dto.LessonDTO
 import info.tduty.typetalk.data.event.payload.LessonPayload
+import info.tduty.typetalk.data.event.payload.LessonProgressPayload
 import info.tduty.typetalk.data.model.ExpectedVO
 import info.tduty.typetalk.data.model.LessonVO
-import info.tduty.typetalk.data.model.StatusVO
 import info.tduty.typetalk.domain.managers.EventManager
 import info.tduty.typetalk.domain.provider.LessonProvider
 import info.tduty.typetalk.utils.toStringList
@@ -62,7 +62,14 @@ class LessonInteractor(
     fun addLesson(lesson: LessonPayload): Completable {
         val db = toDB(0, lesson)
         return lessonWrapper.insert(db)
-            .doOnComplete { eventManager.post(toVO(0, db)) } //TODO правильно проставлять номер урока
+            .doOnComplete {
+                eventManager.post(
+                    toVO(
+                        0,
+                        db
+                    )
+                )
+            } //TODO правильно проставлять номер урока
     }
 
     private fun toTaskDB(dto: LessonDTO): List<TaskEntity> {
@@ -110,9 +117,16 @@ class LessonInteractor(
             title = db.title,
             content = db.description,
             icon = R.drawable.ic_teacher_bg_corn,
-            status = StatusVO(R.drawable.ic_checkbox_empty, "Awaible"), //TODO: переписать на нормальный вариант
+            status = LessonVO.getStatus(db.status),
             expectedList = db.expectedList.strings
                 .map { ExpectedVO("Test", R.drawable.ic_lesson_expected_dialoges) }
         )
+    }
+
+    fun updateState(lessonId: String, state: Int): Completable {
+        return lessonWrapper.update(lessonId, state)
+            .doOnComplete {
+                eventManager.post(LessonProgressPayload(lessonId, state))
+            }
     }
 }

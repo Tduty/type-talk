@@ -118,10 +118,11 @@ class AppModule(private val application: Application) {
     fun provideEventHandler(socketEventListener: SocketEventListener,
                             historyInteractor: HistoryInteractor,
                             lessonInteractor: LessonInteractor,
-                            studentInteractor: StudentInteractor
+                            studentInteractor: StudentInteractor,
+                            taskInteractor: TaskInteractor
     ): EventHandler {
         return EventHandler(socketEventListener, historyInteractor, lessonInteractor,
-            studentInteractor)
+            studentInteractor, taskInteractor)
     }
 
     @Provides

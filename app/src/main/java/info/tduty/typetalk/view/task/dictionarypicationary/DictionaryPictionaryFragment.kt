@@ -131,8 +131,7 @@ class DictionaryPictionaryFragment : Fragment(R.layout.fragment_task_dictionary_
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
 
         vp_dictionary_pictionary.registerOnPageChangeCallback(object :
@@ -143,7 +142,7 @@ class DictionaryPictionaryFragment : Fragment(R.layout.fragment_task_dictionary_
                 positionOffsetPixels: Int
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                presenter.onScrollCard()
+                presenter.onScrollCard(position)
             }
         })
 
@@ -236,6 +235,7 @@ class DictionaryPictionaryFragment : Fragment(R.layout.fragment_task_dictionary_
             .firstButtonTitle(R.string.alert_btn_completed)
 
         alert.setListenerFirstButton {
+            presenter.sendEventCompleteTask()
             completeTask()
             alert.dismiss()
         }

@@ -2,17 +2,20 @@ package info.tduty.typetalk.view.task.hurryup
 
 import android.os.Handler
 import info.tduty.typetalk.R
+import info.tduty.typetalk.data.event.payload.CompleteTaskPayload
 import info.tduty.typetalk.data.model.HurryUpVO
 import info.tduty.typetalk.data.model.TaskPayloadVO
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.domain.interactor.TaskInteractor
+import info.tduty.typetalk.socket.SocketController
 import info.tduty.typetalk.utils.Utils
 import java.util.*
 
 
 class HurryUpPresenter(
     val view: HurryUpView,
-    val taskInteractor: TaskInteractor
+    val taskInteractor: TaskInteractor,
+    val socketController: SocketController
 ) {
 
     private var task: TaskVO? = null
@@ -94,5 +97,15 @@ class HurryUpPresenter(
 
     fun onPause() {
         view.stopTimer()
+    }
+
+    fun sendEventCompleteTask() {
+        socketController.sendCompleteTask(
+            CompleteTaskPayload(
+                task?.lessonId ?: "",
+                task?.id ?: "",
+                true
+            )
+        )
     }
 }

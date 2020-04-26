@@ -1,8 +1,10 @@
 package info.tduty.typetalk.view.task.wordamess
 
+import info.tduty.typetalk.data.event.payload.CompleteTaskPayload
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.model.WordamessVO
 import info.tduty.typetalk.domain.interactor.TaskInteractor
+import info.tduty.typetalk.socket.SocketController
 import info.tduty.typetalk.utils.Utils
 
 /**
@@ -10,7 +12,8 @@ import info.tduty.typetalk.utils.Utils
  */
 class WordamessPresenter(
     private val view: WordamessView,
-    private val taskInteractor: TaskInteractor
+    private val taskInteractor: TaskInteractor,
+    private val socketController: SocketController
 ) {
 
     private var taskVO: TaskVO? = null
@@ -137,7 +140,7 @@ class WordamessPresenter(
     }
 
     private fun completeTask() {
-        val skippedWord = correctList.filter { !it.isSkipped }
+        val skippedWord = correctList.filter { it.isSkipped }
         val countSuccessTask = correctList.size - skippedWord.size
         val countWords = correctList.size
         val successCompletedTaskPercent =
@@ -158,6 +161,7 @@ class WordamessPresenter(
         if (skippedWord.isNotEmpty()) {
             view.successCompletedWithIncorrectWord(skippedWord)
         } else {
+            sendEventCompleteTask()
             view.completeTask()
         }
     }
@@ -170,5 +174,15 @@ class WordamessPresenter(
             view.showWordForCorrect(0)
             onCreate(it)
         }
+    }
+
+    fun sendEventCompleteTask() {
+        socketController.sendCompleteTask(
+            CompleteTaskPayload(
+                taskVO?.lessonId ?: "",
+                taskVO?.id ?: "",
+                true
+            )
+        )
     }
 }

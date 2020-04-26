@@ -4,22 +4,33 @@ import info.tduty.typetalk.R
 import info.tduty.typetalk.data.db.model.TaskEntity
 import info.tduty.typetalk.data.db.wrapper.TaskWrapper
 import info.tduty.typetalk.data.model.TaskPayloadVO
+import info.tduty.typetalk.data.model.TaskStateUpdated
 import info.tduty.typetalk.data.model.TaskType
 import info.tduty.typetalk.data.model.TaskVO
+import info.tduty.typetalk.domain.managers.EventManager
 import info.tduty.typetalk.mapper.TaskPayloadMapperStrategy
+import io.reactivex.Completable
 import io.reactivex.Observable
 import java.util.*
 
 class TaskInteractor(
     private val taskPayloadMapperStrategy: TaskPayloadMapperStrategy,
-    private val taskWrapper: TaskWrapper
+    private val taskWrapper: TaskWrapper,
+    private val eventManager: EventManager
 ) {
+
+    fun updateTaskState(lessonsId: String, taskId: String, isCompleted: Boolean): Completable {
+        return taskWrapper.updateState(taskId, isCompleted)
+            .doOnComplete {
+                eventManager.post(TaskStateUpdated(lessonsId, taskId, isCompleted))
+            }
+    }
 
     fun getTasks(lessonsId: String): Observable<List<TaskVO>> {
         return taskWrapper.getTasksByLessonId(lessonsId)
             .map { tasks ->
                 tasks.sortedBy { it.position }
-                .map { toVO(it) }
+                    .map { toVO(it) }
             }
     }
 

@@ -1,5 +1,6 @@
 package info.tduty.typetalk.domain.managers
 
+import info.tduty.typetalk.data.event.payload.LessonProgressPayload
 import info.tduty.typetalk.data.model.*
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -49,5 +50,19 @@ class EventManager {
             .toFlowable(BackpressureStrategy.BUFFER)
             .filter { it is UserStatusUpdated }
             .cast(UserStatusUpdated::class.java)
+    }
+
+    fun taskStatusUpated(): Flowable<TaskStateUpdated> {
+        return subject
+            .toFlowable(BackpressureStrategy.BUFFER)
+            .filter { it is TaskStateUpdated }
+            .cast(TaskStateUpdated::class.java)
+    }
+
+    fun lessonProgressUpated(): Flowable<LessonProgressPayload> {
+        return subject
+            .toFlowable(BackpressureStrategy.BUFFER)
+            .filter { it is LessonProgressPayload }
+            .cast(LessonProgressPayload::class.java)
     }
 }

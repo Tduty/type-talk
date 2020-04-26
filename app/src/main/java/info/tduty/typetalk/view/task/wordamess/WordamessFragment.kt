@@ -261,6 +261,7 @@ class WordamessFragment : Fragment(R.layout.fragment_wordamess), WordamessView {
             .firstButtonTitle(R.string.task_btn_complete)
 
         alert.setListenerFirstButton {
+            presenter.sendEventCompleteTask()
             completeTask()
             alert.dismiss()
         }

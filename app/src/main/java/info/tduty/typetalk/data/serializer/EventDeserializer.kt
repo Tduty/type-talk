@@ -28,6 +28,8 @@ class EventDeserializer(val gson: Gson) : JsonDeserializer<Event> {
             LESSON -> gson.fromJson(jsonElement, LessonPayload::class.java)
             TYPING -> gson.fromJson(jsonElement, TypingPayload::class.java)
             CORRECTION -> gson.fromJson(jsonElement, CorrectionPayload::class.java)
+            TASK -> gson.fromJson(jsonElement, CompleteTaskPayload::class.java)
+            LESSON_PROGRESS -> gson.fromJson(jsonElement, LessonProgressPayload::class.java)
         }
         return Event(typePayload, eventPayload)
     }

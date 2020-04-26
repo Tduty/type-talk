@@ -4,10 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import info.tduty.typetalk.data.event.Event
 import info.tduty.typetalk.data.event.EventPayload.Type.*
-import info.tduty.typetalk.data.event.payload.CorrectionPayload
-import info.tduty.typetalk.data.event.payload.LessonPayload
-import info.tduty.typetalk.data.event.payload.MessageNewPayload
-import info.tduty.typetalk.data.event.payload.TypingPayload
+import info.tduty.typetalk.data.event.payload.*
 import info.tduty.typetalk.data.pref.UrlStorage
 import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.domain.managers.AppLifecycleEventManager
@@ -89,6 +86,23 @@ class SocketController(
             Timber.e(ex, "Error sending event $typing")
         }
     }
+
+    fun sendCompleteTask(typing: CompleteTaskPayload) {
+        try {
+            client?.pushEvent(Event(TASK.string, typing))
+        } catch (ex: Exception) {
+            Timber.e(ex, "Error sending event $typing")
+        }
+    }
+
+    fun sendUpdateStatusLesson(typing: LessonProgressPayload) {
+        try {
+            client?.pushEvent(Event(LESSON_PROGRESS.string, typing))
+        } catch (ex: Exception) {
+            Timber.e(ex, "Error sending event $typing")
+        }
+    }
+
 
     private fun createSocketClient(): SocketClient {
         val client =  SocketClient(

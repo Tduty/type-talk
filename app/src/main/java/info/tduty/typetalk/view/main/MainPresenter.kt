@@ -1,5 +1,6 @@
 package info.tduty.typetalk.view.main
 
+import info.tduty.typetalk.data.model.LessonVO
 import info.tduty.typetalk.domain.interactor.LessonInteractor
 import info.tduty.typetalk.domain.managers.DatabaseManager
 import info.tduty.typetalk.domain.managers.EventManager
@@ -18,11 +19,13 @@ class MainPresenter(
     private val databaseManager: DatabaseManager
 ) {
 
+    private var lessons: List<LessonVO>? = null
     private val disposables = CompositeDisposable()
 
     fun onCreate() {
         listenerUpdatedLesson()
         listenerAddLesson()
+        listenerProgressUpdatedLesson()
         getLessons()
     }
 
@@ -56,6 +59,16 @@ class MainPresenter(
         )
     }
 
+    private fun listenerProgressUpdatedLesson() {
+        disposables.add(
+            eventManager.lessonProgressUpated()
+                .toObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ getLessons() }, Timber::e)
+        )
+    }
+
     private fun listenerAddLesson() {
         disposables.add(
             eventManager.lessonNew()
@@ -74,7 +87,10 @@ class MainPresenter(
             lessonInteractor.getLessons()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ lessons -> view.setLessons(lessons) }, Timber::e)
+                .subscribe({ lessons ->
+                    this.lessons = lessons
+                    view.setLessons(lessons)
+                }, Timber::e)
         )
     }
 }

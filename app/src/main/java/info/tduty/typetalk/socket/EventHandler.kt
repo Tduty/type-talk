@@ -3,6 +3,7 @@ package info.tduty.typetalk.socket
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.interactor.LessonInteractor
 import info.tduty.typetalk.domain.interactor.StudentInteractor
+import info.tduty.typetalk.domain.interactor.TaskInteractor
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -15,7 +16,8 @@ class EventHandler(
     private val socketEventListener: SocketEventListener,
     private val historyInteractor: HistoryInteractor,
     private val lessonInteractor: LessonInteractor,
-    private val studentInteractor: StudentInteractor
+    private val studentInteractor: StudentInteractor,
+    private val taskInteractor: TaskInteractor
 ) {
 
     private val disposables = CompositeDisposable()
@@ -26,6 +28,8 @@ class EventHandler(
         disposables.addAll(listenLessons())
         disposables.addAll(listenUserStatuses())
         disposables.addAll(listenCorrection())
+        disposables.addAll(listenTask())
+        disposables.addAll(listenLessonState())
     }
 
     private fun listenMessageNew(): Disposable {
@@ -62,6 +66,22 @@ class EventHandler(
     private fun listenCorrection(): Disposable {
         return socketEventListener.correctionPayloadObservable()
             .flatMapCompletable { historyInteractor.handleCorrection(it) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .subscribe({}, Timber::e)
+    }
+
+    private fun listenTask(): Disposable {
+        return socketEventListener.completedTaskPayloadObservable()
+            .flatMapCompletable { taskInteractor.updateTaskState(it.lessonId, it.taskId, it.isCompleted) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .subscribe({}, Timber::e)
+    }
+
+    private fun listenLessonState(): Disposable {
+        return socketEventListener.lessonProgressPayloadObservable()
+            .flatMapCompletable { lessonInteractor.updateState(it.lessonId, it.state ?: 0) }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({}, Timber::e)

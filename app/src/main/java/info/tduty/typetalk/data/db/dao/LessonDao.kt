@@ -38,4 +38,7 @@ interface LessonDao {
     @Transaction
     @Query("SELECT * FROM lessons WHERE id = :lessonsId")
     fun getLessonsBy(lessonsId: String?): Maybe<LessonEntity>
+
+    @Query("UPDATE lessons SET status = :state WHERE lesson_id = :lessonId")
+    fun updateState(lessonId: String, state: Int): Completable
 }

@@ -19,8 +19,7 @@ class LessonsModule(val view: LessonView) {
     @Provides
     fun provideLessonPresenter(view: LessonView, taskInteractor: TaskInteractor,
                                lessonInteractor: LessonInteractor,
-                               eventManager: EventManager,
-                               socketController: SocketController) : LessonPresenter {
-        return LessonPresenter(view, taskInteractor, lessonInteractor, eventManager, socketController)
+                               eventManager: EventManager) : LessonPresenter {
+        return LessonPresenter(view, taskInteractor, lessonInteractor, eventManager)
     }
 }

@@ -19,10 +19,10 @@ class TaskInteractor(
     private val eventManager: EventManager
 ) {
 
-    fun updateTaskState(taskId: String, isCompleted: Boolean): Completable {
+    fun updateTaskState(lessonsId: String, taskId: String, isCompleted: Boolean): Completable {
         return taskWrapper.updateState(taskId, isCompleted)
             .doOnComplete {
-                eventManager.post(TaskStateUpdated("", taskId, isCompleted))
+                eventManager.post(TaskStateUpdated(lessonsId, taskId, isCompleted))
             }
     }
 

@@ -62,7 +62,14 @@ class LessonInteractor(
     fun addLesson(lesson: LessonPayload): Completable {
         val db = toDB(0, lesson)
         return lessonWrapper.insert(db)
-            .doOnComplete { eventManager.post(toVO(0, db)) } //TODO правильно проставлять номер урока
+            .doOnComplete {
+                eventManager.post(
+                    toVO(
+                        0,
+                        db
+                    )
+                )
+            } //TODO правильно проставлять номер урока
     }
 
     private fun toTaskDB(dto: LessonDTO): List<TaskEntity> {
@@ -110,15 +117,16 @@ class LessonInteractor(
             title = db.title,
             content = db.description,
             icon = R.drawable.ic_teacher_bg_corn,
-            status = LessonVO.getStatus(db.status), //TODO: переписать на нормальный вариант
+            status = LessonVO.getStatus(db.status),
             expectedList = db.expectedList.strings
                 .map { ExpectedVO("Test", R.drawable.ic_lesson_expected_dialoges) }
         )
     }
 
     fun updateState(lessonId: String, state: Int): Completable {
-        return lessonWrapper.update(lessonId, state).doOnComplete {
-            eventManager.post(LessonProgressPayload(lessonId, state))
-        }
+        return lessonWrapper.update(lessonId, state)
+            .doOnComplete {
+                eventManager.post(LessonProgressPayload(lessonId, state))
+            }
     }
 }

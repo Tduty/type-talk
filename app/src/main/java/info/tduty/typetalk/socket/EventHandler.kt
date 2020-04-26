@@ -73,7 +73,7 @@ class EventHandler(
 
     private fun listenTask(): Disposable {
         return socketEventListener.completedTaskPayloadObservable()
-            .flatMapCompletable { taskInteractor.updateTaskState(it.taskId, it.isCompleted) }
+            .flatMapCompletable { taskInteractor.updateTaskState(it.lessonId, it.taskId, it.isCompleted) }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({}, Timber::e)

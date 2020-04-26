@@ -21,8 +21,7 @@ class LessonPresenter(
     val view: LessonView,
     val taskInteractor: TaskInteractor,
     val lessonInteractor: LessonInteractor,
-    val eventManager: EventManager,
-    val socketController: SocketController
+    val eventManager: EventManager
 ) {
 
     private val disposables = CompositeDisposable()
@@ -66,6 +65,7 @@ class LessonPresenter(
     fun setupListener() {
         disposables.add(
             eventManager.taskStatusUpated()
+                .filter { it.lessonId == lesson.id }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -76,12 +76,6 @@ class LessonPresenter(
 
     fun openTask(id: String, task: TaskType) {
         view.openTask(tasks.first { it.id == id && it.type == task }, lesson.id)
-    }
-
-    fun sendEventCompleteTask() {
-        socketController.sendUpdateStatusLesson(
-            LessonProgressPayload(lesson.id)
-        )
     }
 
     private fun handleTaskUpdated(task: TaskStateUpdated) {

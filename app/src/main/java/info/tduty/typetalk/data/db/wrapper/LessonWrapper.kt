@@ -31,4 +31,8 @@ class LessonWrapper(private val lessonDao: LessonDao) {
         return lessonDao.getLessons(lessonIds)
             .toObservable()
     }
+
+    fun update(lessonId: String, state: Int): Completable {
+        return lessonDao.updateState(lessonId, state)
+    }
 }

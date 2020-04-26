@@ -111,6 +111,7 @@ class PhraseBuildingFragment : Fragment(R.layout.fragment_phrase_building), Phra
             .firstButtonTitle(R.string.alert_btn_try_again)
 
         alert.setListenerFirstButton {
+            presenter.sendEventCompleteTask()
             completeTask()
             alert.dismiss()
         }

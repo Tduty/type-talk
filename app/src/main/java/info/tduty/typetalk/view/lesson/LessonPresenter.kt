@@ -1,10 +1,14 @@
 package info.tduty.typetalk.view.lesson
 
+import info.tduty.typetalk.data.event.payload.LessonProgressPayload
 import info.tduty.typetalk.data.model.LessonVO
+import info.tduty.typetalk.data.model.TaskStateUpdated
 import info.tduty.typetalk.data.model.TaskType
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.domain.interactor.LessonInteractor
 import info.tduty.typetalk.domain.interactor.TaskInteractor
+import info.tduty.typetalk.domain.managers.EventManager
+import info.tduty.typetalk.socket.SocketController
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -16,7 +20,9 @@ import timber.log.Timber
 class LessonPresenter(
     val view: LessonView,
     val taskInteractor: TaskInteractor,
-    val lessonInteractor: LessonInteractor
+    val lessonInteractor: LessonInteractor,
+    val eventManager: EventManager,
+    val socketController: SocketController
 ) {
 
     private val disposables = CompositeDisposable()
@@ -25,6 +31,11 @@ class LessonPresenter(
 
     fun onCreate(lessonId: String) {
         setupLesson(lessonId)
+        setupListener()
+    }
+
+    fun onDestroy() {
+        disposables.dispose()
     }
 
     private fun setupLesson(lessonId: String) {
@@ -52,12 +63,30 @@ class LessonPresenter(
         )
     }
 
-    fun onDestroy() {
-        disposables.dispose()
+    fun setupListener() {
+        disposables.add(
+            eventManager.taskStatusUpated()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    handleTaskUpdated(it)
+                }, Timber::e)
+        )
     }
 
     fun openTask(id: String, task: TaskType) {
         view.openTask(tasks.first { it.id == id && it.type == task }, lesson.id)
     }
 
+    fun sendEventCompleteTask() {
+        socketController.sendUpdateStatusLesson(
+            LessonProgressPayload(lesson.id)
+        )
+    }
+
+    private fun handleTaskUpdated(task: TaskStateUpdated) {
+        val updatedTask = tasks.find { taskItem -> taskItem.id == task.taskId }
+        updatedTask?.checked = task.isCompleted
+        view.setTasks(tasks)
+    }
 }

@@ -15,6 +15,8 @@ class SocketEventListener(private val eventBus: EventBusRx) {
         client.listenEvent(EventPayload.Type.TYPING, eventBus)
         client.listenEvent(EventPayload.Type.USER_STATUS, eventBus)
         client.listenEvent(EventPayload.Type.CORRECTION, eventBus)
+        client.listenEvent(EventPayload.Type.TASK, eventBus)
+        client.listenEvent(EventPayload.Type.LESSON_PROGRESS, eventBus)
     }
 
     fun messageNewPayloadObservable(): Flowable<MessageNewPayload> {
@@ -40,5 +42,15 @@ class SocketEventListener(private val eventBus: EventBusRx) {
     fun correctionPayloadObservable(): Flowable<CorrectionPayload> {
         return eventBus
             .observeEvents(CorrectionPayload::class.java)
+    }
+
+    fun completedTaskPayloadObservable(): Flowable<CompleteTaskPayload> {
+        return eventBus
+            .observeEvents(CompleteTaskPayload::class.java)
+    }
+
+    fun lessonProgressPayloadObservable(): Flowable<LessonProgressPayload> {
+        return eventBus
+            .observeEvents(LessonProgressPayload::class.java)
     }
 }

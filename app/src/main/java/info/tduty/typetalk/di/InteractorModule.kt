@@ -79,9 +79,10 @@ class InteractorModule {
     @Singleton
     fun provideTaskInteractor(
         taskWrapper: TaskWrapper,
-        taskPayloadMapperStrategy: TaskPayloadMapperStrategy
+        taskPayloadMapperStrategy: TaskPayloadMapperStrategy,
+        eventManager: EventManager
     ): TaskInteractor {
-        return TaskInteractor(taskPayloadMapperStrategy, taskWrapper)
+        return TaskInteractor(taskPayloadMapperStrategy, taskWrapper, eventManager)
     }
 
     @Provides

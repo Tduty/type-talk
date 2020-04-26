@@ -3,6 +3,7 @@ package info.tduty.typetalk.view.task.wordamess.di
 import dagger.Module
 import dagger.Provides
 import info.tduty.typetalk.domain.interactor.TaskInteractor
+import info.tduty.typetalk.socket.SocketController
 import info.tduty.typetalk.view.task.wordamess.WordamessPresenter
 import info.tduty.typetalk.view.task.wordamess.WordamessView
 
@@ -13,7 +14,7 @@ import info.tduty.typetalk.view.task.wordamess.WordamessView
 class WordamessModule(val view: WordamessView) {
 
     @Provides
-    fun provideWordamessPresenter(taskInteractor: TaskInteractor): WordamessPresenter {
-        return WordamessPresenter(view, taskInteractor)
+    fun provideWordamessPresenter(taskInteractor: TaskInteractor, socketController: SocketController): WordamessPresenter {
+        return WordamessPresenter(view, taskInteractor, socketController)
     }
 }

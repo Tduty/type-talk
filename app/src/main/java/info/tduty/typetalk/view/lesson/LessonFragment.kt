@@ -60,6 +60,7 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
 
     override fun onDestroy() {
         super.onDestroy()
+        presenter.sendEventCompleteTask()
         presenter.onDestroy()
     }
 

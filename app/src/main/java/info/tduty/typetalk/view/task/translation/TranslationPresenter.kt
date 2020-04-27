@@ -61,6 +61,7 @@ class TranslationPresenter(
         setNextButtonTitle(position)
         val translationVO = translationList[position]
         if (translationVO.inputWord != null &&
+            translationVO.currentTranslation.isNotEmpty() &&
             translationVO.inputWord == translationVO.currentTranslation
         ) {
             view.setValueToInput(translationVO.inputWord!!)
@@ -81,6 +82,7 @@ class TranslationPresenter(
             setNextButtonTitle(currentItem)
             return
         }
+
         when (translationVO.type) {
             TranslationVO.PHRASE_TYPE -> {
                 if (word == translationVO.currentTranslation) {
@@ -108,14 +110,10 @@ class TranslationPresenter(
     fun onClickNext(currentPosition: Int, word: String? = "") {
         val translationVO = translationList[currentPosition]
 
-        if (isCompleted) {
-            completeTask()
-            return
-        }
-
         if (currentPosition == translationList.size - 1) {
             view.setTitleNextButton(BTN_TITLE_COMPLETED)
             isCompleted = true
+            completeTask()
             return
         }
 
@@ -133,6 +131,7 @@ class TranslationPresenter(
                     task?.let {
                         createMessage(it, word, translationVO.word)
                     }
+                    view.showWord(currentPosition + 1, true)
                 }
             }
         }

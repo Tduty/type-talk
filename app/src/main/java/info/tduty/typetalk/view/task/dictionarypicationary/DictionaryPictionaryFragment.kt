@@ -30,7 +30,7 @@ import kotlinx.android.synthetic.main.fragment_task_dictionary_pictionary.view.*
 import kotlinx.android.synthetic.main.fragment_task_flashcard.btn_next
 import kotlinx.android.synthetic.main.item_edittext_enter_word.*
 import kotlinx.android.synthetic.main.item_edittext_enter_word.view.*
-import kotlinx.android.synthetic.main.item_task_card_content_word.*
+import kotlinx.android.synthetic.main.item_pager_task_translation.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 

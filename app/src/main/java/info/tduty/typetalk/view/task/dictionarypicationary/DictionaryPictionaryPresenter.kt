@@ -35,7 +35,7 @@ class DictionaryPictionaryPresenter(
         }
 
         this.task = taskVO
-        view.setupDictionaryPictionary(dictionaryPictionaryList)
+        view.setupDictionaryPictionary(dictionaryPictionaryList.shuffled())
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -73,14 +73,10 @@ class DictionaryPictionaryPresenter(
     }
 
     fun onClickNext(currentPosition: Int, word: String? = "") {
-        if (isCompleted) {
-            completeTask()
-            return
-        }
-
         if (currentPosition == dictionaryPictionaryList.size - 1) {
             view.setTitleNextButton(BTN_TITLE_COMPLETED)
             isCompleted = true
+            completeTask()
             return
         }
 

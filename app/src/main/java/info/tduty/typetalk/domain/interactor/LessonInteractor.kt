@@ -116,10 +116,13 @@ class LessonInteractor(
             number = index + 1,
             title = db.title,
             content = db.description,
-            icon = R.drawable.ic_teacher_bg_corn,
+            icon = R.drawable.ic_cardiogram,
             status = LessonVO.getStatus(db.status),
-            expectedList = db.expectedList.strings
-                .map { ExpectedVO("Test", R.drawable.ic_lesson_expected_dialoges) }
+            expectedList = listOf(
+                ExpectedVO("Translate", R.drawable.ic_translation),
+                ExpectedVO("Phrases", R.drawable.ic_phrase_building),
+                ExpectedVO("Hurry up", R.drawable.ic_hurry_up)
+            )
         )
     }
 

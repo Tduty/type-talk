@@ -22,17 +22,19 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:padding="5dp">
+
             <TextView
                 android:id="@+id/transcriptionField"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="5sp"
                 android:text="@string/default_value_dictionary_trasncription_field"
                 android:textColor="#000"
-                android:textStyle="bold"
                 android:textSize="20sp"
-                android:layout_marginTop="5sp"/>
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/wordField"
                 android:layout_width="wrap_content"
@@ -50,12 +52,14 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:padding="5dp">
             <TextView
                 android:id="@+id/translationField"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textAlignment="center"
                 android:text="@string/default_value_dictionary_translation_field"
                 android:textColor="#000"
                 android:textStyle="bold"

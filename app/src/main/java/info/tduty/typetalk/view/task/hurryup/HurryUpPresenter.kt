@@ -39,7 +39,7 @@ class HurryUpPresenter(
 
         this.task = taskVO
 
-        view.setupHurryUp(hurryUpList)
+        view.setupHurryUp(hurryUpList.shuffled())
     }
 
     private fun getHurryUpList(payload2: List<TaskPayloadVO>): List<HurryUpVO> {

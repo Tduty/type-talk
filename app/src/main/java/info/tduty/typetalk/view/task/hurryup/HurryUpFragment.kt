@@ -185,8 +185,8 @@ class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
             mDialogView.btn_first_button.visibility = View.VISIBLE
             mDialogView.btn_first_button.text = titleFirstButton
             mDialogView.btn_first_button.setOnClickListener {
-                mAlertDialog.dismiss()
                 presenter.tryAgain()
+                mAlertDialog.dismiss()
             }
         } else {
             mDialogView.btn_first_button.visibility = View.GONE
@@ -221,8 +221,8 @@ class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
         mDialogView.tv_message.text = messageString
         mDialogView.btn_first_button.text = titleFirstButton
         mDialogView.btn_first_button.setOnClickListener {
-            mAlertDialog.dismiss()
             completeTask()
+            mAlertDialog.dismiss()
         }
         mDialogView.btn_second_button.text = titleSecondButton
         mDialogView.btn_second_button.setOnClickListener {

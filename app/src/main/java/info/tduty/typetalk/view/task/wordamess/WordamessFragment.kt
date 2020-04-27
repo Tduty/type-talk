@@ -27,7 +27,7 @@ import info.tduty.typetalk.view.task.wordamess.di.WordamessModule
 import kotlinx.android.synthetic.main.fragment_wordamess.*
 import kotlinx.android.synthetic.main.fragment_wordamess.view.*
 import kotlinx.android.synthetic.main.item_edittext_enter_word.*
-import kotlinx.android.synthetic.main.item_task_card_content_word.*
+import kotlinx.android.synthetic.main.item_pager_task_translation.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 

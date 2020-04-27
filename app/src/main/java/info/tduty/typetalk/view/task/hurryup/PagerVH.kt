@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.HurryUpVO
 import info.tduty.typetalk.utils.view.ColorChipLayout
+import kotlinx.android.synthetic.main.item_chip.view.*
 import kotlinx.android.synthetic.main.item_pager_task_hurry_up.view.*
 
 class PagerVH(
@@ -25,9 +26,11 @@ class PagerVH(
     }
 
     fun onBind(hurryUpVO: HurryUpVO) {
-        val wordList = getPayloadForChipLayout(hurryUpVO)
+        val wordList = getPayloadForChipLayout(hurryUpVO).shuffled()
         itemView.fl_chip.singleClick = true
         itemView.fl_chip.clearAll()
+
+        itemView.tv_chip.text = hurryUpVO.word
 
         wordList.forEach {
             itemView.fl_chip.addChip(it.first, it.second) { isSelected: Boolean, body: String ->

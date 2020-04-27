@@ -69,7 +69,6 @@ class TranslationPresenter(
         } else {
             view.setStateEditWord(StateInputWord.DEFAULT)
         }
-        view.hiddenKeyboard()
     }
 
     fun onChangeEditText(word: String, currentItem: Int) {
@@ -123,6 +122,7 @@ class TranslationPresenter(
         when (translationVO.type) {
             TranslationVO.PHRASE_TYPE -> {
                 if (currentPosition + 1 < translationList.size) {
+                    view.hiddenKeyboard()
                     view.showWord(currentPosition + 1, true)
                 }
             }

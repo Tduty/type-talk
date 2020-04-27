@@ -49,7 +49,6 @@ class DictionaryPictionaryPresenter(
         } else {
             view.setTitleNextButton(R.string.task_screen_translation_btn_skip)
         }
-        view.hiddenKeyboard()
         view.setStateInput(StateInputWord.DEFAULT)
     }
 
@@ -87,6 +86,7 @@ class DictionaryPictionaryPresenter(
 
 
         if (currentPosition + 1 < dictionaryPictionaryList.size) {
+            view.hiddenKeyboard()
             view.showWord(currentPosition + 1, true)
         }
     }

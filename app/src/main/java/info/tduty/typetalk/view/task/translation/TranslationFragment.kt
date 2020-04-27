@@ -104,7 +104,6 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
 
     private fun setupListener() {
         view?.setOnClickListener {
-            et_word.clearFocus()
             KeyboardHelper.hideKeyboard(activity, view)
         }
 
@@ -205,7 +204,6 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
     }
 
     private fun clearEditText() {
-        if (et_word.isFocused) et_word.clearFocus()
         et_word.text.clear()
     }
 

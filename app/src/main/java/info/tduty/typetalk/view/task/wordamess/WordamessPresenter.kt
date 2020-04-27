@@ -82,7 +82,6 @@ class WordamessPresenter(
             view.setValueToInput(wordamess.inputText)
             view.setStateEditWord(WordamessView.StateEditWord.DEFAULT)
         }
-        view.hiddenKeyboard()
     }
 
     fun onChangeEditText(word: String, currentItem: Int) {
@@ -113,6 +112,7 @@ class WordamessPresenter(
             isCompleted(position) -> completeTask()
             position == correctList.lastIndex -> setupChosenBlock()
             else -> {
+                view.hiddenKeyboard()
                 view.setValueToInput("")
                 setNextButtonTitle(position + 1)
                 view.showWordForCorrect(position + 1)

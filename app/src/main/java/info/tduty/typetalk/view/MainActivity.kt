@@ -1,6 +1,9 @@
 package info.tduty.typetalk.view
 
 import android.os.Bundle
+import android.transition.Fade
+import android.transition.Slide
+import android.view.Gravity
 import android.view.MenuItem
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +16,7 @@ import info.tduty.typetalk.data.model.DialogVO
 import info.tduty.typetalk.data.model.LessonManageVO
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.pref.UserDataHelper
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.chat.ChatFragment
 import info.tduty.typetalk.view.chat.ChatStarter
 import info.tduty.typetalk.view.debug.InDevelopmentFragment
@@ -51,10 +55,21 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (item.itemId == android.R.id.home) {
-            onBackPressed()
-            true
-        } else super.onOptionsItemSelected(item)
+        return when(item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            R.id.action_chat -> {
+                openTeacherChat()
+                true
+            }
+            R.id.action_dictionary -> {
+                openDictionary()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onBackPressed() {
@@ -183,20 +198,22 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
     private fun showFragment(fragment: Fragment, tag: String? = null) {
         val transaction = supportFragmentManager.beginTransaction()
         val currentFragment = supportFragmentManager.findFragmentById(R.id.content_frame)
-        currentFragment?.let {
-            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-            transaction.hide(it)
-            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-        }
+        if (currentFragment?.javaClass == fragment.javaClass) return
+        setupAnimation(fragment)
         transaction.add(R.id.content_frame, fragment, tag)
-        if (!isFragmentWithoutBackStack(currentFragment)) {
-            transaction.addToBackStack(null)
-        }
+        if (!isFragmentWithoutBackStack(currentFragment)) transaction.addToBackStack(null)
         try {
             transaction.commit()
         } catch (ignored: IllegalStateException) {
             Timber.e(ignored)
         }
+    }
+
+    private fun setupAnimation(fragment: Fragment) {
+        val enterFade = Slide(Gravity.END)
+        enterFade.startDelay = 80
+        enterFade.duration = 200
+        fragment.enterTransition = enterFade
     }
 
     private fun isFragmentWithoutBackStack(fragment: Fragment?): Boolean {

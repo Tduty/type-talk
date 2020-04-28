@@ -7,6 +7,7 @@ import com.google.android.material.snackbar.Snackbar
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.login.password.di.LoginModule
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
@@ -14,7 +15,7 @@ import javax.inject.Inject
 /**
  * Created by Evgeniy Mezentsev on 11.03.2020.
  */
-class LoginFragment : Fragment(R.layout.fragment_login), LoginView {
+class LoginFragment : BaseFragment(R.layout.fragment_login), LoginView {
 
     companion object {
 

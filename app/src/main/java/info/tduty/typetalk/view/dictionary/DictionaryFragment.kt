@@ -9,13 +9,14 @@ import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.DictionaryVO
 import info.tduty.typetalk.view.MainActivity
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.dictionary.adapter.DictionaryListAdapter
 import info.tduty.typetalk.view.dictionary.di.DictionaryModule
 import kotlinx.android.synthetic.main.fragment_dictionary.*
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
 import javax.inject.Inject
 
-class DictionaryFragment : Fragment(R.layout.fragment_dictionary), DictionaryView {
+class DictionaryFragment : BaseFragment(R.layout.fragment_dictionary), DictionaryView {
 
     companion object {
 

@@ -24,6 +24,7 @@ import info.tduty.typetalk.utils.alert.AlertDialogItems
 import info.tduty.typetalk.utils.alert.AlertDialogItemsVO
 import info.tduty.typetalk.utils.alert.TypeAlertItem
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.task.StateInputWord
 import info.tduty.typetalk.view.task.translation.di.TranslationModule
 import kotlinx.android.synthetic.main.fragment_task_flashcard.btn_next
@@ -36,7 +37,7 @@ import javax.inject.Inject
 import kotlin.math.roundToInt
 
 
-class TranslationFragment : Fragment(R.layout.fragment_task_translation), TranslationView {
+class TranslationFragment : BaseFragment(R.layout.fragment_task_translation), TranslationView {
 
     companion object {
 

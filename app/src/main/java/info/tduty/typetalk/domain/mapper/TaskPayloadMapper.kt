@@ -1,4 +1,4 @@
-package info.tduty.typetalk.mapper
+package info.tduty.typetalk.domain.mapper
 
 import info.tduty.typetalk.data.model.TaskPayloadVO
 

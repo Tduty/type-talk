@@ -31,6 +31,14 @@ import info.tduty.typetalk.view.teacher.classinfo.di.ClassComponent
 import info.tduty.typetalk.view.teacher.classinfo.di.ClassModule
 import info.tduty.typetalk.view.teacher.main.di.MainTeacherComponent
 import info.tduty.typetalk.view.teacher.main.di.MainTeacherModule
+import info.tduty.typetalk.view.teacher.manage.dialog.choose.di.ChooseStudentsComponent
+import info.tduty.typetalk.view.teacher.manage.dialog.choose.di.ChooseStudentsModule
+import info.tduty.typetalk.view.teacher.manage.dialog.list.di.DialogsComponent
+import info.tduty.typetalk.view.teacher.manage.dialog.list.di.DialogsModule
+import info.tduty.typetalk.view.teacher.manage.lessons.di.LessonsManageComponent
+import info.tduty.typetalk.view.teacher.manage.lessons.di.LessonsManageModule
+import info.tduty.typetalk.view.teacher.manage.tasks.di.TasksManageComponent
+import info.tduty.typetalk.view.teacher.manage.tasks.di.TasksManageModule
 import javax.inject.Singleton
 
 /**
@@ -64,6 +72,10 @@ interface AppComponent {
 
     fun plus(module: ClassModule): ClassComponent
 
+    fun plus(module: LessonsManageModule): LessonsManageComponent
+
+    fun plus(module: TasksManageModule): TasksManageComponent
+
     fun plus(module: ChatModule): ChatComponent
 
     fun plus(module: LoginModule): LoginComponent
@@ -81,4 +93,8 @@ interface AppComponent {
     fun plus(module: DictionaryPictionaryModule): DictionaryPictionaryComponent
 
     fun plus(module: HurryUpModule): HurryUpComponent
+
+    fun plus(module: ChooseStudentsModule): ChooseStudentsComponent
+
+    fun plus(module: DialogsModule): DialogsComponent
 }

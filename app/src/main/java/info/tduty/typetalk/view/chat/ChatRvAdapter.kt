@@ -30,6 +30,20 @@ class ChatRvAdapter(
         notifyDataSetChanged()
     }
 
+    fun addEvents(events: List<MessageVO>) {
+        this.events.addAll(events)
+        notifyDataSetChanged()
+    }
+
+    fun addEventToStart(event: MessageVO) {
+        val events = ArrayList<MessageVO>()
+        events.addAll(this.events)
+        this.events.clear()
+        this.events.add(event)
+        this.events.addAll(events)
+        notifyDataSetChanged()
+    }
+
     fun addEvent(event: MessageVO) {
         events.add(event)
         notifyItemRangeChanged(events.size - 1, 1)

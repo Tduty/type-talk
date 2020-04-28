@@ -1,18 +1,25 @@
 package info.tduty.typetalk.view.chat
 
+import android.animation.Animator
+import android.animation.AnimatorSet
+import android.animation.ValueAnimator
+import android.content.res.Resources
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.util.DisplayMetrics
 import android.view.*
+import android.view.animation.LinearInterpolator
+import androidx.annotation.Dimension
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.db.model.ChatEntity
 import info.tduty.typetalk.data.model.CorrectionVO
 import info.tduty.typetalk.data.model.MessageVO
+import info.tduty.typetalk.extenstion.dpToPx
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.chat.di.ChatModule
 import kotlinx.android.synthetic.main.fragment_chat.*
@@ -24,14 +31,24 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
 
     companion object {
 
-        private const val ARGUMENT_CHAT_ID = "chat_id"
-        private const val ARGUMENT_CHAT_TYPE = "chat_type"
+        private const val ARGUMENT_CHAT_STARTER = "chat_starter"
 
         @JvmStatic
         fun newInstance(chatId: String? = null, chatType: String? = null): ChatFragment {
             val bundle = Bundle()
-            bundle.putString(ARGUMENT_CHAT_ID, chatId)
-            bundle.putString(ARGUMENT_CHAT_TYPE, chatType ?: ChatEntity.CHAT)
+            bundle.putParcelable(
+                ARGUMENT_CHAT_STARTER,
+                ChatStarter(chatId, chatType ?: ChatEntity.CHAT)
+            )
+            val fragment = ChatFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
+
+        @JvmStatic
+        fun newInstance(chatStarter: ChatStarter): ChatFragment {
+            val bundle = Bundle()
+            bundle.putParcelable(ARGUMENT_CHAT_STARTER, chatStarter)
             val fragment = ChatFragment()
             fragment.arguments = bundle
             return fragment
@@ -40,7 +57,9 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
 
     private lateinit var menu: Menu
     private lateinit var adapter: ChatRvAdapter
-    private lateinit var layoutManager: LinearLayoutManager
+    private var messageCountsAnim: Animator? = null
+    private var isMessageCountsStarted = false
+
     @Inject
     lateinit var presenter: ChatPresenter
 
@@ -52,8 +71,8 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val chatId = arguments?.getString(ARGUMENT_CHAT_ID)
-        val type = arguments?.getString(ARGUMENT_CHAT_TYPE) ?: ChatEntity.CHAT
+        val chatStarter = arguments?.getParcelable<ChatStarter>(ARGUMENT_CHAT_STARTER)
+            ?: throw IllegalArgumentException("chat starter not found")
 
         setupToolbar()
         setupRv()
@@ -62,12 +81,13 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
 
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
-        presenter.onCreate(chatId, type)
+        presenter.onCreate(chatStarter)
     }
 
     override fun onDetach() {
         super.onDetach()
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        messageCountsAnim?.cancel()
         presenter.onDestroy()
     }
 
@@ -124,8 +144,16 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
         iv_toolbar_logo.setImageResource(icon)
     }
 
+    override fun hideUserInput() {
+        cl_input.visibility = View.GONE
+    }
+
     override fun showTeacherMenu() {
         menu.findItem(R.id.action_chat)?.isVisible = true
+    }
+
+    override fun addEventToStart(messageVO: MessageVO) {
+        adapter.addEventToStart(messageVO)
     }
 
     override fun addEvent(messageVO: MessageVO) {
@@ -133,12 +161,12 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
         scrollToBottom()
     }
 
-    override fun addEvents(messageVO: List<MessageVO>) {
-        messageVO.forEach { adapter.addEvent(it) }
+    override fun addEvents(messages: List<MessageVO>) {
+        adapter.addEvents(messages)
     }
 
-    override fun setEvents(messageVO: List<MessageVO>) {
-        adapter.setEvents(messageVO)
+    override fun setEvents(messages: List<MessageVO>) {
+        adapter.setEvents(messages)
     }
 
     override fun updateCorrection(correctionVO: CorrectionVO) {
@@ -170,13 +198,44 @@ class ChatFragment : Fragment(R.layout.fragment_chat), ChatView {
         val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
         builder.setTitle(R.string.chat_message_action)
             .setItems(R.array.message_action) { _, which ->
-                if (which == 0) {
-                    presenter.onCorrectMessage(messageVO)
-                } else if (which == 1) {
-                    presenter.onCommentMessage(messageVO)
+                when (which) {
+                    0 -> presenter.onCorrectMessage(messageVO)
+                    1 -> presenter.onCommentMessage(messageVO)
                 }
             }
         builder.create().show()
+    }
+
+    override fun showCountMessages(count: Int, foldingAnimate: Boolean) {
+        ll_count_messages.visibility = View.VISIBLE
+        tv_count_message.text = count.toString()
+        if (foldingAnimate) {
+            ll_count_messages.post {
+                startFoldingAnimationCountMessages()
+            }
+        }
+    }
+
+    private fun startFoldingAnimationCountMessages() {
+        if (isMessageCountsStarted || ll_count_messages.visibility == View.GONE) return
+        isMessageCountsStarted = true
+        messageCountsAnim = AnimatorSet().apply {
+            duration = 500
+            startDelay = 3000
+            interpolator = LinearInterpolator()
+            val startTranslation = 0.0F.dpToPx()
+            val endTranslation = -(tv_message_count_description.width + 15.0F.dpToPx())
+            val translationAnimator = ValueAnimator.ofFloat(startTranslation, endTranslation)
+            translationAnimator.addUpdateListener { animation ->
+                ll_count_messages?.translationX = animation.animatedValue as Float
+            }
+            val alphaAnimator = ValueAnimator.ofFloat(1.0F, 0.5F)
+            alphaAnimator.addUpdateListener { animation ->
+                ll_count_messages?.alpha = animation.animatedValue as Float
+            }
+            playTogether(translationAnimator, alphaAnimator)
+        }
+        messageCountsAnim?.start()
     }
 
     private fun scrollToBottom() {

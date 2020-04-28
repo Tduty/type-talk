@@ -2,7 +2,6 @@ package info.tduty.typetalk.view.chat
 
 import android.content.Context
 import info.tduty.typetalk.R
-import info.tduty.typetalk.data.db.model.ChatEntity
 import info.tduty.typetalk.data.model.ChatVO
 import info.tduty.typetalk.data.model.CleanBadge
 import info.tduty.typetalk.data.model.CorrectionVO
@@ -33,21 +32,13 @@ class ChatPresenter(
 
     private var correctionId: String? = null
     private var correctionType: CorrectionVO.AdditionalType = CorrectionVO.AdditionalType.NONE
+    private var limitMessageCount: Int? = null
+    private var limitMessages = hashSetOf<String>()
 
-    fun onCreate(chatId: String?, type: String) {
-        this.chatId = chatId
-
-        when (type) {
-            ChatEntity.CLASS_CHAT -> loadClassChat()
-            ChatEntity.TEACHER_CHAT -> loadTeacherChat()
-            else -> if (chatId != null) loadChat(chatId)
-        }
-
-        if (chatId != null) {
-            cleanBadge()
-            getHistory(chatId, type)
-            listenMessageNew(chatId)
-        }
+    fun onCreate(chatStarter: ChatStarter) {
+        chatStarter.chatId?.let { setupChat(it, chatStarter.chatType) }
+        handleStarter(chatStarter)
+        loadChat(chatId, chatStarter.chatType)
     }
 
     fun onDestroy() {
@@ -56,9 +47,7 @@ class ChatPresenter(
     }
 
     fun onMessageClick(messageVO: MessageVO) {
-        if (userDataHelper.isTeacher()) {
-            view.showMessageActionDialog(messageVO)
-        }
+        if (userDataHelper.isTeacher()) view.showMessageActionDialog(messageVO)
     }
 
     fun onCorrectMessage(messageVO: MessageVO) {
@@ -78,9 +67,18 @@ class ChatPresenter(
         removeCorrection()
     }
 
+    private fun handleStarter(starter: ChatStarter) {
+        starter.getFirstEvent()?.let { view.addEventToStart(it) }
+        if (starter.isNotActiveInput()) view.hideUserInput()
+        limitMessageCount = starter.countMessages
+    }
+
     private fun sendMessage(message: String) {
         if (message.isBlank()) return
-        chatId?.let { historyInteractor.sendMessage(it, message) }
+        chatId?.let {
+            val id = historyInteractor.sendMessage(it, message)
+            if (id != null) handleLimitMessages(id)
+        }
     }
 
     private fun sendCorrectionMessage(message: String) {
@@ -91,40 +89,23 @@ class ChatPresenter(
         removeCorrection()
     }
 
-    private fun loadChat(chatId: String) {
+    private fun loadChat(chatId: String?, chatType: String) {
         disposables.add(
-            chatInteractor.getChat(chatId)
+            chatInteractor.getChat(chatId, chatType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ chat -> setupChat(chat) }, Timber::e)
+                .subscribe({ chat ->
+                    setupChat(chat.chatId, chatType)
+                    setupToolbar(chat)
+                }, Timber::e)
         )
     }
 
-    private fun loadTeacherChat() {
-        disposables.add(
-            chatInteractor.getTeacherChat()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ chat -> setupChat(chat) }, Timber::e)
-        )
-    }
-
-    private fun loadClassChat() {
-        disposables.add(
-            chatInteractor.getClassChat()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ chat -> setupChat(chat) }, Timber::e)
-        )
-    }
-
-    private fun setupChat(chat: ChatVO) {
-        if (chatId == null) {
-            chatId = chat.chatId
-            getHistory(chat.chatId, chat.type)
-            listenMessageNew(chat.chatId)
-        }
-        setupToolbar(chat)
+    private fun setupChat(chatId: String, chatType: String) {
+        if (this.chatId != null) return
+        this.chatId = chatId
+        getHistory(chatId, chatType)
+        listenMessageNew(chatId)
     }
 
     private fun setupToolbar(chat: ChatVO) {
@@ -142,7 +123,10 @@ class ChatPresenter(
             historyInteractor.getHistory(chatId, chatType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ view.setEvents(it) }, Timber::e)
+                .subscribe({
+                    view.addEvents(it)
+                    handleLimitMessages(it)
+                }, Timber::e)
         )
     }
 
@@ -152,7 +136,10 @@ class ChatPresenter(
                 .filter { chatId == it.chatId }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ view.addEvent(it) }, Timber::e)
+                .subscribe({
+                    view.addEvent(it)
+                    handleLimitMessages(it.id, it.isMy)
+                }, Timber::e)
         )
         disposables.add(
             eventManager.correctMessage()
@@ -177,5 +164,20 @@ class ChatPresenter(
         correctionId = null
         correctionType = CorrectionVO.AdditionalType.NONE
         view.hideCorrectionState()
+    }
+
+    private fun handleLimitMessages(messages: List<MessageVO>) {
+        if (messages.isEmpty() || messages.all { !it.isMy }) {
+            limitMessageCount?.let { view.showCountMessages(it, messages.isNotEmpty()) }
+        }
+        messages.forEach { handleLimitMessages(it.id, it.isMy) }
+    }
+
+    private fun handleLimitMessages(id: String, isMy: Boolean = true) {
+        val limitMessageCount = this.limitMessageCount
+        if (!isMy || limitMessageCount == null) return
+        limitMessages.add(id)
+        view.showCountMessages(limitMessageCount - limitMessages.size, true)
+        if (limitMessages.size >= limitMessageCount) view.hideUserInput()
     }
 }

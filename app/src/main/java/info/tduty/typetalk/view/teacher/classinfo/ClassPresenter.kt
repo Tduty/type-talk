@@ -17,10 +17,12 @@ class ClassPresenter(
     private val eventManager: EventManager
 ) {
 
+    private lateinit var classId: String
     private var disposable: Disposable? = null
     private val eventDisposable = CompositeDisposable()
 
     fun onCreate(classId: String) {
+        this.classId = classId
         listenEvents()
         getStudents(classId)
     }
@@ -28,6 +30,10 @@ class ClassPresenter(
     fun onDestroy() {
         disposable?.dispose()
         eventDisposable.dispose()
+    }
+
+    fun openManageLessons() {
+        view.openManageLessons(classId)
     }
 
     fun openClassChat() {

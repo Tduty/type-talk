@@ -40,6 +40,16 @@ class HistoryInteractor(
             }
     }
 
+    fun loadHistory(chatId: String): Observable<List<MessageEntity>> {
+        return historyProvider.getHistory(chatId)
+            .doOnError { Timber.e(it) }
+            .flatMap { messages ->
+                val dbList = messages.map { toDB(it) }
+                messageWrapper.insert(dbList)
+                    .andThen(Observable.just(dbList))
+            }
+    }
+
     fun getHistory(chatId: String, chatType: String?): Observable<List<MessageVO>> {
         return messageWrapper.getByChatId(chatId)
             .map { messages ->
@@ -89,18 +99,21 @@ class HistoryInteractor(
         }
     }
 
-    fun sendMessage(chatId: String, message: String) {
+    fun sendMessage(chatId: String, message: String): String? {
         try {
-            socketController.sendMessageNew(toPayload(chatId, message))
+            val payload = toPayload(chatId, message)
+            socketController.sendMessageNew(payload)
+            return payload.id
         } catch (ex: Exception) {
             Timber.e(ex, "Error sending message: $message in chat $chatId")
         }
+        return null
     }
 
     private fun toDB(dto: MessageDTO): MessageEntity {
         return MessageEntity(
             syncId = dto.id,
-            title = dto.senderName, //TODO добавить в DTO name в будущем выпилится
+            title = dto.senderName,
             content = dto.body,
             chatId = dto.chatId,
             avatarURL = "cl_your_teacher_chat", //TODO придумать норм способ добавлять аватарку
@@ -115,7 +128,7 @@ class HistoryInteractor(
     private fun toDB(payload: MessageNewPayload): MessageEntity {
         return MessageEntity(
             syncId = payload.id,
-            title = payload.senderName, //TODO добавить в DTO name в будущем выпилится
+            title = payload.senderName,
             content = payload.body,
             chatId = payload.chatId,
             avatarURL = "cl_your_teacher_chat", //TODO придумать норм способ добавлять аватарку
@@ -133,7 +146,7 @@ class HistoryInteractor(
             chatId = db.chatId ?: "",
             type = MessageVO.Type.MESSAGE,
             isMy = db.isMy,
-            showSender = chatType == ChatEntity.CLASS_CHAT || chatType == null,
+            showSender = showSender(chatType),
             senderName = db.title,
             message = db.content,
             correction = toCorrectionVO(db),
@@ -143,6 +156,11 @@ class HistoryInteractor(
                 else -> R.drawable.ic_boy_bubble
             }
         )
+    }
+
+    private fun showSender(chatType: String?): Boolean {
+        return if (chatType == ChatEntity.TASK_CHAT && userDataHelper.isTeacher()) true
+        else chatType == ChatEntity.CLASS_CHAT || chatType == null
     }
 
     private fun toCorrectionVO(db: MessageEntity): CorrectionVO? {

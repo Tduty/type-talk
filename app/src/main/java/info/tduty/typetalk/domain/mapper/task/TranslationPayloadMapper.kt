@@ -1,11 +1,11 @@
-package info.tduty.typetalk.mapper.task
+package info.tduty.typetalk.domain.mapper.task
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import com.google.gson.JsonSyntaxException
 import info.tduty.typetalk.data.model.TaskPayloadVO
 import info.tduty.typetalk.data.model.TranslationVO
-import info.tduty.typetalk.mapper.TaskPayloadMapper
+import info.tduty.typetalk.domain.mapper.TaskPayloadMapper
 
 class TranslationPayloadMapper : TaskPayloadMapper {
 

@@ -8,7 +8,7 @@ import info.tduty.typetalk.data.model.TaskStateUpdated
 import info.tduty.typetalk.data.model.TaskType
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.domain.managers.EventManager
-import info.tduty.typetalk.mapper.TaskPayloadMapperStrategy
+import info.tduty.typetalk.domain.mapper.TaskPayloadMapperStrategy
 import io.reactivex.Completable
 import io.reactivex.Observable
 import java.util.*

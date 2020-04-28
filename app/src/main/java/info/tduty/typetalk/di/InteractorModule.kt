@@ -1,14 +1,18 @@
 package info.tduty.typetalk.di
 
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import info.tduty.typetalk.data.db.wrapper.*
 import info.tduty.typetalk.data.pref.TokenStorage
 import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.domain.interactor.*
+import info.tduty.typetalk.domain.interactor.teacher.TeacherDialogInteractor
+import info.tduty.typetalk.domain.interactor.teacher.TeacherLessonInteractor
 import info.tduty.typetalk.domain.managers.EventManager
+import info.tduty.typetalk.domain.mapper.ChatMapper
+import info.tduty.typetalk.domain.mapper.TaskPayloadMapperStrategy
 import info.tduty.typetalk.domain.provider.*
-import info.tduty.typetalk.mapper.TaskPayloadMapperStrategy
 import info.tduty.typetalk.socket.SocketController
 import javax.inject.Singleton
 
@@ -70,9 +74,9 @@ class InteractorModule {
     fun provideChatInteractor(
         chatWrapper: ChatWrapper,
         chatProvider: ChatProvider,
-        userDataHelper: UserDataHelper
+        chatMapper: ChatMapper
     ): ChatInteractor {
-        return ChatInteractor(chatWrapper, chatProvider, userDataHelper)
+        return ChatInteractor(chatWrapper, chatProvider, chatMapper)
     }
 
     @Provides
@@ -103,5 +107,49 @@ class InteractorModule {
         dictionaryProvider: DictionaryProvider
     ): DictionaryInteractor {
         return DictionaryInteractor(dictionaryWrapper, lessonWrapper, dictionaryProvider)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDialogTaskInteractor(
+        gson: Gson,
+        chatWrapper: ChatWrapper,
+        chatProvider: ChatProvider,
+        chatMapper: ChatMapper,
+        messageWrapper: MessageWrapper,
+        historyInteractor: HistoryInteractor,
+        taskWrapper: TaskWrapper
+    ): DialogTaskInteractor {
+        return DialogTaskInteractor(
+            gson,
+            chatWrapper,
+            chatProvider,
+            chatMapper,
+            messageWrapper,
+            historyInteractor,
+            taskWrapper
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideTeacherLessonInteractor(lessonProvider: LessonProvider): TeacherLessonInteractor {
+        return TeacherLessonInteractor(lessonProvider)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTeacherDialogInteractor(
+        chatProvider: ChatProvider,
+        chatWrapper: ChatWrapper,
+        chatMapper: ChatMapper,
+        historyInteractor: HistoryInteractor
+    ): TeacherDialogInteractor {
+        return TeacherDialogInteractor(
+            chatProvider,
+            chatWrapper,
+            chatMapper,
+            historyInteractor
+        )
     }
 }

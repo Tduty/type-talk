@@ -32,6 +32,7 @@ data class ChatEntity(
     companion object {
         const val TEACHER_CHAT = "teacher_chat"
         const val CLASS_CHAT = "class_chat"
+        const val TASK_CHAT = "task"
         const val CHAT = "chat"
     }
 }

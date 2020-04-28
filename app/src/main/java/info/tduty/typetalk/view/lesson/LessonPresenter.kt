@@ -111,7 +111,10 @@ class LessonPresenter(
             .subscribe({
                 if (it.isPresent) view.openDialogTask(it.get())
                 else loadTaskChat(taskVO)
-            }, Timber::e)
+            }, {
+                Timber.e(it)
+                view.showFindDialogError()
+            })
     }
 
     private fun loadTaskChat(taskVO: TaskVO) {
@@ -127,6 +130,9 @@ class LessonPresenter(
             .doFinally { view.hideDialogSearchView() }
             .subscribe({
                 view.openDialogTask(it)
-            }, Timber::e)
+            }, {
+                Timber.e(it)
+                view.showFindDialogError()
+            })
     }
 }

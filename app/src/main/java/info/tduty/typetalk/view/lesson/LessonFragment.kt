@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.TaskVO
@@ -121,6 +122,16 @@ class LessonFragment : BaseFragment(R.layout.fragment_lesson), LessonView {
 
     override fun openDialogTask(chatStarter: ChatStarter) {
         (activity as? ViewNavigation)?.openChat(chatStarter)
+    }
+
+    override fun showFindDialogError() {
+        view?.let {
+            Snackbar.make(
+                it,
+                getString(R.string.lesson_screen_search_dialog_error),
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
     }
 
     private fun setupFragmentComponent() {

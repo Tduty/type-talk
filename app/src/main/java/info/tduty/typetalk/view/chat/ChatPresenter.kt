@@ -2,6 +2,7 @@ package info.tduty.typetalk.view.chat
 
 import android.content.Context
 import info.tduty.typetalk.R
+import info.tduty.typetalk.data.db.model.ChatEntity
 import info.tduty.typetalk.data.model.ChatVO
 import info.tduty.typetalk.data.model.CleanBadge
 import info.tduty.typetalk.data.model.CorrectionVO
@@ -10,6 +11,7 @@ import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.domain.interactor.ChatInteractor
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.managers.EventManager
+import info.tduty.typetalk.extenstion.hasRussianSymbols
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -28,6 +30,7 @@ class ChatPresenter(
 ) {
 
     private var chatId: String? = null
+    private var chatType: String? = null
     private val disposables = CompositeDisposable()
 
     private var correctionId: String? = null
@@ -61,6 +64,14 @@ class ChatPresenter(
     fun onSendBtnClick(message: String) {
         if (correctionId == null) sendMessage(message)
         else sendCorrectionMessage(message)
+    }
+
+    fun onChangeEditText(text: String) {
+        if (userDataHelper.isTeacher() || chatType == ChatEntity.TEACHER_CHAT) return
+        if (text.hasRussianSymbols()) {
+            view.clearUserInput()
+            view.showErrorAboutRussianSymbols()
+        }
     }
 
     fun cancelCorrection() {
@@ -104,6 +115,7 @@ class ChatPresenter(
     private fun setupChat(chatId: String, chatType: String) {
         if (this.chatId != null) return
         this.chatId = chatId
+        this.chatType = chatType
         getHistory(chatId, chatType)
         listenMessageNew(chatId)
     }

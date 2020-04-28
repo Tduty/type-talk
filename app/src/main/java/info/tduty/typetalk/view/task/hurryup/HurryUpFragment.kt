@@ -198,8 +198,8 @@ class HurryUpFragment: BaseFragment(R.layout.fragment_task_hurry_up), HurryUpVie
             if (!isTryAgain) {
                 presenter.sendEventCompleteTask()
             }
-            completeTask()
             mAlertDialog.dismiss()
+            completeTask()
         }
     }
 
@@ -222,8 +222,8 @@ class HurryUpFragment: BaseFragment(R.layout.fragment_task_hurry_up), HurryUpVie
         mDialogView.tv_message.text = messageString
         mDialogView.btn_first_button.text = titleFirstButton
         mDialogView.btn_first_button.setOnClickListener {
-            completeTask()
             mAlertDialog.dismiss()
+            completeTask()
         }
         mDialogView.btn_second_button.text = titleSecondButton
         mDialogView.btn_second_button.setOnClickListener {

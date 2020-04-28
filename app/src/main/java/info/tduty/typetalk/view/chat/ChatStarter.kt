@@ -1,6 +1,7 @@
 package info.tduty.typetalk.view.chat
 
 import android.os.Parcelable
+import info.tduty.typetalk.data.db.model.ChatEntity
 import info.tduty.typetalk.data.model.MessageVO
 import kotlinx.android.parcel.Parcelize
 
@@ -19,7 +20,12 @@ data class ChatStarter(
     companion object {
 
         fun descriptionByType(chatType: String?): String? {
-            return null
+            //TODO вынести в ресурсы
+            return when (chatType) {
+                ChatEntity.TEACHER_CHAT -> "Here you can ask your questions and get  all the information you need. Both languages (English and Russian) are available."
+                ChatEntity.CLASS_CHAT -> "This  is your class chat. Wait for your teacher’s instructions. Remember, please, here you are supposed to type only in English (Russian keyboard is unavailable). If you need some information or you don’t understand the task click on the teacher’s chat and ask your questions there in any language you wish."
+                else -> null
+            }
         }
     }
 

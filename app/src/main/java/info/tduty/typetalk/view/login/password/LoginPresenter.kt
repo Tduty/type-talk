@@ -35,6 +35,7 @@ class LoginPresenter(private val view: LoginView,
             .doOnSubscribe { view.showProgress() }
             .doFinally { view.hideProgress() }
             .subscribe({
+                view.showAppInfoDialog()
                 view.openMainScreen()
                 socketController.connect()
             }, {

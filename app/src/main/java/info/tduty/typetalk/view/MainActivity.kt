@@ -1,11 +1,16 @@
 package info.tduty.typetalk.view
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.transition.Fade
 import android.transition.Slide
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -37,6 +42,7 @@ import info.tduty.typetalk.view.teacher.manage.dialog.choose.ChooseStudentsFragm
 import info.tduty.typetalk.view.teacher.manage.dialog.list.DialogsFragment
 import info.tduty.typetalk.view.teacher.manage.lessons.LessonsManageFragment
 import info.tduty.typetalk.view.teacher.manage.tasks.TasksManageFragment
+import kotlinx.android.synthetic.main.alert_dialog_information.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -170,6 +176,22 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
     override fun openHurryUpTask(taskVO: TaskVO) {
         showFragment(HurryUpFragment.newInstance(taskVO))
+    }
+
+    override fun showAppInfoDialog() {
+        if (userDataHelper.isTeacher()) return
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.alert_dialog_information, null)
+
+        mDialogView.tv_title.text = resources.getString(R.string.welcome_app)
+        mDialogView.tv_message.text = resources.getString(R.string.welcome_info)
+        mDialogView.btn_first_button.visibility = View.VISIBLE
+        mDialogView.btn_second_button.visibility = View.GONE
+        mDialogView.btn_first_button.text = getString(R.string.close)
+
+        val mAlertDialog = AlertDialog.Builder(this).setView(mDialogView).show()
+        mAlertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        mDialogView.btn_first_button.setOnClickListener { mAlertDialog.dismiss() }
     }
 
     fun setupToolbar(toolbar: Toolbar, @StringRes title: Int, withBackButton: Boolean) {

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
@@ -15,6 +14,7 @@ import info.tduty.typetalk.data.model.LessonManageVO
 import info.tduty.typetalk.data.model.TaskManageVO
 import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.teacher.manage.tasks.di.TasksManageModule
 import kotlinx.android.synthetic.main.alert_dialog_search.view.*
 import kotlinx.android.synthetic.main.fragment_tasks_manage.*
@@ -23,7 +23,7 @@ import javax.inject.Inject
 /**
  * Created by Evgeniy Mezentsev on 25.04.2020.
  */
-class TasksManageFragment : Fragment(R.layout.fragment_tasks_manage), TasksManageView {
+class TasksManageFragment : BaseFragment(R.layout.fragment_tasks_manage), TasksManageView {
 
     companion object {
 

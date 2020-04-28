@@ -14,6 +14,8 @@ interface ChatView {
 
     fun hideUserInput()
 
+    fun clearUserInput()
+
     fun showTeacherMenu()
 
     fun addEventToStart(messageVO: MessageVO)
@@ -33,4 +35,6 @@ interface ChatView {
     fun showMessageActionDialog(messageVO: MessageVO)
 
     fun showCountMessages(count: Int, foldingAnimate: Boolean = false)
+
+    fun showErrorAboutRussianSymbols()
 }

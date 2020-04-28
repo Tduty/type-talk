@@ -5,10 +5,13 @@ import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.content.res.Resources
 import android.os.Bundle
+import android.text.Editable
 import android.text.SpannableStringBuilder
+import android.text.TextWatcher
 import android.util.DisplayMetrics
 import android.view.*
 import android.view.animation.LinearInterpolator
+import android.widget.Toast
 import androidx.annotation.Dimension
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +27,8 @@ import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.chat.di.ChatModule
 import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.android.synthetic.main.fragment_wordamess.*
+import kotlinx.android.synthetic.main.item_edittext_enter_word.*
 import kotlinx.android.synthetic.main.toolbar_chat.*
 import javax.inject.Inject
 
@@ -129,6 +134,16 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), ChatView {
             presenter.onSendBtnClick(et_message.text?.toString() ?: "")
             et_message.text = SpannableStringBuilder("")
         }
+        et_message.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                presenter.onChangeEditText(p0.toString())
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
     }
 
     private fun setupToolbar() {
@@ -149,6 +164,10 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), ChatView {
         cl_input.visibility = View.GONE
     }
 
+    override fun clearUserInput() {
+        et_message.text.clear()
+    }
+
     override fun showTeacherMenu() {
         menu.findItem(R.id.action_chat)?.isVisible = true
     }
@@ -164,6 +183,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), ChatView {
 
     override fun addEvents(messages: List<MessageVO>) {
         adapter.addEvents(messages)
+        scrollToBottom()
     }
 
     override fun setEvents(messages: List<MessageVO>) {
@@ -215,6 +235,10 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), ChatView {
                 startFoldingAnimationCountMessages()
             }
         }
+    }
+
+    override fun showErrorAboutRussianSymbols() {
+        Toast.makeText(requireContext(), R.string.chat_input_russian_symbols_error, Toast.LENGTH_SHORT).show()
     }
 
     private fun startFoldingAnimationCountMessages() {

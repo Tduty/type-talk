@@ -11,6 +11,8 @@ import info.tduty.typetalk.view.chat.ChatStarter
  */
 interface ViewNavigation {
 
+    fun showAppInfoDialog()
+
     fun closeFragment()
 
     fun openMain()

@@ -29,4 +29,6 @@ interface LessonView {
     fun hideDialogSearchView()
 
     fun openDialogTask(chatStarter: ChatStarter)
+
+    fun showFindDialogError()
 }

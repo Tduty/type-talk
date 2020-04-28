@@ -3,17 +3,14 @@ package info.tduty.typetalk.view.teacher.manage.dialog.choose
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.ChooseStudentVO
-import info.tduty.typetalk.data.model.DialogVO
 import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.teacher.manage.dialog.choose.di.ChooseStudentsModule
-import info.tduty.typetalk.view.teacher.manage.dialog.list.DialogsFragment
-import info.tduty.typetalk.view.teacher.manage.lessons.LessonsManageFragment
 import kotlinx.android.synthetic.main.fragment_choose_students.*
 import kotlinx.android.synthetic.main.fragment_choose_students.view.*
 import javax.inject.Inject
@@ -21,7 +18,7 @@ import javax.inject.Inject
 /**
  * Created by Evgeniy Mezentsev on 25.04.2020.
  */
-class ChooseStudentsFragment : Fragment(R.layout.fragment_choose_students), ChooseStudentsView {
+class ChooseStudentsFragment : BaseFragment(R.layout.fragment_choose_students), ChooseStudentsView {
 
     companion object {
 

@@ -68,6 +68,10 @@ class LoginFragment : BaseFragment(R.layout.fragment_login), LoginView {
         (activity as? ViewNavigation)?.openMain()
     }
 
+    override fun showAppInfoDialog() {
+        (activity as? ViewNavigation)?.showAppInfoDialog()
+    }
+
     override fun showError() {
         view?.let {
             Snackbar.make(it, getString(R.string.auth_screen_error_authorization), Snackbar.LENGTH_LONG).show()

@@ -31,7 +31,7 @@ class HurryUpPresenter(
     private var isStart = false
 
     fun onCreate(taskVO: TaskVO) {
-        this.hurryUpList = getHurryUpList(taskInteractor.getPayload2(taskVO))
+        this.hurryUpList = getHurryUpList(taskInteractor.getPayload2(taskVO)).shuffled().subList(0, 20)
 
         if (this.hurryUpList.isEmpty()) {
             view.showError()
@@ -39,7 +39,7 @@ class HurryUpPresenter(
 
         this.task = taskVO
 
-        view.setupHurryUp(hurryUpList.shuffled())
+        view.setupHurryUp(hurryUpList)
     }
 
     private fun getHurryUpList(payload2: List<TaskPayloadVO>): List<HurryUpVO> {

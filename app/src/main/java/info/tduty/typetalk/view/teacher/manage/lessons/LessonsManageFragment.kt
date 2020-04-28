@@ -3,14 +3,13 @@ package info.tduty.typetalk.view.teacher.manage.lessons
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.LessonManageVO
 import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.ViewNavigation
-import info.tduty.typetalk.view.teacher.classinfo.ClassFragment
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.teacher.manage.lessons.di.LessonsManageModule
 import kotlinx.android.synthetic.main.fragment_lessons_manage.*
 import kotlinx.android.synthetic.main.fragment_lessons_manage.view.*
@@ -19,7 +18,7 @@ import javax.inject.Inject
 /**
  * Created by Evgeniy Mezentsev on 25.04.2020.
  */
-class LessonsManageFragment : Fragment(R.layout.fragment_lessons_manage), LessonsManageView {
+class LessonsManageFragment : BaseFragment(R.layout.fragment_lessons_manage), LessonsManageView {
 
     companion object {
 

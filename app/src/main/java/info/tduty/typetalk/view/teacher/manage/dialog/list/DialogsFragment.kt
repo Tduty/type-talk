@@ -3,7 +3,6 @@ package info.tduty.typetalk.view.teacher.manage.dialog.list
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
@@ -11,8 +10,8 @@ import info.tduty.typetalk.data.db.model.ChatEntity
 import info.tduty.typetalk.data.model.DialogVO
 import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.teacher.manage.dialog.list.di.DialogsModule
-import info.tduty.typetalk.view.teacher.manage.lessons.LessonsManageFragment
 import kotlinx.android.synthetic.main.fragment_dialogs.*
 import kotlinx.android.synthetic.main.fragment_dialogs.view.*
 import javax.inject.Inject
@@ -20,7 +19,7 @@ import javax.inject.Inject
 /**
  * Created by Evgeniy Mezentsev on 25.04.2020.
  */
-class DialogsFragment : Fragment(R.layout.fragment_dialogs), DialogsView {
+class DialogsFragment : BaseFragment(R.layout.fragment_dialogs), DialogsView {
 
     companion object {
 

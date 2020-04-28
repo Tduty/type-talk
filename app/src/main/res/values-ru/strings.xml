@@ -6,6 +6,9 @@
     <string name="button_next">Next</string>
     <string name="lesson_number">Lesson %1$d</string>
     <string name="completed_progress">%1$d/%2$d completed</string>
+    <string name="welcome_app">Welcome to TypeTalk!</string>
+    <string name="welcome_info">Hello, dear fellows! Here is  TypeTalk, your  tutor and  friend while you’re learning English together with Spotlight at school! Here you can train the active lexis accordingly to the modules of your textbooks and receive extra words and phrases for each topic in order to expand your vocabulary and improve your command of English. Making dialogues with the active vocabulary and participating in different activities will boost your knowledge and make school lessons both absorbing and amusing! So, welcome!</string>
+    <string name="close">Close</string>
     <string name="empty_string" />
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -66,11 +69,13 @@
     <string name="chat_message_teacher_comment">Teacher comment:</string>
     <string name="chat_message_teacher_correction">Correction from the teacher:</string>
     <string name="chat_message_teacher_another">From teacher:</string>
+    <string name="chat_input_russian_symbols_error">You cannot type here in Russian, sorry! This is for the better, honestly)</string>
     <!---->
 
     <!-- Lesson -->
     <string name="title_lesson_screen_default">Lesson</string>
     <string name="lesson_screen_search_dialog">Dialogue search …</string>
+    <string name="lesson_screen_search_dialog_error">Unfortunately the partner for you hasn’t been found. Ask your teacher for help.</string>
     <!---->
 
     <!-- Dictionary -->
@@ -117,8 +122,9 @@
     <string name="task_screen_dictionary_pictionary_description">Recollect the most appropriate word of the active vocabulary to illustrate the picture</string>
     <string name="task_screen_dictionary_pictionary_input_hint">Enter the most appropriate word</string>
 
-    <string name="task_screen_hurry_up_title_start_alert_dialog">Are you ready?!</string>
-    <string name="task_screen_hurry_up_message_start_alert_dialog">Task Hurry up</string>
+    <string name="task_screen_hurry_up_info">Find the right translation\nof the word</string>
+    <string name="task_screen_hurry_up_title_start_alert_dialog">Are you ready?</string>
+    <string name="task_screen_hurry_up_message_start_alert_dialog">Here you are supposed to find the translation of the given word. Find as many translations as it is possible until the minute pass over. If you click on the wrong variant several seconds from the very minute will be taken away and your time will be shortened. So be attentive and careful. Good luck!</string>
     <string name="task_screen_hurry_up_title_first_button_start_alert_dialog">Back</string>
     <string name="task_screen_hurry_up_title_second_button_start_alert_dialog">Start</string>
     <string name="task_screen_hurry_up_title_completed_alert_dialog">Task is finished</string>

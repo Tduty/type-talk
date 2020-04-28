@@ -92,6 +92,7 @@ class TranslationFragment : BaseFragment(R.layout.fragment_task_translation), Tr
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.menu_main, menu)
+        menu.findItem(R.id.action_dictionary)?.isVisible = false
         super.onCreateOptionsMenu(menu, inflater)
     }
 

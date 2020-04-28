@@ -82,7 +82,7 @@ class HurryUpPresenter(
             if (isCompleted) messagePositiveCompletedAlertDialog else messageNegativeCompletedAlertDialog,
             hurryUpList.filter { it.isComplete }.size,
             !isCompleted
-            )
+        )
     }
 
     private fun isCompleted() : Boolean {

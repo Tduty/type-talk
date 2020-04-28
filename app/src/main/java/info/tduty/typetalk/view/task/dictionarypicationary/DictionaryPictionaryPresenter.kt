@@ -28,14 +28,14 @@ class DictionaryPictionaryPresenter(
         taskVO: TaskVO
     ) {
         this.dictionaryPictionaryList =
-            getDictionaryPictionaryList(taskInteractor.getPayload2(taskVO))
+            getDictionaryPictionaryList(taskInteractor.getPayload2(taskVO)).shuffled().subList(0, 10)
 
         if (this.dictionaryPictionaryList.isEmpty()) {
             view.showError()
         }
 
         this.task = taskVO
-        view.setupDictionaryPictionary(dictionaryPictionaryList.shuffled())
+        view.setupDictionaryPictionary(dictionaryPictionaryList)
     }
 
     @Suppress("UNCHECKED_CAST")

@@ -27,7 +27,7 @@ class WordamessPresenter(
         this.taskVO = taskVO
         lessonId = taskVO.lessonId
         val tasks = taskInteractor.getPayload2(taskVO) as? List<WordamessVO> ?: emptyList()
-        this.tasks = tasks.map { it.body to it }.toMap().toMutableMap()
+        this.tasks = tasks.shuffled().subList(0, 20).map { it.body to it }.toMap().toMutableMap()
         setupChosenBlock()
     }
 

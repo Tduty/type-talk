@@ -5,6 +5,8 @@ import info.tduty.typetalk.data.event.payload.CompleteTaskPayload
 import info.tduty.typetalk.data.model.TaskPayloadVO
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.model.TranslationVO
+import info.tduty.typetalk.data.model.TranslationVO.Companion.PHRASE_TYPE
+import info.tduty.typetalk.data.model.TranslationVO.Companion.SENTENCE_TYPE
 import info.tduty.typetalk.domain.interactor.ChatInteractor
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.interactor.LessonInteractor
@@ -37,11 +39,10 @@ class TranslationPresenter(
     private val BTN_TITLE_COMPLETED = R.string.task_btn_complete
     private val BTN_TITLE_SKIP = R.string.task_screen_translation_btn_skip
 
-    fun onCreate(
-        taskVO: TaskVO
-    ) {
-
-        this.translationList = getTranslationList(taskInteractor.getPayload2(taskVO))
+    fun onCreate(taskVO: TaskVO) {
+        val translationList = getTranslationList(taskInteractor.getPayload2(taskVO)).shuffled()
+        this.translationList = translationList.filter { it.type == PHRASE_TYPE }.subList(0, 10) +
+                translationList.filter { it.type == SENTENCE_TYPE }.subList(0, 3)
 
         if (this.translationList.isEmpty()) {
             view.showError()
@@ -49,7 +50,7 @@ class TranslationPresenter(
 
         this.task = taskVO
 
-        view.setupTranslations(translationList)
+        view.setupTranslations(this.translationList)
     }
 
     @Suppress("UNCHECKED_CAST")

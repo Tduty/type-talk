@@ -25,7 +25,7 @@ class FlashcardPresenter(
 
     fun onCreate(taskVO: TaskVO) {
         this.task = taskVO
-        val flashcardsPayload = taskInteractor.getPayload2(taskVO)
+        val flashcardsPayload = taskInteractor.getPayload2(taskVO).shuffled().subList(0, 15)
         this.flashcards = getFlashcards(flashcardsPayload)
 
         if (this.flashcards.isEmpty()) {

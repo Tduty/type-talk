@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- TODO: Translation -->
     <string name="app_name">TypeTalk</string>
     <string name="action_settings">Settings</string>
     <string name="button_skip">Skip</string>
@@ -8,22 +6,25 @@
     <string name="button_next">Next</string>
     <string name="lesson_number">Lesson %1$d</string>
     <string name="completed_progress">%1$d/%2$d completed</string>
+    <string name="welcome_app">Welcome to TypeTalk!</string>
+    <string name="welcome_info">Hello, dear fellows! Here is  TypeTalk, your  tutor and  friend while you’re learning English together with Spotlight at school! Here you can train the active lexis accordingly to the modules of your textbooks and receive extra words and phrases for each topic in order to expand your vocabulary and improve your command of English. Making dialogues with the active vocabulary and participating in different activities will boost your knowledge and make school lessons both absorbing and amusing! So, welcome!</string>
+    <string name="close">Close</string>
     <string name="empty_string" />
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Login screen -->
-    <string name="login_screen_surname">Имя</string>
-    <string name="login_screen_password">Пароль</string>
-    <string name="login_screen_next">Далее</string>
-    <string name="login_screen_qr_code">enter with the help\n of a teacher</string>
+    <string name="login_screen_surname">Surname</string>
+    <string name="login_screen_password">Password</string>
+    <string name="login_screen_next">Next</string>
+    <string name="login_screen_qr_code">enter with your\nteacher\'s help</string>
 
-    <string name="qr_login_screen_message_description">Используйте камеру для сканирования QR-кода учителя и получите доступ</string>
+    <string name="qr_login_screen_message_description">Use you camera to scan the teacher’s QR code to get access</string>
 
-        <!-- Error -->
-        <string name="auth_screen_error_authorization">Ошибка авторазиации, обратитесь к вашему учителю.</string>
-        <!---->
+    <!-- Error -->
+    <string name="auth_screen_error_authorization">An authorization error has occurred, contact your teacher</string>
+    <!---->
     <!---->
 
     <!-- Main screen -->
@@ -35,8 +36,8 @@
     <string name="main_chat_bot_content">It will help you to develop your communicative skills before the real talk</string>
 
     <string name="main_chat_item_expected_title">Expected:</string>
-    <string name="main_chat_item_no_lessons_title">Lessons not available</string>
-    <string name="main_chat_item_no_lessons_subtitle">Expect teacher</string>
+    <string name="main_chat_item_no_lessons_title">Lessons are not available yet</string>
+    <string name="main_chat_item_no_lessons_subtitle">Expect your teacher\'s consultation</string>
     <!---->
 
     <!-- Teacher Main screen -->
@@ -49,8 +50,8 @@
     <string name="class_managment_class_content">Set up a class, add and remove students, monitor activity</string>
     <string name="class_managment_lesson_title">Manage lessons</string>
     <string name="class_managment_lesson_content">Here you can view lesson statistics, create and open a lesson or dictionary</string>
-    <string name="class_chat_title">Сlass chat</string>
-    <string name="class_chat_content">Сontact all class members immediately</string>
+    <string name="class_chat_title">Class chat</string>
+    <string name="class_chat_content">Contact all class members immediately</string>
 
     <string name="class_student_not_connected">Not connected</string>
     <string name="class_student_disconnected">Disconnected</string>
@@ -58,16 +59,6 @@
 
     <!-- Manage Lessons screen -->
     <string name="manage_lessons_can_open_lessons">You can open this for students</string>
-    <!---->
-
-    <!-- Dictionary -->
-    <string name="default_value_dictionary_translation_field">перевод</string>
-    <string name="default_value_dictionary_word_field">слово</string>
-    <string name="default_value_dictionary_trasncription_field">[траснкрипция]</string>
-    <string name="title_dictionary">Словарь</string>
-    <string name="title_topic_default_value">Название раздела</string>
-    <string name="dictionary_emnty_title">Dictionary unavailable</string>
-    <string name="dictionary_emnty_subtitle">Expect lesson opening</string>
     <!---->
 
     <!-- Chat -->
@@ -78,36 +69,48 @@
     <string name="chat_message_teacher_comment">Teacher comment:</string>
     <string name="chat_message_teacher_correction">Correction from the teacher:</string>
     <string name="chat_message_teacher_another">From teacher:</string>
+    <string name="chat_input_russian_symbols_error">You cannot type here in Russian, sorry! This is for the better, honestly)</string>
     <!---->
 
     <!-- Lesson -->
-    <string name="title_lesson_screen_default">Урок</string>
+    <string name="title_lesson_screen_default">Lesson</string>
     <string name="lesson_screen_search_dialog">Dialogue search …</string>
+    <string name="lesson_screen_search_dialog_error">Unfortunately the partner for you hasn’t been found. Ask your teacher for help.</string>
+    <!---->
+
+    <!-- Dictionary -->
+    <string name="default_value_dictionary_translation_field">translate</string>
+    <string name="default_value_dictionary_word_field">word</string>
+    <string name="default_value_dictionary_trasncription_field">[transcription]</string>
+    <string name="title_topic_default_value">Title topic</string>
+    <string name="title_dictionary">Dictionary</string>
+    <string name="dictionary_emnty_title">Dictionary is unavailable	</string>
+    <string name="dictionary_emnty_subtitle">Expect opening of a lesson</string>
     <!---->
 
     <!-- In development -->
-    <string name="in_development_title">In development</string>
-    <string name="in_development_text">Screen in development</string>
+    <string name="in_development_title">In developing</string>
+    <string name="in_development_text">This screen is developing</string>
     <!---->
 
     <!-- Menu -->
-    <string name="menu_action_chat">Чат</string>
-    <string name="menu_action_dictionary">Словарь</string>
+    <string name="menu_action_chat">Chat</string>
+    <string name="menu_action_dictionary">Dictionary</string>
     <!---->
 
     <!-- Task -->
-    <string name="task_screen_flashcard_description">Чтобы увидеть перевод слова, нажмите на карточку</string>
+    <string name="task_screen_flashcard_description">Click on the card to see the translation of a word</string>
 
-    <string name="task_wordamess_info">Choose misspelled words</string>
+    <string name="task_wordamess_info">Choose the misspelled word</string>
     <string name="task_wordamess_description_correct">Enter the correct word</string>
     <string name="task_screen_wordamess_input_hint">Correct</string>
     <string name="task_screen_wordamess_btn_correct">Correct</string>
     <string name="task_screen_wordamess_btn_correct_with_num">Correct (%1$d)</string>
-    <string name="task_screen_wordamess_error_selected_no_error">No error words were selected</string>
+    <string name="task_screen_wordamess_error_selected_no_error">No misspelled words were selected</string>
 
-    <string name="task_screen_phrase_building_description">Drag the words to the bottom area in order to build a sentence</string>
-    <string name="task_screen_phrase_building_congratulation_description">Congratulations!\nYou have correctly written this sentence</string>
-    <string name="task_screen_phrase_building_drags_words">Drag words here in order</string>
+    <string name="task_screen_phrase_building_description">Drag the words in the right order to the bottom area of your screen to build a sentence</string>
+    <string name="task_screen_phrase_building_congratulation_description">Congratulations!\nYou have written this sentence correctly</string>
+    <string name="task_screen_phrase_building_drags_words">Drag words here in the right order</string>
     <string name="task_screen_phrase_building_wrong_sentence">Incorrectly constructed sentence</string>
 
     <string name="task_screen_translation_description">Translate the word/phrase</string>
@@ -116,26 +119,26 @@
     <string name="task_btn_complete">Completed</string>
     <string name="task_screen_translation_btn_skip">Skip</string>
 
-    <string name="task_screen_dictionary_pictionary_description">Describe the picture in one word</string>
-    <string name="task_screen_dictionary_pictionary_input_hint">Describe</string>
+    <string name="task_screen_dictionary_pictionary_description">Recollect the most appropriate word of the active vocabulary to illustrate the picture</string>
+    <string name="task_screen_dictionary_pictionary_input_hint">Enter the most appropriate word</string>
 
-    <string name="task_screen_hurry_up_title_start_alert_dialog">Are you ready?!</string>
-    <string name="task_screen_hurry_up_message_start_alert_dialog">Task Hurry up</string>
+    <string name="task_screen_hurry_up_info">Find the right translation\nof the word</string>
+    <string name="task_screen_hurry_up_title_start_alert_dialog">Are you ready?</string>
+    <string name="task_screen_hurry_up_message_start_alert_dialog">Here you are supposed to find the translation of the given word. Find as many translations as it is possible until the minute pass over. If you click on the wrong variant several seconds from the very minute will be taken away and your time will be shortened. So be attentive and careful. Good luck!</string>
     <string name="task_screen_hurry_up_title_first_button_start_alert_dialog">Back</string>
     <string name="task_screen_hurry_up_title_second_button_start_alert_dialog">Start</string>
-    <string name="task_screen_hurry_up_title_completed_alert_dialog">Task finished</string>
-    <string name="task_screen_hurry_up_message_negative_completed_alert_dialog">You looser, try again!</string>
-    <string name="task_screen_hurry_up_message_positive_completed_alert_dialog">You GOD!</string>
+    <string name="task_screen_hurry_up_title_completed_alert_dialog">Task is finished</string>
+    <string name="task_screen_hurry_up_message_negative_completed_alert_dialog">Not very good, try again, please!</string>
+    <string name="task_screen_hurry_up_message_positive_completed_alert_dialog">Excellent results!</string>
     <string name="task_screen_hurry_up_title_first_button_completed_alert_dialog">Try again</string>
     <string name="task_screen_hurry_up_title_second_button_completed_alert_dialog">Completed</string>
 
-    <string name="task_screen_empty_error">Error getting task, contact teacher</string>
+    <string name="task_screen_empty_error">Getting the task is failed, contact your teacher</string>
     <!---->
 
     <!-- Alert -->
     <string name="alert_btn_try_again">Try again</string>
     <string name="alert_btn_completed">Completed</string>
-    <string name="alert_btn_back">Back</string>
 
     <string name="alert_title_finished_task">Task finished</string>
     <string name="alert_title_failed_task">Task failed</string>

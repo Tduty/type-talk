@@ -13,6 +13,7 @@ import info.tduty.typetalk.utils.alert.AlertDialogItems
 import info.tduty.typetalk.utils.alert.AlertDialogItemsVO
 import info.tduty.typetalk.utils.alert.TypeAlertItem
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.task.phrasebuilding.di.PhraseBuildingModule
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
 import kotlinx.android.synthetic.main.fragment_phrase_building.*
@@ -22,7 +23,7 @@ import javax.inject.Inject
 /**
  * Created by Evgeniy Mezentsev on 12.04.2020.
  */
-class PhraseBuildingFragment : Fragment(R.layout.fragment_phrase_building), PhraseBuildingView {
+class PhraseBuildingFragment : BaseFragment(R.layout.fragment_phrase_building), PhraseBuildingView {
 
     companion object {
 

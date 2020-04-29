@@ -13,5 +13,7 @@ interface LoginView {
 
     fun openMainScreen()
 
+    fun showAppInfoDialog()
+
     fun showError()
 }

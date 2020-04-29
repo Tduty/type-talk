@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.WordamessVO
-import kotlinx.android.synthetic.main.item_task_card_content_word.view.*
+import kotlinx.android.synthetic.main.item_pager_task_translation.view.*
 
 /**
  * Created by Evgeniy Mezentsev on 15.04.2020.
@@ -20,7 +20,7 @@ class PagerVH(
         fun newInstance(parent: ViewGroup): PagerVH {
             val view = LayoutInflater
                 .from(parent.context)
-                .inflate(R.layout.item_task_card_content_word, parent, false)
+                .inflate(R.layout.item_pager_task_translation, parent, false)
             return PagerVH(view)
         }
     }

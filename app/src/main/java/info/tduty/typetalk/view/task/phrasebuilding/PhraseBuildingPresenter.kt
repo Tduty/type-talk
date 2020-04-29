@@ -23,7 +23,8 @@ class PhraseBuildingPresenter(
     fun onCreate(taskVO: TaskVO) {
         this.taskVO = taskVO
         this.lessonId = taskVO.lessonId
-        val tasks = taskInteractor.getPayload2(taskVO) as? List<PhraseBuildingVO> ?: emptyList()
+        val tasks = taskInteractor.getPayload2(taskVO).shuffled().subList(0, 5)
+                as? List<PhraseBuildingVO> ?: emptyList()
         this.tasks = tasks.map { it.id to it }.toMap()
         view.setupPhrases(tasks)
     }

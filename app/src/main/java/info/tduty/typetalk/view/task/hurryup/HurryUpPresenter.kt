@@ -31,7 +31,7 @@ class HurryUpPresenter(
     private var isStart = false
 
     fun onCreate(taskVO: TaskVO) {
-        this.hurryUpList = getHurryUpList(taskInteractor.getPayload2(taskVO))
+        this.hurryUpList = getHurryUpList(taskInteractor.getPayload2(taskVO)).shuffled().subList(0, 20)
 
         if (this.hurryUpList.isEmpty()) {
             view.showError()
@@ -82,7 +82,7 @@ class HurryUpPresenter(
             if (isCompleted) messagePositiveCompletedAlertDialog else messageNegativeCompletedAlertDialog,
             hurryUpList.filter { it.isComplete }.size,
             !isCompleted
-            )
+        )
     }
 
     private fun isCompleted() : Boolean {

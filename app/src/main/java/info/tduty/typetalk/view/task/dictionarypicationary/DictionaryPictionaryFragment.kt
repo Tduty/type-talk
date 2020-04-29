@@ -23,6 +23,7 @@ import info.tduty.typetalk.utils.alert.AlertDialogItems
 import info.tduty.typetalk.utils.alert.AlertDialogItemsVO
 import info.tduty.typetalk.utils.alert.TypeAlertItem
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.task.StateInputWord
 import info.tduty.typetalk.view.task.dictionarypicationary.di.DictionaryPictionaryModule
 import kotlinx.android.synthetic.main.fragment_task_dictionary_pictionary.*
@@ -30,11 +31,11 @@ import kotlinx.android.synthetic.main.fragment_task_dictionary_pictionary.view.*
 import kotlinx.android.synthetic.main.fragment_task_flashcard.btn_next
 import kotlinx.android.synthetic.main.item_edittext_enter_word.*
 import kotlinx.android.synthetic.main.item_edittext_enter_word.view.*
-import kotlinx.android.synthetic.main.item_task_card_content_word.*
+import kotlinx.android.synthetic.main.item_pager_task_translation.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
-class DictionaryPictionaryFragment : Fragment(R.layout.fragment_task_dictionary_pictionary),
+class DictionaryPictionaryFragment : BaseFragment(R.layout.fragment_task_dictionary_pictionary),
     DictionaryPictionaryView {
 
     companion object {

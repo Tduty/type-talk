@@ -24,6 +24,7 @@ import info.tduty.typetalk.utils.alert.AlertDialogItems
 import info.tduty.typetalk.utils.alert.AlertDialogItemsVO
 import info.tduty.typetalk.utils.alert.TypeAlertItem
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.task.StateInputWord
 import info.tduty.typetalk.view.task.translation.di.TranslationModule
 import kotlinx.android.synthetic.main.fragment_task_flashcard.btn_next
@@ -31,12 +32,12 @@ import kotlinx.android.synthetic.main.fragment_task_translation.*
 import kotlinx.android.synthetic.main.fragment_task_translation.view.*
 import kotlinx.android.synthetic.main.item_edittext_enter_word.*
 import kotlinx.android.synthetic.main.item_edittext_enter_word.view.*
-import kotlinx.android.synthetic.main.item_task_card_content_word.*
+import kotlinx.android.synthetic.main.item_pager_task_translation.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
 
-class TranslationFragment : Fragment(R.layout.fragment_task_translation), TranslationView {
+class TranslationFragment : BaseFragment(R.layout.fragment_task_translation), TranslationView {
 
     companion object {
 
@@ -91,6 +92,7 @@ class TranslationFragment : Fragment(R.layout.fragment_task_translation), Transl
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.menu_main, menu)
+        menu.findItem(R.id.action_dictionary)?.isVisible = false
         super.onCreateOptionsMenu(menu, inflater)
     }
 

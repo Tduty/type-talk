@@ -5,6 +5,8 @@ import info.tduty.typetalk.data.event.payload.CompleteTaskPayload
 import info.tduty.typetalk.data.model.TaskPayloadVO
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.model.TranslationVO
+import info.tduty.typetalk.data.model.TranslationVO.Companion.PHRASE_TYPE
+import info.tduty.typetalk.data.model.TranslationVO.Companion.SENTENCE_TYPE
 import info.tduty.typetalk.domain.interactor.ChatInteractor
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.interactor.LessonInteractor
@@ -37,11 +39,10 @@ class TranslationPresenter(
     private val BTN_TITLE_COMPLETED = R.string.task_btn_complete
     private val BTN_TITLE_SKIP = R.string.task_screen_translation_btn_skip
 
-    fun onCreate(
-        taskVO: TaskVO
-    ) {
-
-        this.translationList = getTranslationList(taskInteractor.getPayload2(taskVO))
+    fun onCreate(taskVO: TaskVO) {
+        val translationList = getTranslationList(taskInteractor.getPayload2(taskVO)).shuffled()
+        this.translationList = translationList.filter { it.type == PHRASE_TYPE }.subList(0, 10) +
+                translationList.filter { it.type == SENTENCE_TYPE }.subList(0, 3)
 
         if (this.translationList.isEmpty()) {
             view.showError()
@@ -49,7 +50,7 @@ class TranslationPresenter(
 
         this.task = taskVO
 
-        view.setupTranslations(translationList)
+        view.setupTranslations(this.translationList)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -61,6 +62,7 @@ class TranslationPresenter(
         setNextButtonTitle(position)
         val translationVO = translationList[position]
         if (translationVO.inputWord != null &&
+            translationVO.currentTranslation.isNotEmpty() &&
             translationVO.inputWord == translationVO.currentTranslation
         ) {
             view.setValueToInput(translationVO.inputWord!!)
@@ -81,6 +83,7 @@ class TranslationPresenter(
             setNextButtonTitle(currentItem)
             return
         }
+
         when (translationVO.type) {
             TranslationVO.PHRASE_TYPE -> {
                 if (word == translationVO.currentTranslation) {
@@ -108,14 +111,10 @@ class TranslationPresenter(
     fun onClickNext(currentPosition: Int, word: String? = "") {
         val translationVO = translationList[currentPosition]
 
-        if (isCompleted) {
-            completeTask()
-            return
-        }
-
         if (currentPosition == translationList.size - 1) {
             view.setTitleNextButton(BTN_TITLE_COMPLETED)
             isCompleted = true
+            completeTask()
             return
         }
 
@@ -133,6 +132,7 @@ class TranslationPresenter(
                     task?.let {
                         createMessage(it, word, translationVO.word)
                     }
+                    view.showWord(currentPosition + 1, true)
                 }
             }
         }

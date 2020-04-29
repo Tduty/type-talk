@@ -39,7 +39,7 @@ class TeacherLessonInteractor(
             dto.id,
             index + 1,
             dto.title,
-            R.drawable.ic_boy,
+            R.drawable.ic_cardiogram,
             dto.studentCount,
             dto.completed,
             dto.isLock
@@ -52,7 +52,7 @@ class TeacherLessonInteractor(
             dto.lessonId,
             dto.title,
             TaskType.fromDbType(dto.type),
-            R.drawable.ic_boy,
+            R.drawable.ic_cardiogram,
             dto.studentCount,
             dto.completed
         )

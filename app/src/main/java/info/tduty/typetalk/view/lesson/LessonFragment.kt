@@ -7,24 +7,23 @@ import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
-import info.tduty.typetalk.data.model.TaskType
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.chat.ChatStarter
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.lesson.di.LessonsModule
-import kotlinx.android.synthetic.main.alert_dialog_information.view.*
 import kotlinx.android.synthetic.main.alert_dialog_search.view.*
 import kotlinx.android.synthetic.main.fragment_lesson.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
 
 
-class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
+class LessonFragment : BaseFragment(R.layout.fragment_lesson), LessonView {
 
     companion object {
 
@@ -123,6 +122,16 @@ class LessonFragment : Fragment(R.layout.fragment_lesson), LessonView {
 
     override fun openDialogTask(chatStarter: ChatStarter) {
         (activity as? ViewNavigation)?.openChat(chatStarter)
+    }
+
+    override fun showFindDialogError() {
+        view?.let {
+            Snackbar.make(
+                it,
+                getString(R.string.lesson_screen_search_dialog_error),
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
     }
 
     private fun setupFragmentComponent() {

@@ -15,6 +15,7 @@ import info.tduty.typetalk.data.model.HurryUpVO
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.utils.timer.CircleAngleAnimation
 import info.tduty.typetalk.view.ViewNavigation
+import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.task.hurryup.di.HurryUpModule
 import kotlinx.android.synthetic.main.alert_dialog_information.view.*
 import kotlinx.android.synthetic.main.fragment_task_hurry_up.*
@@ -23,7 +24,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
-class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
+class HurryUpFragment: BaseFragment(R.layout.fragment_task_hurry_up), HurryUpView {
 
     companion object {
 
@@ -185,8 +186,8 @@ class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
             mDialogView.btn_first_button.visibility = View.VISIBLE
             mDialogView.btn_first_button.text = titleFirstButton
             mDialogView.btn_first_button.setOnClickListener {
-                mAlertDialog.dismiss()
                 presenter.tryAgain()
+                mAlertDialog.dismiss()
             }
         } else {
             mDialogView.btn_first_button.visibility = View.GONE
@@ -197,8 +198,8 @@ class HurryUpFragment: Fragment(R.layout.fragment_task_hurry_up), HurryUpView {
             if (!isTryAgain) {
                 presenter.sendEventCompleteTask()
             }
-            completeTask()
             mAlertDialog.dismiss()
+            completeTask()
         }
     }
 

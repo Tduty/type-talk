@@ -13,4 +13,6 @@ interface FlashcardView {
     fun setTitleNextButton(title: Int)
 
     fun completeTask()
+
+    fun completedWithNext()
 }

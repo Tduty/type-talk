@@ -45,10 +45,15 @@
     <string name="main_teacher_members_count_some">%1$d members</string>
     <!---->
 
+    <!-- Teacher Choose Students -->
+    <string name="btn_select_all_students">Select all the students</string>
+    <string name="btn_create_pair_dialog">Create pairs of students for the dialogue practice</string>
+    <!---->
+
     <!-- Class screen -->
     <string name="class_managment_class_title">Manage class</string>
     <string name="class_managment_class_content">Set up a class, add and remove students, monitor activity</string>
-    <string name="class_managment_lesson_title">Manage lessons</string>
+    <string name="class_managment_lesson_title">Lesson management</string>
     <string name="class_managment_lesson_content">Here you can view lesson statistics, create and open a lesson or dictionary</string>
     <string name="class_chat_title">Class chat</string>
     <string name="class_chat_content">Contact all class members immediately</string>
@@ -100,6 +105,7 @@
 
     <!-- Task -->
     <string name="task_screen_flashcard_description">Click on the card to see the translation of a word</string>
+    <string name="alert_description_task_flashcards_finished">Press the button “next” to study more words of the topic.</string>
 
     <string name="task_wordamess_info">Choose the misspelled word</string>
     <string name="task_wordamess_description_correct">Enter the correct word</string>
@@ -144,6 +150,7 @@
     <string name="alert_title_failed_task">Task failed</string>
 
     <string name="alert_item_information_wait_teacher">Expect teacher response</string>
+    <string name="alert_btn_next">Next</string>
     <!---->
 
 </resources>

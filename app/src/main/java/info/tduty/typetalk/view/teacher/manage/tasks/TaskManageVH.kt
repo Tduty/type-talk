@@ -3,12 +3,9 @@ package info.tduty.typetalk.view.teacher.manage.tasks
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import info.tduty.typetalk.R
-import info.tduty.typetalk.data.model.LessonManageVO
 import info.tduty.typetalk.data.model.TaskManageVO
-import info.tduty.typetalk.view.teacher.manage.lessons.LessonManageVH
 import kotlinx.android.synthetic.main.item_lesson_manage.view.*
 
 /**

@@ -23,7 +23,7 @@ data class ChatStarter(
             //TODO вынести в ресурсы
             return when (chatType) {
                 ChatEntity.TEACHER_CHAT -> "Here you can ask your questions and get  all the information you need. Both languages (English and Russian) are available."
-                ChatEntity.CLASS_CHAT -> "This  is your class chat. Wait for your teacher’s instructions. Remember, please, here you are supposed to type only in English (Russian keyboard is unavailable). If you need some information or you don’t understand the task click on the teacher’s chat and ask your questions there in any language you wish."
+                ChatEntity.CLASS_CHAT -> "This is your class chat. Wait for your teacher’s instructions. Remember, please, you are not allowed to type in Russian here, sorry. If you need some information or you don’t understand the task click on the teacher’s chat and ask your questions there in any language you wish."
                 else -> null
             }
         }

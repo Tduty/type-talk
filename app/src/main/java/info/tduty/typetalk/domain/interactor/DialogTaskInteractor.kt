@@ -12,7 +12,6 @@ import info.tduty.typetalk.domain.provider.ChatProvider
 import info.tduty.typetalk.utils.Optional
 import info.tduty.typetalk.view.chat.ChatStarter
 import io.reactivex.Observable
-import java.lang.NullPointerException
 
 /**
  * Created by Evgeniy Mezentsev on 23.04.2020.

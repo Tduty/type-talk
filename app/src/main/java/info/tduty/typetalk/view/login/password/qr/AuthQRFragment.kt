@@ -8,7 +8,6 @@ import android.os.Looper
 import android.view.SurfaceHolder
 import android.view.View
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode

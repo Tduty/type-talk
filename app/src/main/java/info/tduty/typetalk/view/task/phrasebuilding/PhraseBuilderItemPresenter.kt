@@ -28,7 +28,7 @@ class PhraseBuilderItemPresenter(
 
     fun addText(id: String, text: String) {
         vhMap[id]?.hiddenSkip()
-        buildText[id]?.add(text)
+        buildText[id]?.add(text.trim())
         if (buildText[id] == null) buildText[id] = mutableListOf(text)
         val isCorrectText = buildText[id] == phrases[id]?.phrases
         vhMap[id]?.updateText(buildText[id]?.joinToString(" ") ?: "", isCorrectText)
@@ -40,6 +40,7 @@ class PhraseBuilderItemPresenter(
             vhMap[id]?.clearText()
             vhMap[id]?.showMessageAboutWrongOffer()
             buildText[id] = mutableListOf()
+            vhMap[id]?.showSkip()
         }
     }
 

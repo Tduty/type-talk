@@ -1,13 +1,12 @@
 package info.tduty.typetalk.view.task.flashcard
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import info.tduty.typetalk.App
@@ -17,6 +16,7 @@ import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.task.flashcard.di.FlashcardModule
+import kotlinx.android.synthetic.main.alert_dialog_information.view.*
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
 import kotlinx.android.synthetic.main.fragment_task_flashcard.*
 import javax.inject.Inject
@@ -133,6 +133,32 @@ class FlashcardFragment : BaseFragment(R.layout.fragment_task_flashcard),
 
     override fun setTitleNextButton(title: Int) {
         btn_next.text = activity?.resources?.getString(title)
+    }
+
+    override fun completedWithNext() {
+        val mDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.alert_dialog_information, null)
+        val mBuilder = AlertDialog.Builder(requireContext())
+            .setView(mDialogView)
+        val  mAlertDialog = mBuilder.show()
+
+        mAlertDialog.setCancelable(false)
+        mAlertDialog.setCanceledOnTouchOutside(false)
+        mAlertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        mDialogView.tv_title.setText(R.string.alert_title_finished_task)
+        mDialogView.tv_message.setText(R.string.alert_description_task_flashcards_finished)
+            mDialogView.btn_first_button.visibility = View.VISIBLE
+            mDialogView.btn_first_button.setText(R.string.alert_btn_completed)
+            mDialogView.btn_first_button.setOnClickListener {
+                completeTask()
+                mAlertDialog.dismiss()
+            }
+
+        mDialogView.btn_second_button.setText(R.string.alert_btn_next)
+        mDialogView.btn_second_button.setOnClickListener {
+            presenter.nextExecuteTask()
+            mAlertDialog.dismiss()
+        }
     }
 
     override fun showError() {

@@ -11,7 +11,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import info.tduty.typetalk.App
@@ -258,6 +257,8 @@ class WordamessFragment : BaseFragment(R.layout.fragment_wordamess), WordamessVi
     override fun successCompletedWithIncorrectWord(skippedWord: List<WordamessVO>) {
         val alert = AlertDialogItems(requireContext())
             .title(R.string.alert_title_finished_task)
+            .cancelable(true)
+            .canceledOnTouchOutside(true)
             .items(getPayloadForAlert(skippedWord))
             .firstButtonTitle(R.string.task_btn_complete)
 
@@ -272,6 +273,8 @@ class WordamessFragment : BaseFragment(R.layout.fragment_wordamess), WordamessVi
     override fun unsuccessComplete(skippedWord: List<WordamessVO>) {
         val alert = AlertDialogItems(requireContext())
             .title(R.string.alert_title_finished_task)
+            .cancelable(true)
+            .canceledOnTouchOutside(true)
             .items(getPayloadForAlert(skippedWord))
             .firstButtonTitle(R.string.alert_btn_try_again)
             .secondButtonTitle(R.string.alert_btn_completed)

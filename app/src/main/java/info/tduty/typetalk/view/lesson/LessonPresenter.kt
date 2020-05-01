@@ -8,7 +8,6 @@ import info.tduty.typetalk.domain.interactor.DialogTaskInteractor
 import info.tduty.typetalk.domain.interactor.LessonInteractor
 import info.tduty.typetalk.domain.interactor.TaskInteractor
 import info.tduty.typetalk.domain.managers.EventManager
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

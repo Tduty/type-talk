@@ -3,7 +3,6 @@ package info.tduty.typetalk.view.teacher.manage.lessons
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.LessonManageVO

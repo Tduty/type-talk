@@ -9,6 +9,7 @@ import info.tduty.typetalk.domain.interactor.TaskInteractor
 import info.tduty.typetalk.socket.SocketController
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
+import kotlin.math.abs
 
 class FlashcardPresenter(
     val view: FlashcardView,
@@ -18,21 +19,25 @@ class FlashcardPresenter(
 
     private var task: TaskVO? = null
     private val disposables = CompositeDisposable()
+
     private lateinit var flashcards: List<FlashcardVO>
+    private var visibleWors: MutableList<FlashcardVO> = Collections.emptyList()
 
     private val BTN_TITLE_NEXT = R.string.task_btn_next
     private val BTN_TITLE_COMPLETED = R.string.task_btn_complete
 
+    private val COUNT_WORDS_FOR_TASK = 25
+
     fun onCreate(taskVO: TaskVO) {
         this.task = taskVO
-        val flashcardsPayload = taskInteractor.getPayload2(taskVO).shuffled().subList(0, 15)
+        val flashcardsPayload = taskInteractor.getPayload2(taskVO)
         this.flashcards = getFlashcards(flashcardsPayload)
 
         if (this.flashcards.isEmpty()) {
             view.showError()
         }
-
-        view.setupFlashcards(flashcards)
+        visibleWors = flashcards.shuffled().subList(0, COUNT_WORDS_FOR_TASK).toMutableList()
+        view.setupFlashcards(visibleWors)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -41,10 +46,14 @@ class FlashcardPresenter(
     }
 
     fun onClickNext(currentPosition: Int) {
-        if (currentPosition == flashcards.size - 1) {
-            sendEventCompleteTask()
-            view.completeTask()
-        } else if (currentPosition + 1 < flashcards.size) {
+        if (currentPosition == visibleWors.size - 1) {
+            if (visibleWors.size < flashcards.size) {
+                view.completedWithNext()
+            } else if (visibleWors.size == flashcards.size) {
+                sendEventCompleteTask()
+                view.completeTask()
+            }
+        } else if (currentPosition + 1 < visibleWors.size) {
             view.showWord(currentPosition + 1, true)
         }
     }
@@ -54,8 +63,12 @@ class FlashcardPresenter(
     }
 
     fun onPageScrolled(position: Int) {
-        if (position == flashcards.size - 1) {
-            view.setTitleNextButton(BTN_TITLE_COMPLETED)
+        if (position == visibleWors.size - 1) {
+            if (visibleWors.size < flashcards.size) {
+                view.setTitleNextButton(BTN_TITLE_NEXT)
+            } else if (visibleWors.size == flashcards.size) {
+                view.setTitleNextButton(BTN_TITLE_COMPLETED)
+            }
         } else {
             view.setTitleNextButton(BTN_TITLE_NEXT)
         }
@@ -69,5 +82,18 @@ class FlashcardPresenter(
                 true
             )
         )
+    }
+
+    fun nextExecuteTask() {
+        val countVisibleWords = visibleWors.size
+        val counrRemainingWords = flashcards.size - visibleWors.size
+
+        if (abs(COUNT_WORDS_FOR_TASK - counrRemainingWords) < 10) {
+            visibleWors.addAll(flashcards.subList(countVisibleWords - 1, flashcards.size))
+        } else {
+            visibleWors.addAll(flashcards.subList(countVisibleWords - 1, countVisibleWords - 1 + COUNT_WORDS_FOR_TASK))
+        }
+
+        view.setupFlashcards(visibleWors)
     }
 }

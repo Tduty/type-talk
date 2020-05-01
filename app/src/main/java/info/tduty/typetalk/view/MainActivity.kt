@@ -3,7 +3,6 @@ package info.tduty.typetalk.view
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.transition.Fade
 import android.transition.Slide
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -21,7 +20,6 @@ import info.tduty.typetalk.data.model.DialogVO
 import info.tduty.typetalk.data.model.LessonManageVO
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.pref.UserDataHelper
-import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.chat.ChatFragment
 import info.tduty.typetalk.view.chat.ChatStarter
 import info.tduty.typetalk.view.debug.InDevelopmentFragment

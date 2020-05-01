@@ -6,7 +6,6 @@ import info.tduty.typetalk.data.model.DialogVO
 import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.mapper.ChatMapper
 import info.tduty.typetalk.domain.provider.ChatProvider
-import info.tduty.typetalk.view.chat.ChatStarter
 import io.reactivex.Observable
 import io.reactivex.Single
 

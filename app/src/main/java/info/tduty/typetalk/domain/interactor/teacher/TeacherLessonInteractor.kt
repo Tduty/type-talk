@@ -6,7 +6,6 @@ import info.tduty.typetalk.data.dto.TeacherTaskDTO
 import info.tduty.typetalk.data.model.LessonManageVO
 import info.tduty.typetalk.data.model.TaskManageVO
 import info.tduty.typetalk.data.model.TaskType
-import info.tduty.typetalk.domain.interactor.HistoryInteractor
 import info.tduty.typetalk.domain.provider.LessonProvider
 import io.reactivex.Completable
 import io.reactivex.Observable

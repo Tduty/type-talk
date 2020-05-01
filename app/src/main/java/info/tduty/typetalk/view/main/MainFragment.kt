@@ -8,7 +8,6 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wajahatkarim3.easyflipview.EasyFlipView
 import info.tduty.typetalk.App

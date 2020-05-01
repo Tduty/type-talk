@@ -11,7 +11,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import info.tduty.typetalk.App
@@ -231,6 +230,8 @@ class TranslationFragment : BaseFragment(R.layout.fragment_task_translation), Tr
     override fun successCompletedWithIncorrectWord(incorrectWord: List<TranslationVO>) {
         val alert = AlertDialogItems(requireContext())
             .title(R.string.alert_title_finished_task)
+            .cancelable(true)
+            .canceledOnTouchOutside(true)
             .items(getPayloadForAlert(incorrectWord))
             .firstButtonTitle(R.string.alert_btn_completed)
 
@@ -246,6 +247,8 @@ class TranslationFragment : BaseFragment(R.layout.fragment_task_translation), Tr
     override fun unsuccessComplete(incorrectWord: List<TranslationVO>) {
         val alert = AlertDialogItems(requireContext())
             .title(R.string.alert_title_failed_task)
+            .cancelable(true)
+            .canceledOnTouchOutside(true)
             .items(getPayloadForAlert(incorrectWord))
             .firstButtonTitle(R.string.alert_btn_try_again)
             .secondButtonTitle(R.string.alert_btn_completed)

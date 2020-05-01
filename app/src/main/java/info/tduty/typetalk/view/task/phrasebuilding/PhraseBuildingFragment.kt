@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.PhraseBuildingVO
@@ -108,6 +107,8 @@ class PhraseBuildingFragment : BaseFragment(R.layout.fragment_phrase_building), 
     override fun successCompletedWithIncorrectWord(incorrect: List<PhraseBuildingVO>) {
         val alert = AlertDialogItems(requireContext())
             .title(R.string.alert_title_failed_task)
+            .cancelable(true)
+            .canceledOnTouchOutside(true)
             .items(getPayloadForAlert(incorrect))
             .firstButtonTitle(R.string.alert_btn_try_again)
 
@@ -123,6 +124,8 @@ class PhraseBuildingFragment : BaseFragment(R.layout.fragment_phrase_building), 
     override fun unsuccessComplete(incorrect: List<PhraseBuildingVO>) {
         val alert = AlertDialogItems(requireContext())
             .title(R.string.alert_title_failed_task)
+            .cancelable(true)
+            .canceledOnTouchOutside(true)
             .items(getPayloadForAlert(incorrect))
             .firstButtonTitle(R.string.alert_btn_try_again)
             .secondButtonTitle(R.string.alert_btn_completed)

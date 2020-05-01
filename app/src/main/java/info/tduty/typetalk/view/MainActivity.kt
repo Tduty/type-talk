@@ -20,6 +20,7 @@ import info.tduty.typetalk.data.model.DialogVO
 import info.tduty.typetalk.data.model.LessonManageVO
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.pref.UserDataHelper
+import info.tduty.typetalk.utils.KeyboardHelper
 import info.tduty.typetalk.view.chat.ChatFragment
 import info.tduty.typetalk.view.chat.ChatStarter
 import info.tduty.typetalk.view.debug.InDevelopmentFragment
@@ -77,6 +78,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
     }
 
     override fun onBackPressed() {
+        KeyboardHelper.hideKeyboard(this, currentFocus)
         when (supportFragmentManager.findFragmentById(R.id.content_frame)) {
             is AuthQRFragment -> openLoginAuth()
             else -> super.onBackPressed()

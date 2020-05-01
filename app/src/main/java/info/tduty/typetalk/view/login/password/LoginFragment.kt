@@ -5,6 +5,7 @@ import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
+import info.tduty.typetalk.utils.KeyboardHelper
 import info.tduty.typetalk.view.ViewNavigation
 import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.login.password.di.LoginModule
@@ -82,6 +83,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login), LoginView {
         btn_next.setOnClickListener {
             btn_next.isClickable = false
             presenter.onNext(et_login.text.toString(), et_password.text.toString())
+            KeyboardHelper.hideKeyboard(activity, view)
         }
     }
 }

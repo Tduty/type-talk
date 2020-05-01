@@ -9,7 +9,7 @@ class KeyboardHelper {
 
     companion object {
         fun hideKeyboard(activity: Activity?, screenView: View? = null) {
-            val view = screenView
+            val view = screenView ?: activity?.window?.currentFocus
             val imm =  activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
 
             imm?.let {

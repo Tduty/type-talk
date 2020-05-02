@@ -59,6 +59,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), ChatView {
     private lateinit var adapter: ChatRvAdapter
     private var messageCountsAnim: Animator? = null
     private var isMessageCountsStarted = false
+    private var errorAboutRussianSymbolsToast: Toast? = null
 
     @Inject
     lateinit var presenter: ChatPresenter
@@ -126,7 +127,6 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), ChatView {
     private fun setupListeners() {
         iv_send.setOnClickListener {
             presenter.onSendBtnClick(et_message.text?.toString() ?: "")
-            et_message.text = SpannableStringBuilder("")
         }
         et_message.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -159,7 +159,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), ChatView {
     }
 
     override fun clearUserInput() {
-        et_message.text.clear()
+        et_message.text = null
     }
 
     override fun showTeacherMenu() {
@@ -232,7 +232,9 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), ChatView {
     }
 
     override fun showErrorAboutRussianSymbols() {
-        Toast.makeText(requireContext(), R.string.chat_input_russian_symbols_error, Toast.LENGTH_SHORT).show()
+        errorAboutRussianSymbolsToast?.cancel()
+        errorAboutRussianSymbolsToast = Toast.makeText(requireContext(), R.string.chat_input_russian_symbols_error, Toast.LENGTH_SHORT)
+        errorAboutRussianSymbolsToast?.show()
     }
 
     private fun startFoldingAnimationCountMessages() {

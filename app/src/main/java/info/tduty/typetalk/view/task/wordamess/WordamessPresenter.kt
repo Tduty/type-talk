@@ -67,7 +67,7 @@ class WordamessPresenter(
     fun onCorrect() {
         if (selectedTasks.all { it.value.isMistake }) {
             setupCorrectBlock()
-        } else view.showErrorTasksEmpty()
+        } else view.showErrorExistCorrectWords()
     }
 
     fun onScrollCard(position: Int) {

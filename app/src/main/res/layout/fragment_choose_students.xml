@@ -21,7 +21,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_form_dialogs"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="10dp"
@@ -35,7 +35,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:gravity="center"
+                    android:layout_gravity="center"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="20sp"
@@ -47,7 +50,8 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_select_all"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginStart="10dp"
@@ -62,6 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:layout_gravity="center"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="20sp"

@@ -34,6 +34,7 @@ class ChatPresenter(
     private val disposables = CompositeDisposable()
 
     private var correctionId: String? = null
+    private var correctionMessage: String? = null
     private var correctionType: CorrectionVO.AdditionalType = CorrectionVO.AdditionalType.NONE
     private var limitMessageCount: Int? = null
     private var limitMessages = hashSetOf<String>()
@@ -85,6 +86,7 @@ class ChatPresenter(
     }
 
     private fun sendMessage(message: String) {
+        view.clearUserInput()
         if (message.isBlank()) return
         chatId?.let {
             val id = historyInteractor.sendMessage(it, message)
@@ -93,10 +95,14 @@ class ChatPresenter(
     }
 
     private fun sendCorrectionMessage(message: String) {
-        if (message.isBlank()) return
-        val syncId = correctionId ?: return
-        val chatId = chatId ?: return
-        historyInteractor.sendCorrection(syncId, chatId, message, correctionType)
+        if (correctionType == CorrectionVO.AdditionalType.CORRECTION
+            && correctionMessage == message) return
+        if (message.isNotBlank()) {
+            val syncId = correctionId ?: return
+            val chatId = chatId ?: return
+            historyInteractor.sendCorrection(syncId, chatId, message, correctionType)
+        }
+        view.clearUserInput()
         removeCorrection()
     }
 
@@ -168,12 +174,14 @@ class ChatPresenter(
 
     private fun setupCorrection(messageVO: MessageVO, type: CorrectionVO.AdditionalType) {
         correctionId = messageVO.id
+        correctionMessage = messageVO.message
         correctionType = type
         view.showCorrectionState(messageVO.senderName, messageVO.message, correctionType)
     }
 
     private fun removeCorrection() {
         correctionId = null
+        correctionMessage = null
         correctionType = CorrectionVO.AdditionalType.NONE
         view.hideCorrectionState()
     }

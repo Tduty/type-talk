@@ -30,7 +30,7 @@ class PhraseBuilderItemPresenter(
         vhMap[id]?.hiddenSkip()
         buildText[id]?.add(text.trim())
         if (buildText[id] == null) buildText[id] = mutableListOf(text)
-        val isCorrectText = buildText[id] == phrases[id]?.phrases
+        val isCorrectText = buildText[id] == phrases[id]?.phrases?.map { it.trim() }
         vhMap[id]?.updateText(buildText[id]?.joinToString(" ") ?: "", isCorrectText)
         if (isCorrectText) {
             vhMap[id]?.showCorrectState()

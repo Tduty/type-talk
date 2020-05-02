@@ -82,18 +82,18 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_checkmark"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_margin="10dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_checkmark_without_bg" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_cancel"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_margin="10dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_cancel_without_bg"/>

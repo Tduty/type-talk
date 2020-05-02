@@ -47,6 +47,11 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
 
+    companion object {
+
+        private const val TEACHER_CHAT_TAG = "teacher_chat"
+    }
+
     @Inject
     lateinit var userDataHelper: UserDataHelper
 
@@ -127,7 +132,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
     }
 
     override fun openTeacherChat() {
-        showFragment(ChatFragment.newInstance(chatType = ChatEntity.TEACHER_CHAT))
+        showFragment(ChatFragment.newInstance(chatType = ChatEntity.TEACHER_CHAT), TEACHER_CHAT_TAG)
     }
 
     override fun openClassChat() {
@@ -220,7 +225,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
     private fun showFragment(fragment: Fragment, tag: String? = null) {
         val transaction = supportFragmentManager.beginTransaction()
         val currentFragment = supportFragmentManager.findFragmentById(R.id.content_frame)
-        if (currentFragment?.javaClass == fragment.javaClass) return
+        if (isSameFragment(fragment, tag, currentFragment)) return
         setupAnimation(fragment)
         transaction.add(R.id.content_frame, fragment, tag)
         if (!isFragmentWithoutBackStack(currentFragment)) transaction.addToBackStack(null)
@@ -236,6 +241,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
         enterFade.startDelay = 80
         enterFade.duration = 200
         fragment.enterTransition = enterFade
+    }
+
+    private fun isSameFragment(newFragment: Fragment, newTag: String?, oldFragment: Fragment?): Boolean {
+        return if (newTag != null) newTag == oldFragment?.tag
+        else oldFragment?.javaClass == newFragment.javaClass
     }
 
     private fun isFragmentWithoutBackStack(fragment: Fragment?): Boolean {

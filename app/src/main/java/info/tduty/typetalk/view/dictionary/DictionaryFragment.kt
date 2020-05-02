@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import info.tduty.typetalk.App
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.DictionaryVO
+import info.tduty.typetalk.utils.KeyboardHelper
 import info.tduty.typetalk.view.MainActivity
 import info.tduty.typetalk.view.base.BaseFragment
 import info.tduty.typetalk.view.dictionary.adapter.DictionaryListAdapter
@@ -37,6 +38,7 @@ class DictionaryFragment : BaseFragment(R.layout.fragment_dictionary), Dictionar
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        KeyboardHelper.hideKeyboard(requireActivity(), view)
         (activity as? MainActivity)?.setupToolbar(view.toolbar as Toolbar, R.string.title_dictionary, true)
 
         setupRV(view)

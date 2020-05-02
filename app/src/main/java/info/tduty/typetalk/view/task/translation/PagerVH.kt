@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.model.TranslationVO
+import info.tduty.typetalk.view.task.StateInputWord
 import kotlinx.android.synthetic.main.item_pager_task_translation.view.*
 
 class PagerVH(
@@ -24,5 +25,6 @@ class PagerVH(
 
     fun onBind(translationVO: TranslationVO) {
         itemView.tv_content.text = translationVO.word
+        itemView.iv_right_top_corner.visibility = if (translationVO.isValid()) View.VISIBLE else View.GONE
     }
 }

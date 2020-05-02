@@ -1,5 +1,6 @@
 package info.tduty.typetalk.view.task.wordamess
 
+import android.os.Handler
 import info.tduty.typetalk.data.event.payload.CompleteTaskPayload
 import info.tduty.typetalk.data.model.TaskVO
 import info.tduty.typetalk.data.model.WordamessVO
@@ -16,6 +17,8 @@ class WordamessPresenter(
     private val socketController: SocketController
 ) {
 
+    private lateinit var setErrorInputStateRunnable: Runnable
+    private lateinit var changeInputStateHandler: Handler
     private var taskVO: TaskVO? = null
     private lateinit var lessonId: String
     private lateinit var tasks: MutableMap<String, WordamessVO>
@@ -28,6 +31,11 @@ class WordamessPresenter(
         lessonId = taskVO.lessonId
         val tasks = taskInteractor.getPayload2(taskVO) as? List<WordamessVO> ?: emptyList()
         this.tasks = tasks.shuffled().subList(0, 20).map { it.body to it }.toMap().toMutableMap()
+        changeInputStateHandler = Handler()
+        setErrorInputStateRunnable = Runnable {
+            view.setStateEditWord(WordamessView.StateEditWord.ERROR)
+        }
+
         setupChosenBlock()
     }
 
@@ -85,6 +93,8 @@ class WordamessPresenter(
     }
 
     fun onChangeEditText(word: String, currentItem: Int) {
+        changeInputStateHandler.removeCallbacks(setErrorInputStateRunnable)
+
         val wordamess = correctList[currentItem]
 
         if (word.isEmpty()) {
@@ -99,8 +109,10 @@ class WordamessPresenter(
             view.setStateEditWord(WordamessView.StateEditWord.VALID)
             setNextButtonTitle(currentItem, true)
         } else {
+            changeInputStateHandler.removeCallbacks(setErrorInputStateRunnable)
             wordamess.isCorrected = false
             view.setStateEditWord(WordamessView.StateEditWord.EDIT)
+            changeInputStateHandler.postDelayed(setErrorInputStateRunnable, 800)
         }
     }
 
@@ -167,10 +179,12 @@ class WordamessPresenter(
     }
 
     fun onDestroy() {
+        changeInputStateHandler.removeCallbacks(setErrorInputStateRunnable)
     }
 
     fun tryAgain() {
         taskVO?.let {
+            changeInputStateHandler.removeCallbacks(setErrorInputStateRunnable)
             view.showWordForCorrect(0)
             onCreate(it)
         }

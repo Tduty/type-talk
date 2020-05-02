@@ -6,6 +6,7 @@ import com.google.gson.JsonSyntaxException
 import info.tduty.typetalk.data.model.TaskPayloadVO
 import info.tduty.typetalk.data.model.TranslationVO
 import info.tduty.typetalk.domain.mapper.TaskPayloadMapper
+import java.util.*
 
 class TranslationPayloadMapper : TaskPayloadMapper {
 
@@ -26,7 +27,10 @@ class TranslationPayloadMapper : TaskPayloadMapper {
         try {
             val type = payloadElement.asJsonObject.get("type").asString
             val word = payloadElement.asJsonObject.get("word").asString
-            val currentTranslate = payloadElement.asJsonObject.get("current_translate").asString
+            val currentTranslate =
+                payloadElement.asJsonObject.get("current_translate").asString.toLowerCase(
+                    Locale.getDefault()
+                ).trim()
 
             return TranslationVO(type, word, currentTranslate)
         } catch (ex: JsonSyntaxException) {

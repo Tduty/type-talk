@@ -23,12 +23,12 @@
 
         <info.tduty.typetalk.utils.timer.Circle
             android:id="@+id/circle"
-            android:layout_width="170dp"
-            android:layout_height="170dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:layout_gravity="center"
             app:color="@color/colorPrimary"
             app:fillColor="@color/black"
-            app:cicleSize="170dp"
+            app:cicleSize="140dp"
             app:strokeWidth="10dp"
             app:startAngle="270"
             app:offsetAngle="360"/>
@@ -37,7 +37,7 @@
             android:id="@+id/timer_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="32sp"
+            android:textSize="36sp"
             android:textColor="@color/black"
             android:textAlignment="center"
             android:layout_gravity="center"
@@ -47,7 +47,7 @@
 
     <TextView
         android:id="@+id/tv_info_about_task"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/task_screen_hurry_up_info"
@@ -56,7 +56,8 @@
         style="@style/DescriptionTask"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fl_timer_container" />
+        app:layout_constraintTop_toBottomOf="@+id/fl_timer_container"
+        app:layout_constraintBottom_toTopOf="@+id/ll_viewpager_container"/>
 
     <LinearLayout
         android:id="@+id/ll_viewpager_container"

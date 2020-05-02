@@ -1,5 +1,6 @@
 package info.tduty.typetalk.view.task.dictionarypicationary
 
+import android.os.Handler
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.event.payload.CompleteTaskPayload
 import info.tduty.typetalk.data.model.DictionaryPictionaryVO
@@ -18,6 +19,8 @@ class DictionaryPictionaryPresenter(
     private val socketController: SocketController
 ) {
 
+    private lateinit var setErrorInputStateRunnable: Runnable
+    private lateinit var changeInputStateHandler: Handler
     private val BTN_TITLE_COMPLETED: Int = R.string.task_btn_complete
     private var isCompleted = false
     private var task: TaskVO? = null
@@ -33,6 +36,12 @@ class DictionaryPictionaryPresenter(
         if (this.dictionaryPictionaryList.isEmpty()) {
             view.showError()
         }
+
+        changeInputStateHandler = Handler()
+        setErrorInputStateRunnable = Runnable {
+            view.setStateInput(StateInputWord.ERROR)
+        }
+
 
         this.task = taskVO
         view.setupDictionaryPictionary(dictionaryPictionaryList)
@@ -53,6 +62,8 @@ class DictionaryPictionaryPresenter(
     }
 
     fun onChangeEditText(word: String, currentItem: Int) {
+        changeInputStateHandler.removeCallbacks(setErrorInputStateRunnable)
+
         val dictionaryPictionaryVO = dictionaryPictionaryList[currentItem]
 
         dictionaryPictionaryVO.inputWord = word
@@ -67,8 +78,10 @@ class DictionaryPictionaryPresenter(
             view.setStateInput(StateInputWord.VALID)
             view.setTitleNextButton(R.string.task_btn_next)
         } else {
+            changeInputStateHandler.removeCallbacks(setErrorInputStateRunnable)
             view.setTitleNextButton(R.string.task_screen_translation_btn_skip)
             view.setStateInput(StateInputWord.EDIT)
+            changeInputStateHandler.postDelayed(setErrorInputStateRunnable, 800)
         }
     }
 
@@ -118,6 +131,7 @@ class DictionaryPictionaryPresenter(
         task?.let {
             isCompleted = false
             view.showWord(0, false)
+            changeInputStateHandler.removeCallbacks(setErrorInputStateRunnable)
             onCreate(it)
         }
     }

@@ -16,6 +16,8 @@ interface HurryUpView {
 
     fun showStartAlertDialog(title: Int, message: Int)
 
+    fun setupTimer(seconds: Long)
+
     fun startTimer()
 
     fun stopTimer()

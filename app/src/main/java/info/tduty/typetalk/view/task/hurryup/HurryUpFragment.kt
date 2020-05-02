@@ -70,7 +70,6 @@ class HurryUpFragment: BaseFragment(R.layout.fragment_task_hurry_up), HurryUpVie
 
         setupViewPager()
         setupListener()
-        setupTimer(60)
 
         presenter.onCreate(taskVO)
     }
@@ -85,7 +84,7 @@ class HurryUpFragment: BaseFragment(R.layout.fragment_task_hurry_up), HurryUpVie
         presenter.onPause()
     }
 
-    private fun setupTimer(seconds: Long) {
+    override fun setupTimer(seconds: Long) {
         anim = CircleAngleAnimation(circle,
             0,
             seconds * 1000,

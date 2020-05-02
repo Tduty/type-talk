@@ -63,8 +63,11 @@ class CircleAngleAnimation(
             }
 
             override fun onFinish() {
-                onFinished?.invoke()
                 isSaved = false
+                circle.angle = 0f
+                circle.requestLayout()
+                onChangeValue?.invoke(0)
+                onFinished?.invoke()
             }
         }
         timer?.start()
@@ -88,7 +91,7 @@ class CircleAngleAnimation(
         penatlyAnimPercent = getPenatlyPercent(second)
         penatlyTimerPercent = getPenatlyPercent(second)
         stop()
-        millisInFutureSaved = (millisInFutureSaved - (millisInFuture.toDouble() * (penatlyAnimPercent / 100.0))).toLong()
+        millisInFutureSaved = abs(millisInFutureSaved - (millisInFuture.toDouble() * (penatlyAnimPercent / 100.0))).toLong()
         oldAngle -= (abs(newAngle - 360) * (penatlyAnimPercent / 100.0)).toFloat()
 
         var duration = duration

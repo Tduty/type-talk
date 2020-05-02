@@ -71,10 +71,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
                 true
             }
             R.id.action_chat -> {
+                KeyboardHelper.hideKeyboard(this, this.currentFocus)
                 openTeacherChat()
                 true
             }
             R.id.action_dictionary -> {
+                KeyboardHelper.hideKeyboard(this,  this.currentFocus)
                 openDictionary()
                 true
             }

@@ -191,6 +191,10 @@ class TranslationFragment : BaseFragment(R.layout.fragment_task_translation), Tr
                 iv_right_top_corner?.visibility = View.GONE
                 cv_container_word.et_word.isEnabled = true
             }
+            StateInputWord.ERROR -> {
+                changeBorder(5.dp, R.color.guardsman_red)
+                cv_container_word?.et_word?.isEnabled = true
+            }
         }
     }
 
@@ -199,9 +203,11 @@ class TranslationFragment : BaseFragment(R.layout.fragment_task_translation), Tr
     }
 
     private fun changeBorder(dp: Float, color: Int) {
-        cv_container_word.setBackgroundResource(R.drawable.et_circle_bg)
-        val shapeDrawable = cv_container_word.background as GradientDrawable
-        shapeDrawable.setStroke(dp.roundToInt(), requireContext().resources.getColor(color))
+        cv_container_word?.let {
+            it.setBackgroundResource(R.drawable.et_circle_bg)
+            val shapeDrawable = it.background as GradientDrawable
+            shapeDrawable.setStroke(dp.roundToInt(), requireContext().resources.getColor(color))
+        }
     }
 
     private fun clearEditText() {

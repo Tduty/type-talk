@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import androidx.annotation.LayoutRes
 import info.tduty.typetalk.R
 import kotlinx.android.synthetic.main.item_chip.view.*
 
@@ -31,8 +32,8 @@ class ColorChipLayout(context: Context, attrs: AttributeSet) : FlowLayout(contex
         isDragAndDropChip = a.getBoolean(R.styleable.FlowLayout_isDragAndDropChip, false)
     }
 
-    fun addChip(text: String, colorMap: Map<TypeColor, Int>, clickListener: ((Boolean, String) -> Unit)? = null) {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_chip, this, false)
+    fun addChip(text: String, colorMap: Map<TypeColor, Int>, @LayoutRes idChipLayout: Int = R.layout.item_chip, clickListener: ((Boolean, String) -> Unit)? = null) {
+        val view = LayoutInflater.from(context).inflate(idChipLayout, this, false)
         view.tv_chip.text = text
         if (isClickableChip) setClickableListener(view, text, colorMap, clickListener)
         if (isDragAndDropChip) setDragAndDropChip(view)

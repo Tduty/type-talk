@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/i_item_chip_container"
-        layout="@layout/item_chip"
+        layout="@layout/item_chip_hurry_up"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_marginTop="15dp"
@@ -19,6 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="30dp"
+        android:fadingEdgeLength="300dp"
+        android:fadingEdge="vertical"
         app:layout_constraintTop_toBottomOf="@+id/i_item_chip_container"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -29,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             app:isClickableChip="true" />
 
     </androidx.core.widget.NestedScrollView>

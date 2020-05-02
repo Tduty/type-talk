@@ -176,6 +176,9 @@ class WordamessFragment : BaseFragment(R.layout.fragment_wordamess), WordamessVi
                 cv_container_word.setBackgroundResource(R.drawable.et_circle_bg_shadow)
                 iv_right_top_corner?.visibility = View.GONE
             }
+            WordamessView.StateEditWord.ERROR -> {
+                changeBorder(5.dp, R.color.guardsman_red)
+            }
         }
     }
 
@@ -249,9 +252,11 @@ class WordamessFragment : BaseFragment(R.layout.fragment_wordamess), WordamessVi
     }
 
     private fun changeBorder(dp: Float, color: Int) {
-        cv_container_word.setBackgroundResource(R.drawable.et_circle_bg)
-        val shapeDrawable =  cv_container_word.background as GradientDrawable
-        shapeDrawable.setStroke(dp.roundToInt(), requireContext().resources.getColor(color))
+        cv_container_word?.let {
+            it.setBackgroundResource(R.drawable.et_circle_bg)
+            val shapeDrawable = it.background as GradientDrawable
+            shapeDrawable.setStroke(dp.roundToInt(), requireContext().resources.getColor(color))
+        }
     }
 
     override fun successCompletedWithIncorrectWord(skippedWord: List<WordamessVO>) {

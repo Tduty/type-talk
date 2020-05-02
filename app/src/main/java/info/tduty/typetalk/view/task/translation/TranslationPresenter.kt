@@ -1,5 +1,6 @@
 package info.tduty.typetalk.view.task.translation
 
+import android.os.Handler
 import info.tduty.typetalk.R
 import info.tduty.typetalk.data.event.payload.CompleteTaskPayload
 import info.tduty.typetalk.data.model.TaskPayloadVO
@@ -29,6 +30,8 @@ class TranslationPresenter(
     private val socketController: SocketController
 ) {
 
+    private lateinit var setErrorInputStateRunnable: Runnable
+    private lateinit var changeInputStateHandler: Handler
     private val disposables = CompositeDisposable()
     private lateinit var translationList: List<TranslationVO>
     private var task: TaskVO? = null
@@ -49,6 +52,11 @@ class TranslationPresenter(
         }
 
         this.task = taskVO
+
+        changeInputStateHandler = Handler()
+        setErrorInputStateRunnable = Runnable {
+            view.setStateEditWord(StateInputWord.ERROR)
+        }
 
         view.setupTranslations(this.translationList)
     }
@@ -74,9 +82,11 @@ class TranslationPresenter(
     }
 
     fun onChangeEditText(word: String, currentItem: Int) {
+        changeInputStateHandler.removeCallbacks(setErrorInputStateRunnable)
+
         val translationVO = translationList[currentItem]
 
-        translationVO.inputWord = word
+        translationVO.inputWord = word.toLowerCase(Locale.getDefault()).trim()
 
         if (word.isEmpty()) {
             view.setStateEditWord(StateInputWord.DEFAULT)
@@ -91,6 +101,7 @@ class TranslationPresenter(
                     view.setTitleNextButton(BTN_TITLE_NEXT)
                 } else {
                     view.setStateEditWord(StateInputWord.EDIT)
+                    changeInputStateHandler.postDelayed(setErrorInputStateRunnable, 800)
                 }
             }
             TranslationVO.SENTENCE_TYPE -> {
@@ -130,7 +141,7 @@ class TranslationPresenter(
                 if (word != null) {
                     translationVO.inputWord = word
                     task?.let {
-                        createMessage(it, word, translationVO.word)
+                        if (word.isNotBlank()) createMessage(it, word, translationVO.word)
                     }
                     view.showWord(currentPosition + 1, true)
                 }
@@ -208,6 +219,7 @@ class TranslationPresenter(
     }
 
     fun onDestroy() {
+        changeInputStateHandler.removeCallbacks(setErrorInputStateRunnable)
         disposables.dispose()
     }
 
@@ -215,6 +227,7 @@ class TranslationPresenter(
         task?.let {
             isCompleted = false
             view.showWord(0, false)
+            changeInputStateHandler.removeCallbacks(setErrorInputStateRunnable)
             onCreate(it)
         }
     }

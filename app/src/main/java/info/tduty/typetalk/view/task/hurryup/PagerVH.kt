@@ -33,7 +33,7 @@ class PagerVH(
         itemView.tv_chip.text = hurryUpVO.word
 
         wordList.forEach {
-            itemView.fl_chip.addChip(it.first, it.second) { isSelected: Boolean, body: String ->
+            itemView.fl_chip.addChip(it.first, it.second, R.layout.item_chip_hurry_up) { isSelected: Boolean, body: String ->
                 clickListener?.invoke(body, hurryUpVO)
             }
         }

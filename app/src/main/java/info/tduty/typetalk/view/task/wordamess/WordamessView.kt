@@ -46,6 +46,7 @@ interface WordamessView {
     enum class StateEditWord {
         DEFAULT,
         VALID,
-        EDIT
+        EDIT,
+        ERROR
     }
 }

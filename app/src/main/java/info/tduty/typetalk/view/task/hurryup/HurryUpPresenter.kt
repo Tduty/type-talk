@@ -40,6 +40,7 @@ class HurryUpPresenter(
         this.task = taskVO
 
         view.setupHurryUp(hurryUpList)
+        view.setupTimer(60)
     }
 
     private fun getHurryUpList(payload2: List<TaskPayloadVO>): List<HurryUpVO> {
@@ -71,7 +72,10 @@ class HurryUpPresenter(
     }
 
     fun tryAgain() {
-        view.startTimer()
+        task?.let {
+            onCreate(it)
+            view.startTimer()
+        }
     }
 
     fun completedTask() {

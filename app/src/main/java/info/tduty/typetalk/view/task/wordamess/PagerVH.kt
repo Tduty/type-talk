@@ -27,5 +27,7 @@ class PagerVH(
 
     fun onBind(wordamessVO: WordamessVO) {
         itemView.tv_content.text = wordamessVO.body
+        itemView.tv_content.iv_right_top_corner.visibility =
+            if (wordamessVO.isValid()) View.VISIBLE else View.GONE
     }
 }

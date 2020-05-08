@@ -85,6 +85,7 @@ class HurryUpFragment: BaseFragment(R.layout.fragment_task_hurry_up), HurryUpVie
     }
 
     override fun setupTimer(seconds: Long) {
+        timer_text.text = getFormatedTime(seconds * 1000)
         anim = CircleAngleAnimation(circle,
             0,
             seconds * 1000,
@@ -163,6 +164,10 @@ class HurryUpFragment: BaseFragment(R.layout.fragment_task_hurry_up), HurryUpVie
         vp_hurry_up.setCurrentItem(vp_hurry_up.currentItem + 1, isAnimated)
     }
 
+    override fun moveToPage(position: Int, isAnimated: Boolean) {
+        vp_hurry_up.setCurrentItem(position, isAnimated)
+    }
+
     override fun showCompleteAlertDialog(title: Int, message: Int, countCompletedTask: Int, isTryAgain: Boolean) {
         val mDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.alert_dialog_information, null)
         val mBuilder = AlertDialog.Builder(requireContext())
@@ -236,6 +241,10 @@ class HurryUpFragment: BaseFragment(R.layout.fragment_task_hurry_up), HurryUpVie
 
     override fun stopTimer() {
         anim?.stop()
+    }
+
+    override fun disableUI(isDisable: Boolean) {
+        vp_hurry_up.isEnabled = !isDisable
     }
 
     override fun setPenatlyForTimer(second: Int) {

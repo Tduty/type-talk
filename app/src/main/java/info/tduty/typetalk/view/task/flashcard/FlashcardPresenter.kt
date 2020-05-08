@@ -48,6 +48,7 @@ class FlashcardPresenter(
     fun onClickNext(currentPosition: Int) {
         if (currentPosition == visibleWors.size - 1) {
             if (visibleWors.size < flashcards.size) {
+                view.disableUI(true)
                 view.completedWithNext()
             } else if (visibleWors.size == flashcards.size) {
                 sendEventCompleteTask()
@@ -84,16 +85,24 @@ class FlashcardPresenter(
         )
     }
 
-    fun nextExecuteTask() {
+    fun onNextExecuteTask() {
         val countVisibleWords = visibleWors.size
-        val counrRemainingWords = flashcards.size - visibleWors.size
+        val countRemainingWords = flashcards.size - visibleWors.size
 
-        if (abs(COUNT_WORDS_FOR_TASK - counrRemainingWords) < 10) {
-            visibleWors.addAll(flashcards.subList(countVisibleWords - 1, flashcards.size))
+        if (abs(COUNT_WORDS_FOR_TASK - countRemainingWords) < 10) {
+            updateVisibleWords(countVisibleWords, flashcards.size)
         } else {
-            visibleWors.addAll(flashcards.subList(countVisibleWords - 1, countVisibleWords - 1 + COUNT_WORDS_FOR_TASK))
+            updateVisibleWords(countVisibleWords, countVisibleWords + COUNT_WORDS_FOR_TASK)
         }
+    }
 
+    private fun updateVisibleWords(startPosition: Int, endPosition: Int) {
+        var startIndex = startPosition
+        var endIndex = endPosition
+
+        if (endIndex > flashcards.size) endIndex = flashcards.size
+
+        visibleWors.addAll(flashcards.subList(startIndex, endIndex))
         view.setupFlashcards(visibleWors)
     }
 }

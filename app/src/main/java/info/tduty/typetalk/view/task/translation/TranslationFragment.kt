@@ -177,18 +177,16 @@ class TranslationFragment : BaseFragment(R.layout.fragment_task_translation), Tr
             StateInputWord.DEFAULT -> {
                 clearEditText()
                 cv_container_word.setBackgroundResource(R.drawable.et_circle_bg_shadow)
-                iv_right_top_corner?.visibility = View.GONE
                 cv_container_word.et_word.isEnabled = true
 
             }
             StateInputWord.VALID -> {
                 changeBorder(5.dp, R.color.chateau_green)
-                iv_right_top_corner?.visibility = View.VISIBLE
                 cv_container_word.et_word.isEnabled = false
+                adapter.notifyDataSetChanged()
             }
             StateInputWord.EDIT -> {
                 cv_container_word.setBackgroundResource(R.drawable.et_circle_bg_shadow)
-                iv_right_top_corner?.visibility = View.GONE
                 cv_container_word.et_word.isEnabled = true
             }
             StateInputWord.ERROR -> {

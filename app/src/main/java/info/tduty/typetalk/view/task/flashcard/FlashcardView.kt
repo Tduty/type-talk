@@ -15,4 +15,5 @@ interface FlashcardView {
     fun completeTask()
 
     fun completedWithNext()
+    fun disableUI(isDisable: Boolean)
 }

@@ -10,4 +10,9 @@ data class WordamessVO(
     var inputText: String = "",
     var isCorrected: Boolean = false,
     var isSkipped: Boolean = false
-): TaskPayloadVO(TaskType.WORDAMESS)
+): TaskPayloadVO(TaskType.WORDAMESS) {
+
+    fun isValid(): Boolean {
+         return !isSkipped && isCorrected && inputText == correctBody
+    }
+}

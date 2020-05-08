@@ -166,15 +166,13 @@ class WordamessFragment : BaseFragment(R.layout.fragment_wordamess), WordamessVi
         when (state) {
             WordamessView.StateEditWord.DEFAULT -> {
                 cv_container_word.setBackgroundResource(R.drawable.et_circle_bg_shadow)
-                iv_right_top_corner?.visibility = View.GONE
             }
             WordamessView.StateEditWord.VALID -> {
                 changeBorder(5.dp, R.color.chateau_green)
-                iv_right_top_corner?.visibility = View.VISIBLE
+                adapter.notifyDataSetChanged()
             }
             WordamessView.StateEditWord.EDIT -> {
                 cv_container_word.setBackgroundResource(R.drawable.et_circle_bg_shadow)
-                iv_right_top_corner?.visibility = View.GONE
             }
             WordamessView.StateEditWord.ERROR -> {
                 changeBorder(5.dp, R.color.guardsman_red)

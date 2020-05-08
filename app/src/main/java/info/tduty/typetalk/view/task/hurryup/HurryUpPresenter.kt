@@ -10,6 +10,8 @@ import info.tduty.typetalk.domain.interactor.TaskInteractor
 import info.tduty.typetalk.socket.SocketController
 import info.tduty.typetalk.utils.Utils
 import java.util.*
+import kotlin.math.ceil
+import kotlin.math.roundToInt
 
 
 class HurryUpPresenter(
@@ -18,6 +20,7 @@ class HurryUpPresenter(
     val socketController: SocketController
 ) {
 
+    private var secondTimer: Long = 60
     private var task: TaskVO? = null
     private var hurryUpList: List<HurryUpVO> = emptyList()
 
@@ -39,8 +42,10 @@ class HurryUpPresenter(
 
         this.task = taskVO
 
+        secondTimer = (hurryUpList.size * 5).toLong()
+
         view.setupHurryUp(hurryUpList)
-        view.setupTimer(60)
+        view.setupTimer(secondTimer)
     }
 
     private fun getHurryUpList(payload2: List<TaskPayloadVO>): List<HurryUpVO> {
@@ -54,11 +59,13 @@ class HurryUpPresenter(
             val handler = Handler()
             val runnable = Runnable {
                 view.nextPage(true)
+                view.disableUI(false)
             }
 
             handler.postDelayed(runnable, 500)
+            view.disableUI(true)
         } else {
-            view.setPenatlyForTimer(5)
+            view.setPenatlyForTimer(ceil(secondTimer * 0.1).roundToInt())
         }
     }
 
@@ -74,6 +81,7 @@ class HurryUpPresenter(
     fun tryAgain() {
         task?.let {
             onCreate(it)
+            view.moveToPage(0, false)
             view.startTimer()
         }
     }

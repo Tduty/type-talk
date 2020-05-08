@@ -12,6 +12,8 @@ interface HurryUpView {
 
     fun nextPage(isAnimated: Boolean)
 
+    fun moveToPage(position: Int, isAnimated: Boolean)
+
     fun showCompleteAlertDialog(title: Int, message: Int, countCompletedTask: Int, isTryAgain: Boolean)
 
     fun showStartAlertDialog(title: Int, message: Int)
@@ -21,6 +23,8 @@ interface HurryUpView {
     fun startTimer()
 
     fun stopTimer()
+
+    fun disableUI(isDisable: Boolean)
 
     fun setPenatlyForTimer(second: Int)
 }

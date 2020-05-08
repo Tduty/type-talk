@@ -150,15 +150,23 @@ class FlashcardFragment : BaseFragment(R.layout.fragment_task_flashcard),
             mDialogView.btn_first_button.visibility = View.VISIBLE
             mDialogView.btn_first_button.setText(R.string.alert_btn_completed)
             mDialogView.btn_first_button.setOnClickListener {
+                disableUI(false)
+                presenter.sendEventCompleteTask()
                 completeTask()
                 mAlertDialog.dismiss()
             }
 
         mDialogView.btn_second_button.setText(R.string.alert_btn_next)
         mDialogView.btn_second_button.setOnClickListener {
-            presenter.nextExecuteTask()
+            disableUI(false)
+            presenter.onNextExecuteTask()
             mAlertDialog.dismiss()
         }
+    }
+
+    override fun disableUI(isDisable: Boolean) {
+        btn_next.isEnabled = !isDisable
+        toolbar.isEnabled = !isDisable
     }
 
     override fun showError() {

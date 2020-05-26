@@ -101,6 +101,7 @@
     <!-- Menu -->
     <string name="menu_action_chat">Chat</string>
     <string name="menu_action_dictionary">Dictionary</string>
+    <string name="menu_action_log_out">Log out</string>
     <!---->
 
     <!-- Task -->

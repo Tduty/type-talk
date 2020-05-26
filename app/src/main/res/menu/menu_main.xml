@@ -14,4 +14,12 @@
         android:icon="@drawable/ic_dictionary"
         app:showAsAction="always|withText"
         android:title="@string/menu_action_dictionary" />
+
+    <item
+        android:id="@+id/action_log_out"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_log_out"
+        app:showAsAction="always|withText"
+        android:visible="false"
+        android:title="@string/menu_action_log_out" />
 </menu>

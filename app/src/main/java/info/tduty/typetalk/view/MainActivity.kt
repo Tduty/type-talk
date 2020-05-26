@@ -88,6 +88,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), ViewNavigation {
         KeyboardHelper.hideKeyboard(this, currentFocus)
         when (supportFragmentManager.findFragmentById(R.id.content_frame)) {
             is AuthQRFragment -> openLoginAuth()
+            is LoginFragment -> return
             else -> super.onBackPressed()
         }
     }

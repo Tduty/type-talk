@@ -20,4 +20,6 @@ interface MainView {
     fun openBots()
 
     fun openLesson(lessonId: String)
+
+    fun openAuthScreen()
 }

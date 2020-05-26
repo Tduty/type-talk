@@ -1,9 +1,13 @@
 package info.tduty.typetalk.view.main
 
+import info.tduty.typetalk.data.db.AppDatabase
 import info.tduty.typetalk.data.model.LessonVO
+import info.tduty.typetalk.data.pref.UserDataHelper
 import info.tduty.typetalk.domain.interactor.LessonInteractor
 import info.tduty.typetalk.domain.managers.DatabaseManager
 import info.tduty.typetalk.domain.managers.EventManager
+import info.tduty.typetalk.socket.SocketController
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -16,7 +20,10 @@ class MainPresenter(
     private val view: MainView,
     private val lessonInteractor: LessonInteractor,
     private val eventManager: EventManager,
-    private val databaseManager: DatabaseManager
+    private val databaseManager: DatabaseManager,
+    private val socketController: SocketController,
+    private val userDataHelper: UserDataHelper,
+    private val appDatabase: AppDatabase
 ) {
 
     private var lessons: List<LessonVO>? = null
@@ -92,5 +99,15 @@ class MainPresenter(
                     view.setLessons(lessons)
                 }, Timber::e)
         )
+    }
+
+    fun logOut() {
+        disposables.dispose()
+        socketController.disconnect()
+        Single.fromCallable {
+            appDatabase.clearAllTables()
+        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
+        userDataHelper.removeUserData()
+        view.openAuthScreen()
     }
 }

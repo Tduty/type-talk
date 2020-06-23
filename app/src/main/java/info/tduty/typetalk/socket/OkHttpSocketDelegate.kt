@@ -19,6 +19,8 @@ class OkHttpSocketDelegate(
         const val READ_TIMEOUT_MS = 60000L
         const val WRITE_TIMEOUT_MS = 60000L
         const val PING_INTERVAL_MS = 10000L
+        const val NORMAL_CLOSE_CODE = 1000
+        const val NORMAL_CLOSE_LEAVED_DISPLAY_CODE = 1001
     }
 
     private var okHttpClient: OkHttpClient? = null
@@ -28,7 +30,7 @@ class OkHttpSocketDelegate(
         connectOkHttpWebSocket(endpoint, uuid, name)
     }
 
-    fun disconnect(code: Int = 0): Boolean {
+    fun disconnect(code: Int = NORMAL_CLOSE_CODE): Boolean {
         okHttpClient?.dispatcher()?.cancelAll()
         return runningSocket?.close(code, "Socket closed by client") == true
     }

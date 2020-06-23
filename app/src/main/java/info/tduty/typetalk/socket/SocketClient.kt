@@ -51,6 +51,8 @@ class SocketClient(
             }
 
             override fun onFailure(t: Throwable, code: Int, reason: String?) {
+                if (code == OkHttpSocketDelegate.NORMAL_CLOSE_CODE ||
+                    code == OkHttpSocketDelegate.NORMAL_CLOSE_LEAVED_DISPLAY_CODE) return
                 when (t) {
                     is ConnectException,
                     is SSLHandshakeException -> Timber.e(t, "Code: $code, reason: $reason")
@@ -59,7 +61,8 @@ class SocketClient(
             }
         })
         newSocket.connect(
-            url, userDataHelper.getSavedUser().id,
+            url,
+            userDataHelper.getSavedUser().id,
             userDataHelper.getSavedUser().surname
         )
         socket = newSocket

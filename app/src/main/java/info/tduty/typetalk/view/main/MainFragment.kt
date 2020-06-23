@@ -70,12 +70,14 @@ class MainFragment : BaseFragment(R.layout.fragment_main), MainView {
         menu.clear()
         inflater.inflate(R.menu.menu_main, menu)
         menu.findItem(R.id.action_chat).isVisible = false
+        menu.findItem(R.id.action_log_out).isVisible = true
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_dictionary -> (activity as? ViewNavigation)?.openDictionary()
+            R.id.action_log_out -> presenter.logOut()
         }
         return true
     }
@@ -138,5 +140,9 @@ class MainFragment : BaseFragment(R.layout.fragment_main), MainView {
 
     override fun openLesson(lessonId: String) {
         (activity as? ViewNavigation)?.openLesson(lessonId)
+    }
+
+    override fun openAuthScreen() {
+        (activity as? ViewNavigation)?.openLoginAuth()
     }
 }
